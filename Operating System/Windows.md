@@ -27,7 +27,7 @@ These are places where you can customize your computer's settings. Control Panel
 
 Windows regularly receives updates to improve security, fix bugs, and introduce new features. It's essential to keep your system updated to ensure it runs smoothly and stays protected.
 
-##Software and Apps
+## Software and Apps
 
 Windows supports a wide range of software and applications. You can install programs to perform specific tasks like word processing, web browsing, or playing games.
 
