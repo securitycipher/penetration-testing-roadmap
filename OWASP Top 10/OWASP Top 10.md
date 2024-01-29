@@ -1,8 +1,6 @@
 # OWASP Top 10
 OWASP stands for the Open Web Application Security Project, and the OWASP Top 10 is a list of the most critical web application security risks. These risks are compiled by security experts from around the world to help developers, security professionals, and organizations prioritize and address the most pressing threats to web applications.
 
-Here's a simplified explanation of the OWASP Top 10:
-
 ## Injection (A1):
 
 - What it is: Injection attacks occur when untrusted data is sent to an interpreter as part of a command or query. This can lead to unauthorized access to databases and other systems.
