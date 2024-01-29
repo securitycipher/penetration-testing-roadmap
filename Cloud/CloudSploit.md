@@ -42,5 +42,5 @@ CloudSploit: https://github.com/aquasecurity/cloudsploit
 
   - CloudSploit can be integrated into the DevOps workflow, allowing teams to incorporate security checks into their continuous integration/continuous deployment (CI/CD) pipelines.
   - This integration helps maintain a security-first approach throughout the development and deployment lifecycle.
-<img src="resource/cloudsploit.png">
+<img src="../resource/cloudsploit.png">
 In summary, CloudSploit is a cloud security tool that automates the process of identifying and addressing potential security vulnerabilities and compliance issues in cloud environments, offering a user-friendly solution for organizations to enhance their overall cloud security posture.
