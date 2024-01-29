@@ -1,8 +1,6 @@
 # Broken Access Control
 Broken Access Control is a security issue that arises when a web application doesn't properly enforce restrictions on what authenticated users are allowed to do. In simpler terms, it means that users can perform actions or access information that they shouldn't be able to.
 
-Here's a breakdown:
-
 ## What is Access Control?
 Access control is like having different levels of access to different rooms in your house. In a web application, it refers to rules and mechanisms that determine who can do what within the system. For example, regular users may not have access to sensitive administrative functions.
 
