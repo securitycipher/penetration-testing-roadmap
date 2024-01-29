@@ -2,7 +2,6 @@
 
 Cryptographic Failures refer to security issues that arise from incorrect or insecure use of cryptographic functions within a web application. Cryptography involves securing information through techniques like encryption and hashing. If these techniques are not applied correctly, it can lead to vulnerabilities.
 
-Here's a breakdown:
 
 ## What is Cryptography?
 Cryptography is like a secret code language for computers. It involves techniques to ensure that only authorized parties can understand and use the information being shared. This is crucial for securing sensitive data like passwords, credit card numbers, or any private information transmitted over the internet.
