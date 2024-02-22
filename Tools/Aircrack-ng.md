@@ -5,7 +5,7 @@ Here's a breakdown of Aircrack-ng in simpler terms:
 
 Aircrack-ng is a suite of tools specifically designed to assess the security of Wi-Fi networks. It's popularly used by security professionals, network administrators, and enthusiasts to identify vulnerabilities in wireless networks and to ensure they are adequately protected against unauthorized access.
 
-## Key Features:
+Here's a breakdown of some key features and concepts in Aircrack-ng:
 - Wireless Packet Capture: Aircrack-ng can capture data packets transmitted over Wi-Fi networks. This allows users to analyze the traffic and understand the patterns of communication within the network.
 
 - Packet Injection: It can inject custom packets into a Wi-Fi network. This feature is useful for testing the resilience of a network against various attacks, as well as for simulating network traffic for analysis.
