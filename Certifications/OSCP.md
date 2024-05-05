@@ -1,0 +1,16 @@
+# What is OSCP?
+OSCP stands for Offensive Security Certified Professional. It's a certification offered by Offensive Security, a leading provider of hands-on cybersecurity training and certification. The OSCP certification is highly respected in the cybersecurity industry and is known for its rigorous hands-on exam.
+
+## How does it work?
+- Training: To earn the OSCP certification, candidates must first complete the Offensive Security's Penetration Testing with Kali Linux (PWK) course. This course provides comprehensive training in penetration testing techniques, tools, and methodologies using Kali Linux, a popular Linux distribution for penetration testing.
+- Lab Environment: As part of the PWK course, candidates gain access to a virtual lab environment containing various vulnerable machines and networks. These machines are designed to simulate real-world scenarios and provide hands-on experience in identifying and exploiting security vulnerabilities.
+- Exam: After completing the PWK course, candidates have the opportunity to take the OSCP exam. The exam consists of a 24-hour hands-on practical assessment in which candidates must demonstrate their ability to identify, exploit, and document vulnerabilities in a series of target machines within a controlled environment.
+- Reporting: In addition to exploiting vulnerabilities, candidates are required to thoroughly document their findings, including the steps taken to exploit each vulnerability and recommendations for remediation. Effective reporting is a crucial aspect of the exam and is evaluated along with the technical skills demonstrated.
+- Certification: Candidates who successfully pass the OSCP exam are awarded the OSCP certification, demonstrating their proficiency in penetration testing and ethical hacking techniques.
+## Why pursue OSCP?
+- Hands-on Experience: The OSCP certification is renowned for its emphasis on practical, hands-on skills rather than theoretical knowledge. Candidates gain real-world experience in penetration testing techniques, preparing them for cybersecurity roles that require practical skills.
+- Industry Recognition: OSCP is widely recognized and respected in the cybersecurity industry. Holding the OSCP certification can enhance career opportunities and credibility among employers and peers.
+- Personal Growth: The OSCP journey challenges candidates to push their boundaries, think creatively, and develop problem-solving skills. It's a rewarding experience that fosters continuous learning and growth in the field of cybersecurity.
+- Career Advancement: Many employers value OSCP-certified professionals for their practical skills and ability to identify and mitigate security risks. Holding the OSCP certification can open doors to exciting career opportunities in penetration testing, cybersecurity consulting, and related fields.
+
+OSCP is a challenging yet rewarding certification that validates practical skills in penetration testing and ethical hacking. Through hands-on training, practical experience, and a rigorous exam, candidates gain the knowledge and expertise needed to succeed in cybersecurity roles. Pursuing OSCP can lead to personal growth, career advancement, and recognition within the cybersecurity community.
