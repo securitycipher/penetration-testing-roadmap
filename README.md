@@ -219,4 +219,7 @@ Understand different types of vulnerabilities:
 
 ---
 
-Feel free to adjust the sections or add any additional information as needed!
+## Contributing
+
+Contributions are welcome! If you would like to add more content or suggest improvements, please submit a pull request. All contributions will be reviewed by me before merging.
+
