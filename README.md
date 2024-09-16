@@ -18,7 +18,6 @@ Welcome to the Penetration Testing Roadmap repository! This guide provides a com
 - [Threat Modeling](#threat-modeling)
 - [Tools](#tools)
 - [Vulnerabilities](#vulnerabilities)
-- [Resources](#resources)
 
 ## Certifications
 
@@ -217,13 +216,6 @@ Understand different types of vulnerabilities:
 - [XML Injection](Vulnerabilities/XML%20Injection.md)
 - [XSS](Vulnerabilities/XSS.md)
 - [XXE](Vulnerabilities/XXE.md)
-
-## Resources
-
-Visual aids and diagrams to assist with learning:
-
-- [CloudOne Conformity](resource/cloudoneconformity.png)
-- [CloudSploit](resource/cloudsploit.png)
 
 ---
 
