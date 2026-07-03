@@ -1,31 +1,57 @@
 # What is Clickjacking?
-Clickjacking, also known as UI redressing, is a deceptive technique used by attackers to trick users into clicking on something different from what they perceive they are clicking on. It involves overlaying invisible or opaque elements over legitimate clickable elements on a webpage, thereby hijacking the user's clicks and potentially leading them to unintended actions.
 
-## How Does Clickjacking Work?
-- Deceptive Interface: Attackers create a webpage with hidden or transparent layers containing malicious content, such as buttons or links.
+Clickjacking (UI redress) tricks a user into clicking something different from what they think they are clicking. The attacker loads the target site in a transparent iframe over a decoy page, so a click on the decoy actually hits a sensitive button on the target - "delete account", "authorize payment", "grant OAuth". It only works when the target lets itself be framed.
 
-- Overlaying: The malicious content is overlaid on top of legitimate content that users would expect to interact with, such as buttons, forms, or links.
+## How it works
 
-- User Interaction: When users interact with the visible elements, they unknowingly trigger actions on the hidden or opaque layer, performing unintended actions.
+- Attacker page frames the target site with `opacity: 0`
+- A decoy button is positioned exactly under the real target button
+- The victim clicks the decoy and the click lands on the framed site
 
-## Example Scenario
-Suppose you visit a website that displays a familiar interface, such as a "Like" button for a social media post. However, unbeknownst to you, there's an invisible layer on top of the "Like" button that performs a different action, such as sharing the post to your profile without your consent.
+## Proof-of-concept
 
-## Impact of Clickjacking
-- Unauthorized Actions: Clickjacking can lead to users inadvertently performing actions they did not intend to, such as sharing content, making purchases, or revealing sensitive information.
+```html
+<style>
+  iframe {
+    position: absolute; top: 0; left: 0;
+    width: 800px; height: 600px;
+    opacity: 0.0;          /* invisible overlay; set to 0.2 while testing */
+    z-index: 2;
+  }
+  #decoy {
+    position: absolute; top: 220px; left: 310px;
+    z-index: 1;
+  }
+</style>
 
-- Phishing Attacks: Attackers can use clickjacking to trick users into clicking on malicious links or buttons, leading to phishing attacks or the installation of malware.
+<button id="decoy">Click here to win!</button>
+<iframe src="https://target.tld/account/delete"></iframe>
+```
 
-- Social Engineering: Clickjacking can be used as part of social engineering tactics to manipulate user behavior and deceive users into taking actions that benefit the attacker.
+## Tools
 
-## Mitigating Clickjacking
-- Frame Busting: Implement frame-busting scripts that prevent your website from being loaded within an iframe on another domain, reducing the risk of clickjacking.
+- [Burp Suite Clickbandit](https://portswigger.net/burp) - auto-generates a clickjacking PoC
+- Browser DevTools - verify response headers (`X-Frame-Options`, CSP `frame-ancestors`)
 
-- X-Frame-Options Header: Set the X-Frame-Options HTTP header to deny or limit framing of your webpages, preventing them from being embedded in iframes on other sites.
+## Manual testing
 
-- Content Security Policy (CSP): Utilize CSP headers to control which domains can embed your content in iframes, mitigating the risk of clickjacking attacks.
+1. Try to load the target page inside an `<iframe>` on your own page
+2. If it renders, framing is allowed - check response headers to confirm
+3. Overlay a decoy and align it with a sensitive action
+4. Set iframe opacity to 0 to demonstrate the invisible-click impact
 
-- UI Design: Design user interfaces with clear visual cues and feedback to help users distinguish legitimate clickable elements from potentially malicious ones.
+## Mitigation
 
-## Conclusion
-Clickjacking is a deceptive technique used by attackers to trick users into performing unintended actions on websites. By understanding how clickjacking works and implementing appropriate security measures such as frame busting, X-Frame-Options headers, and CSP policies, web developers can mitigate the risk of clickjacking attacks and protect users from malicious manipulation. Regular security audits and user education are essential for maintaining a secure online environment.
+- Send `Content-Security-Policy: frame-ancestors 'self'` (the modern control)
+- Also send `X-Frame-Options: DENY` or `SAMEORIGIN` for older browsers
+- Require re-authentication or confirmation for destructive actions
+- Use `SameSite` cookies so framed requests do not carry the session
+
+## Deep dive
+
+- [Clickjacking - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [OWASP Clickjacking Defense Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Clickjacking_Defense_Cheat_Sheet.html)
+
+## CWE
+
+- CWE-1021: Improper Restriction of Rendered UI Layers or Frames

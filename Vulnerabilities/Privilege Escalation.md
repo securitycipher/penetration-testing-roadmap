@@ -1,37 +1,58 @@
 # What is Privilege Escalation?
-Privilege escalation refers to the process by which an attacker gains higher levels of access or permissions within a computer system, network, or application than they were initially granted. This elevated privilege level allows attackers to perform actions or access resources that are normally restricted to authorized users.
 
-## How Does Privilege Escalation Work?
-- Initial Access: Attackers typically start with limited access to a system, often as a regular user or with low-level privileges.
+Privilege Escalation is the step where an attacker turns limited access into higher access. **Vertical** escalation means moving from a normal user to admin/root. **Horizontal** escalation means accessing another user of the same level. On a compromised host it usually means going from a low-privilege shell to `root` or `SYSTEM`.
 
-- Exploiting Vulnerabilities: Attackers exploit security vulnerabilities or weaknesses in the system to elevate their privileges. These vulnerabilities could be in the operating system, applications, or configuration settings.
+## Two flavors
 
-- Gaining Higher Privileges: Once the initial vulnerability is exploited, attackers use various techniques to escalate their privileges, such as exploiting misconfigurations, abusing insecure permissions, or executing malicious code.
+- **Vertical** - low-priv account to admin (misconfigured sudo, SUID binaries, kernel bugs)
+- **Horizontal** - user A accessing user B's data (often an IDOR under the hood)
 
-- Achieving Desired Goals: With elevated privileges, attackers can perform a wide range of malicious activities, including accessing sensitive data, installing malware, modifying system configurations, or even taking control of the entire system.
+## Enumeration commands
 
-## Types of Privilege Escalation
-- Local Privilege Escalation: Attackers escalate privileges on a single system, gaining higher access levels than their initial permissions. This could involve exploiting vulnerabilities in the operating system or applications running on the system.
+```bash
+# Linux - quick wins
+id; sudo -l                       # what can we run as root?
+find / -perm -4000 -type f 2>/dev/null   # SUID binaries
+cat /etc/crontab; ls -la /etc/cron.*     # writable cron jobs
+uname -a                          # kernel version for known exploits
+getcap -r / 2>/dev/null           # dangerous capabilities
+```
 
-- Vertical Privilege Escalation: Attackers escalate privileges within a hierarchy, moving from lower-level accounts to higher-level accounts with more extensive permissions. This often occurs in multi-user environments or systems with role-based access control.
+```powershell
+# Windows - quick wins
+whoami /priv                      # SeImpersonate? SeBackup?
+systeminfo                        # missing patches
+Get-Service | ? {$_.Status -eq "Running"}   # unquoted service paths
+```
 
-- Horizontal Privilege Escalation: Attackers escalate privileges by impersonating or assuming the identity of another user or entity with similar permissions. This can occur in systems where authentication mechanisms are weak or improperly implemented.
+## Tools
 
-## Impact of Privilege Escalation
-- Data Theft: Attackers with elevated privileges can access sensitive data, including personal information, financial records, or intellectual property.
+- [linPEAS / winPEAS](https://github.com/peass-ng/PEASS-ng) - automated privesc enumeration
+- [GTFOBins](https://gtfobins.github.io/) - abuse sudo/SUID binaries
+- [LOLBAS](https://lolbas-project.github.io/) - living-off-the-land Windows binaries
+- [pspy](https://github.com/DominicBreuker/pspy) - watch cron/processes without root
 
-- System Compromise: Privilege escalation can lead to full system compromise, allowing attackers to install backdoors, modify system configurations, or execute arbitrary code.
+## Manual testing
 
-- Disruption of Services: Attackers may disrupt critical services or operations by modifying system settings, deleting important files, or executing denial-of-service attacks.
+1. Run `sudo -l` and check GTFOBins for anything you can run
+2. Look for SUID binaries, writable scripts owned by root, and cron jobs
+3. Search for credentials in config files, history, and env variables
+4. On Windows, check token privileges and unquoted service paths
+5. Match the kernel/OS build against public exploits as a last resort
 
-## Mitigating Privilege Escalation
-- Least Privilege Principle: Limit user privileges to only what is necessary for their tasks or roles, reducing the potential impact of privilege escalation.
+## Mitigation
 
-- Regular Security Updates: Keep systems, applications, and security configurations up-to-date to patch known vulnerabilities and prevent exploitation.
+- Apply least privilege; remove unnecessary sudo rules and SUID bits
+- Patch the OS and kernel promptly
+- Avoid storing secrets in world-readable files or history
+- Monitor for privilege changes and unusual `sudo`/service activity
 
-- Strong Authentication and Access Controls: Implement robust authentication mechanisms and access controls to prevent unauthorized users from escalating their privileges.
+## Deep dive
 
-- Monitoring and Logging: Monitor system activity, audit logs, and user actions to detect and respond to suspicious behavior indicative of privilege escalation attempts.
+- [Privilege Escalation - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [HackTricks privilege escalation](https://book.hacktricks.xyz/)
 
-## Conclusion
-Privilege escalation is a serious security threat that can lead to unauthorized access, data breaches, and system compromise. By understanding how privilege escalation works and implementing appropriate security measures, organizations can mitigate the risk of exploitation and protect their systems and data from malicious actors. Regular security assessments, updates, and proactive monitoring are essential components of a comprehensive security strategy.
+## CWE
+
+- CWE-269: Improper Privilege Management
+- CWE-250: Execution with Unnecessary Privileges

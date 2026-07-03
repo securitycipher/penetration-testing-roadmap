@@ -1,33 +1,58 @@
 # What is DNS Cache Poisoning?
-DNS Cache Poisoning is a cyber attack where attackers manipulate the DNS (Domain Name System) cache of a recursive DNS resolver to redirect users to malicious websites or servers. By injecting false DNS records into the cache, attackers can deceive users' devices into connecting to incorrect IP addresses, leading to various security risks.
 
-## How Does DNS Cache Poisoning Work?
-- Domain Name System (DNS): DNS is like a phonebook for the internet, translating domain names (e.g., example.com) into IP addresses (e.g., 192.0.2.1) that computers understand.
+DNS Cache Poisoning (DNS spoofing) is when an attacker injects a forged DNS record into a resolver's cache, so users who ask for `bank.tld` get sent to the attacker's IP. Because the poison sits in the cache, every downstream client is affected until the record expires. It underpins phishing, traffic interception, and mass redirection.
 
-- Caching: DNS resolvers cache DNS records to speed up the process of translating domain names into IP addresses. When a user's device requests the IP address for a domain, the resolver first checks its cache before querying authoritative DNS servers.
+## How it works
 
-- Attack: Attackers send fraudulent DNS responses to the resolver, containing incorrect IP addresses mapped to legitimate domain names. When the resolver caches these false records, subsequent DNS queries from users are redirected to the attacker-controlled IP addresses instead of the legitimate servers.
+- A resolver queries an authoritative server and waits for the answer
+- The attacker races to send a forged response with a matching query ID and source port
+- If it arrives first and matches, the resolver caches the malicious record
 
-- Redirected Traffic: Users unknowingly connect to the attacker-controlled servers, which may host phishing pages, malware, or other malicious content. This can lead to data theft, malware infections, or other security breaches.
+## Test / lab commands
 
-## Example Scenario
-Imagine a user wants to visit a legitimate banking website, but an attacker has poisoned the DNS cache of their ISP's resolver. When the user's device requests the IP address for the banking website, the resolver returns a fraudulent IP address controlled by the attacker. As a result, the user is redirected to a fake banking website that looks identical to the real one but is operated by the attacker to steal login credentials and sensitive information.
+```bash
+# Inspect what a resolver currently returns
+dig @RESOLVER_IP bank.tld A +short
+nslookup bank.tld RESOLVER_IP
 
-## Impact of DNS Cache Poisoning
-- Phishing Attacks: Attackers can redirect users to fake websites designed to steal login credentials, financial information, or personal data.
+# Watch the transaction IDs and source port randomness
+tcpdump -n -i eth0 udp port 53
 
-- Malware Distribution: DNS cache poisoning can lead to users unknowingly downloading malware from attacker-controlled servers, compromising the security of their devices and networks.
+# Check whether a resolver randomizes source ports (Kaminsky resistance)
+dig +short porttest.dns-oarc.net TXT @RESOLVER_IP
+```
 
-- Man-in-the-Middle Attacks: Attackers can intercept and manipulate communications between users and legitimate servers, eavesdropping on sensitive information or injecting malicious content into web pages.
+```text
+# Classic Kaminsky angle: force queries for many random subnames
+# (aaaa1.bank.tld, aaaa2.bank.tld ...) to widen the spoofing window
+```
 
-## Mitigating DNS Cache Poisoning
-- DNSSEC (Domain Name System Security Extensions): Implement DNSSEC to digitally sign DNS records and validate their authenticity, preventing DNS cache poisoning attacks.
+## Tools
 
-- DNS Caching Best Practices: Configure DNS resolvers to cache DNS records securely, limiting the duration of cached records and validating responses from authoritative DNS servers.
+- [scapy](https://scapy.net/) - craft and race forged DNS responses in a lab
+- [dnschef](https://github.com/iphelix/dnschef) - DNS proxy for spoofing tests
+- [Wireshark](https://www.wireshark.org/) - analyze query IDs and timing
 
-- Network Segmentation: Segment networks to isolate critical systems from potentially compromised devices, reducing the impact of DNS cache poisoning attacks on the entire network.
+## Manual testing
 
-- Regular Security Updates: Keep DNS software and infrastructure up to date with the latest security patches and updates to mitigate known vulnerabilities that could be exploited by attackers.
+1. Confirm the resolver randomizes both transaction ID and source port
+2. In a controlled lab, attempt to win the race with forged responses
+3. Verify whether the target validates DNSSEC signatures
+4. Check TTLs - long TTLs make a successful poison last longer
 
-## Conclusion
-DNS Cache Poisoning is a serious security threat that can lead to phishing attacks, malware distribution, and man-in-the-middle attacks. By implementing security measures such as DNSSEC, DNS caching best practices, network segmentation, and regular security updates, organizations can mitigate the risk of exploitation and protect their users and networks from malicious DNS manipulation. Regular monitoring and response to suspicious DNS activity are also essential for maintaining a secure DNS infrastructure.
+## Mitigation
+
+- Deploy DNSSEC so forged records fail signature validation
+- Randomize source ports and query IDs (Kaminsky mitigation)
+- Use 0x20 encoding and enforce short, sane TTLs
+- Prefer encrypted transport (DNS over TLS/HTTPS) between clients and resolvers
+
+## Deep dive
+
+- [DNS Cache Poisoning - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [Cloudflare: DNS cache poisoning](https://www.cloudflare.com/learning/dns/dns-cache-poisoning/)
+
+## CWE
+
+- CWE-350: Reliance on Reverse DNS Resolution for a Security-Critical Action
+- CWE-345: Insufficient Verification of Data Authenticity

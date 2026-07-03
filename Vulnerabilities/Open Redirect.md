@@ -1,34 +1,56 @@
 # What is Open Redirect?
-Open Redirect is a vulnerability that occurs when a web application redirects users to a different website or URL without proper validation or authorization checks. Attackers exploit this vulnerability to trick users into visiting malicious websites, phishing pages, or other malicious content.
 
-## How Does Open Redirect Work?
-- Redirect Functionality: Many web applications use redirect functionality to direct users to a different page or website after certain actions, such as logging in, logging out, or processing requests.
+An Open Redirect is a page that takes a URL from user input and redirects the browser there without validating the destination. On its own it is often rated low, but it is a reliable building block: it powers convincing phishing, steals OAuth tokens, and can be chained into SSRF or filter bypasses.
 
-- User-Controlled Input: If the application allows users to specify the destination URL for redirection, attackers can manipulate this input to redirect users to malicious or phishing websites.
+## How it works
 
-- Lack of Validation: If the application fails to properly validate or sanitize the redirect URL, attackers can craft URLs that appear legitimate but actually redirect users to malicious websites under their control.
+- The app has a redirect parameter like `?next=`, `?url=`, `?returnTo=`
+- It sends a `Location:` header (or JS redirect) using that value verbatim
+- An attacker supplies an external URL and the victim lands on the attacker's site
 
-## Example Scenario
-Suppose a web application has a login page where users are redirected to a specific page after successful authentication. The application accepts a redirect parameter in the URL to determine the destination after login. If an attacker crafts a malicious URL like https://example.com/login?redirect=https://malicious.com, users clicking on this link may be redirected to the malicious website after logging in.
+## Test payloads
 
-## Impact of Open Redirect
-- Phishing Attacks: Attackers use open redirects to create phishing pages that mimic legitimate websites, tricking users into divulging sensitive information such as login credentials, financial details, or personal data.
+```text
+# Straightforward
+?next=https://evil.com
+?url=//evil.com
+?returnTo=https:evil.com
 
-- Malware Distribution: Open redirects can be used to redirect users to websites hosting malware, leading to malware infections, data breaches, or compromise of user devices.
+# Bypass naive "must start with /" checks
+?next=/\evil.com
+?next=https://target.tld.evil.com
+?next=https://target.tld@evil.com
 
-- Identity Theft: Open redirects may facilitate identity theft by directing users to fake login pages where their credentials are captured by attackers for malicious purposes.
+# Encoding tricks
+?next=%2F%2Fevil.com
+?next=https%3A%2F%2Fevil.com
+```
 
-## Mitigating Open Redirect
-- Whitelist Valid URLs: Maintain a whitelist of trusted URLs or domains that the application is allowed to redirect users to, rejecting any redirects to untrusted or potentially malicious destinations.
+## Tools
 
-- Encode Redirect URLs: Encode or encrypt redirect URLs to prevent attackers from tampering with or manipulating them to redirect users to unintended destinations.
+- [Burp Suite](https://portswigger.net/burp) - follow redirects and test bypasses
+- [OpenRedireX](https://github.com/devanshbatham/OpenRedireX) - fuzz redirect params at scale
+- [gf](https://github.com/tomnomnom/gf) - grep params likely to be redirects
 
-- Require Authentication: Require users to authenticate or authorize redirection requests, ensuring that only authenticated and authorized users can be redirected to external websites.
+## Manual testing
 
-- Educate Users: Educate users about the risks of clicking on suspicious links or being redirected to unknown websites, promoting awareness of phishing tactics and safe browsing habits.
+1. Find parameters named `url`, `next`, `redirect`, `return`, `dest`, `continue`
+2. Point them at an external domain and see if the browser follows
+3. If blocked, try `//`, `\/`, `@`, and encoded variants to defeat the allowlist
+4. Look for it in OAuth/SSO flows where it can leak tokens via the fragment
 
-## Conclusion
-Open Redirect is a security vulnerability that can lead to phishing attacks, malware distribution, and identity theft by redirecting users to malicious websites. By implementing appropriate security measures such as whitelisting valid URLs, encoding redirect URLs, requiring authentication, and educating users about the risks, developers can mitigate the risk of exploitation and protect their applications from malicious redirects. Regular security audits, updates, and user awareness training are essential for maintaining a secure browsing environment.
+## Mitigation
 
+- Do not put user input in redirect targets; use server-side mapping keys
+- If external redirects are needed, validate against a strict allowlist
+- Force redirects to relative paths only, or show an interstitial warning
+- Never reflect the raw parameter into the `Location` header
 
+## Deep dive
 
+- [Open Redirect - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [OWASP Unvalidated Redirects Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html)
+
+## CWE
+
+- CWE-601: URL Redirection to Untrusted Site (Open Redirect)

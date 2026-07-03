@@ -1,33 +1,59 @@
-# What is HTTP Parameter Pollution (HPP)?
-HTTP Parameter Pollution (HPP) is a type of security vulnerability that occurs when an attacker manipulates or injects additional parameters into HTTP requests, leading to unexpected behavior or security issues in web applications.
+# What is HTTP Parameter Pollution?
 
-## How Does HTTP Parameter Pollution Work?
-- HTTP Requests: When a user interacts with a web application, their browser sends HTTP requests to the server to retrieve or submit data.
+HTTP Parameter Pollution (HPP) abuses the fact that different components handle duplicate parameters differently. Send `id=1&id=2` and one layer might read the first value, another the last, and a third might join them. When a security check and the business logic disagree on which value counts, you get filter bypass, WAF evasion, or logic flaws.
 
-- Query Parameters: HTTP requests often include query parameters in the URL, such as ?param1=value1&param2=value2, which the server uses to process the request.
+## How it works
 
-- Manipulation: Attackers manipulate these query parameters by injecting additional values or duplicating existing parameters in the request, potentially altering the behavior of the web application.
+- HTTP does not define what to do with repeated parameters
+- Each stack picks its own rule (first, last, all-concatenated, or array)
+- A front-end validates one value while the back-end acts on another
 
-- Impact: Depending on how the application processes the HTTP parameters, HTTP Parameter Pollution can lead to a range of security issues, such as bypassing security controls, data manipulation, or server-side code execution.
+## Test payloads
 
-## Example Scenario
-Suppose a web application uses a URL like example.com/search?query=keyword to perform searches based on user input. An attacker could manipulate this URL by injecting additional parameters, such as example.com/search?query=keyword&param2=value2, causing the server to process unexpected parameters along with the search query. Depending on how the application handles these parameters, the attacker could exploit vulnerabilities like SQL injection or bypass access controls.
+```http
+# Duplicate parameters - watch which value wins
+GET /transfer?amount=100&amount=99999 HTTP/1.1
 
-## Impact of HTTP Parameter Pollution
-- Data Corruption: HPP can cause data corruption or inconsistency by altering the values of parameters used by the application.
+# Bypass a filter that only checks the first value
+GET /search?q=safe&q=<script>alert(1)</script> HTTP/1.1
 
-- Security Bypass: Attackers may exploit HPP vulnerabilities to bypass security controls, access unauthorized resources, or perform actions beyond their privileges.
+# Split a blocked payload across duplicates (concatenating stacks)
+GET /x?p=UNION&p=SELECT HTTP/1.1
+```
 
-- Injection Attacks: HPP can facilitate other injection attacks, such as SQL injection or command injection, by manipulating parameters passed to backend systems.
+Common parsing behavior:
 
-## Mitigating HTTP Parameter Pollution
-- Input Validation: Validate and sanitize user input to prevent injection of additional parameters or manipulation of existing parameters in HTTP requests.
+```text
+PHP / Apache        -> last value
+ASP.NET / IIS       -> comma-joined ("1,2")
+JSP / Tomcat        -> first value
+Node.js (express)   -> array ["1","2"]
+```
 
-- Parameter Whitelisting: Define a whitelist of expected parameters and values, rejecting any unexpected or duplicate parameters in HTTP requests.
+## Tools
 
-- Request Normalization: Normalize HTTP requests to remove duplicate or conflicting parameters, ensuring consistent processing by the application.
+- [Burp Suite Repeater](https://portswigger.net/burp) - flip parameter order and observe
+- [param-miner](https://github.com/PortSwigger/param-miner) - discover hidden/duplicated params
 
-- Security Controls: Implement access controls, authentication mechanisms, and proper error handling to mitigate the impact of HPP vulnerabilities.
+## Manual testing
 
-## Conclusion
-HTTP Parameter Pollution is a security vulnerability that occurs when attackers manipulate or inject additional parameters into HTTP requests, potentially leading to unexpected behavior or security issues in web applications. By understanding how HPP works and implementing appropriate security measures such as input validation, parameter whitelisting, and request normalization, developers can mitigate the risk of exploitation and protect their applications from malicious attacks. Regular security assessments and updates are essential for maintaining a secure web application environment.
+1. Duplicate a sensitive parameter with two different values
+2. Note which value the response acts on (first, last, or joined)
+3. Where a WAF or client-side check exists, put the clean value where it looks and the payload where the app reads
+4. Test both query string and POST body, and mixed sources
+
+## Mitigation
+
+- Normalize input: reject or explicitly handle duplicate parameters
+- Read parameters from one source consistently, server-side
+- Keep the validating layer and the consuming layer on the same parsing rules
+- Do not trust WAF-only filtering for injection classes
+
+## Deep dive
+
+- [HTTP Parameter Pollution - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [OWASP Testing Guide: HPP](https://owasp.org/www-project-web-security-testing-guide/)
+
+## CWE
+
+- CWE-235: Improper Handling of Extra Parameters
