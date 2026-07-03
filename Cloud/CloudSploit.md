@@ -1,7 +1,10 @@
 # CloudSploit
-CloudSploit is a security and compliance monitoring tool designed specifically for cloud environments. It focuses on helping users identify and address potential security risks and compliance issues within their cloud infrastructure. Here's a breakdown of key points to help you understand CloudSploit:
 
-CloudSploit: https://github.com/aquasecurity/cloudsploit
+> **Note (2026):** CloudSploit was acquired by Aqua Security. For active cloud auditing, use **[Prowler](Prowler.md)** or **[Trivy](Trivy.md)**. This page is kept for reference.
+
+CloudSploit is a security and compliance monitoring tool designed specifically for cloud environments. It focuses on helping users identify and address potential security risks and compliance issues within their cloud infrastructure.
+
+CloudSploit (legacy): https://github.com/aquasecurity/cloudsploit
 
 ## Cloud Provider Support
 - Amazon Web Services

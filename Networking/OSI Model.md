@@ -1,4 +1,9 @@
 # OSI Model
+
+The OSI (Open Systems Interconnection) model splits network communication into seven layers. Pentesters use it to pinpoint where attacks and defenses apply - sniffing at Layer 2, routing at Layer 3, firewalls at Layer 4, and app bugs at Layer 7.
+
+![OSI Model - seven layers from Physical to Application](resource/osi-model-diagram.png)
+
 The OSI (Open Systems Interconnection) model is a conceptual framework that standardizes the functions of a telecommunication or computing system into seven abstraction layers. This model helps in understanding how different networking protocols and technologies interact and communicate with each other. Each layer of the OSI model serves a specific purpose and communicates with the layers above and below it.
 
 Let's break down the seven layers of the OSI model from the bottom up:

