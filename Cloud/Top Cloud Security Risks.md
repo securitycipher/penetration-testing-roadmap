@@ -41,3 +41,40 @@ Cloud computing offers numerous benefits, such as scalability, flexibility, and 
   - Cloud Risk: Without a well-defined incident response plan, it may take longer to identify and contain security breaches. Develop and regularly test an incident response strategy.
 
 Understanding these risks is a crucial first step toward implementing effective security measures in the cloud. Regular monitoring, updates, and adherence to best practices contribute to a more secure cloud environment.
+
+---
+
+## How a pentester finds each risk
+
+| Risk | What to check | Command / tool |
+|------|---------------|----------------|
+| Public storage | Open S3/Blob/GCS buckets | `aws s3 ls s3://b --no-sign-request`, GCPBucketBrute |
+| Weak IAM | Over-permissive policies, wildcard actions, privesc paths | `enumerate-iam`, `pacu`, `cloudsplaining` |
+| Metadata SSRF | App-layer SSRF → steal instance role creds | `curl 169.254.169.254/...` (see [AWS](AWS.md)) |
+| Exposed services | Public admin ports, unauth APIs (K8s, etcd, dashboards) | `nmap`, `shodan`, `kube-hunter` |
+| Secrets in configs | Env vars, Lambda config, repos, IaC | `trufflehog`, `trivy`, `aws lambda get-function-configuration` |
+| Logging gaps | CloudTrail/GuardDuty disabled, no alerting | `prowler`, `scoutsuite` |
+| Misconfiguration | CIS benchmark failures across all services | `prowler <cloud>`, `scout <cloud>` |
+
+## Fast posture assessment
+
+```bash
+# One command, full account review with a benchmark-mapped report
+prowler aws          # or: prowler azure / prowler gcp / prowler kubernetes
+scout aws            # visual multi-service HTML report
+```
+
+## The recurring root causes
+
+Most cloud breaches trace back to three things:
+
+1. **Identity** — a leaked key or over-privileged role/service account.
+2. **Exposure** — a resource made public that shouldn't be (bucket, DB, API).
+3. **Metadata** — an app-layer SSRF that hands the attacker cloud credentials.
+
+Fix identity and exposure and you eliminate the majority of real-world cloud attack paths.
+
+## Related
+
+- [AWS](AWS.md) · [Azure](Azure.md) · [GCP](GCP.md)
+- [Prowler](Prowler.md) · [ScoutSuite](ScoutSuite.md) · [Trivy](Trivy.md)

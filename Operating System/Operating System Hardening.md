@@ -15,3 +15,56 @@ Imagine your operating system (like Windows, macOS, or Linux) as the front door 
 
 
 Operating system hardening is essentially about making your digital environment more secure. By following these basic steps, you're building a strong defense against potential cyber threats. Just like in the physical world, a well-protected home is less likely to be targeted by intruders.
+
+---
+
+## Hardening checklists a pentester validates
+
+Hardening is measured against benchmarks. During a pentest you verify these controls are actually in place — every gap is a finding.
+
+### Linux hardening essentials
+
+```bash
+# Disable root SSH login and enforce key auth
+# /etc/ssh/sshd_config
+PermitRootLogin no
+PasswordAuthentication no
+
+# Remove SUID from unnecessary binaries; audit with:
+find / -perm -4000 -type f 2>/dev/null
+
+# Enable and configure the firewall
+ufw default deny incoming && ufw enable
+
+# Audit with automated tools
+lynis audit system
+```
+
+### Windows hardening essentials
+
+- Enforce **strong password / lockout policy** (`secpol.msc`).
+- Enable **BitLocker** disk encryption and **Credential Guard**.
+- Disable **SMBv1**, LLMNR, and NBT-NS (kills poisoning attacks).
+- Restrict local admin; use **LAPS** for local admin password rotation.
+- Enable **Attack Surface Reduction** rules and application allowlisting.
+
+### Verify with benchmarks
+
+```bash
+# Map the host against CIS controls
+lynis audit system                    # Linux/macOS
+# CIS-CAT Pro / Microsoft Security Compliance Toolkit  (Windows)
+```
+
+### The hardening pyramid
+
+1. **Patch** — eliminate known CVEs (biggest ROI).
+2. **Reduce attack surface** — disable unused services/ports/protocols.
+3. **Least privilege** — accounts, services, and file permissions.
+4. **Defense in depth** — firewall, EDR, encryption, logging.
+5. **Monitor** — logging + alerting so exploitation is detected.
+
+## Related
+
+- [CIS Benchmark](../Cloud/CIS%20Benchmark.md)
+- [Linux](Linux.md) · [Windows](Windows.md)

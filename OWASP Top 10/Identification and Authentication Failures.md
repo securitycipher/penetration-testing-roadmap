@@ -1,21 +1,80 @@
-# Identification and Authentication Failures
-Identification and Authentication Failures refer to security issues related to how a system identifies and verifies the identity of its users. It's like having a door that opens without checking if the person with the key is the rightful owner – it can lead to unauthorized access and potential security breaches.
+# Identification and Authentication Failures (A07:2021)
 
-## What is Identification and Authentication? 
-Identification is the process of claiming an identity, like telling someone your name. Authentication is the process of proving that the claimed identity is valid, often done through passwords, fingerprints, or other credentials.
+Formerly "Broken Authentication", this category covers weaknesses in how an app verifies **who** a user is and manages their session. When login, password recovery, session handling, or MFA is weak, attackers take over accounts.
 
-## Common Issues with Identification and Authentication
+## What to test
 
-- Weak Password Policies: It's like having a door lock with an easily guessable combination. If passwords are weak, short, or easily guessable, it becomes easier for attackers to gain unauthorized access.
+- **Weak/enumerable credentials** - no rate limiting, weak password policy, default accounts
+- **Username enumeration** - login/reset/register reveals which usernames exist
+- **Credential stuffing / brute force** - reused breach passwords, no lockout/MFA
+- **Broken password reset** - guessable tokens, host-header poisoning, no expiry
+- **Weak session management** - no rotation on login, no logout invalidation (see [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md))
+- **MFA flaws** - can be skipped, brute-forced, or bypassed via a different endpoint
+- **JWT flaws** - `alg:none`, weak secret, no signature check
 
-- Lack of Multi-Factor Authentication (MFA): MFA is like having both a key and a fingerprint scan for your front door. If a system relies solely on a password and that password gets compromised, there's no additional layer of security.
+## Step 1 - Username enumeration
 
-- Insecure Session Management: It's like forgetting to close and lock your door after entering your house. If sessions are not managed securely, attackers might hijack active sessions, gaining unauthorized access.
+Compare responses to spot valid vs invalid users:
 
-## Why are Identification and Authentication Failures a Problem? 
-If a system cannot properly verify the identity of its users, it's like allowing anyone to walk in claiming to be someone they're not. This can lead to unauthorized access, data breaches, and other security incidents.
+```text
+Login:  "Invalid username"  vs  "Invalid password"     -> enumerable
+Reset:  "Email sent"        vs  "No such user"          -> enumerable
+Also compare: response time, status code, redirect, subtle wording
+```
 
-## Preventing Identification and Authentication Failures 
-Implementing strong password policies, enabling multi-factor authentication, securing session management, and regularly reviewing and updating authentication mechanisms are crucial steps. Developers and administrators need to ensure that only authorized users can access sensitive information or perform critical actions.
+## Step 2 - Brute force / credential stuffing
 
-Identification and Authentication Failures is included in the OWASP Top 10 because proper identification and authentication are fundamental to a secure system. Just as you would want a reliable way to verify who's entering your house, web applications need robust mechanisms to ensure that only legitimate users gain access to sensitive data and functionalities.
+```bash
+# Hydra against an HTTP POST login form
+hydra -l admin -P rockyou.txt target.tld http-post-form \
+  "/login:username=^USER^&password=^PASS^:Invalid password"
+
+# Burp Intruder: Sniper (one field) or Pitchfork/Cluster bomb (user+pass lists)
+```
+
+Watch for: no lockout, no CAPTCHA, no rate limit, no MFA -> the app is brute-forceable.
+
+## Step 3 - JWT attacks
+
+```bash
+# Analyse and attack a token
+jwt_tool eyJ...token...
+
+# 1) alg:none - strip the signature
+# header {"alg":"none","typ":"JWT"}  ->  server accepts unsigned token
+
+# 2) Weak HMAC secret - crack it, then forge any claims
+hashcat -m 16500 jwt.txt rockyou.txt
+
+# 3) alg confusion (RS256 -> HS256) using the public key as the HMAC secret
+jwt_tool <token> -X k -pk public.pem
+```
+
+## Step 4 - Password reset abuse
+
+- Reset token predictable/short -> guess it.
+- `Host`/`X-Forwarded-Host` poisoning -> reset link points to your server (see [Host Header Injection](../Vulnerabilities/Host%20Header%20Injection.md)).
+- Token doesn't expire / is reusable / not tied to the user.
+
+## Tools
+
+- [Hydra](https://github.com/vanhauser-thc/thc-hydra), [Burp Intruder](https://portswigger.net/burp) - brute force
+- [jwt_tool](https://github.com/ticarpi/jwt_tool) - JWT testing
+- [hashcat](https://hashcat.net/) - crack hashes / JWT secrets
+
+## Mitigation - the fix
+
+- Enforce **strong passwords** (length-based), check against breach lists (HIBP).
+- **Rate limit** logins, add **lockout/CAPTCHA**, and require **MFA**.
+- Return **generic** login/reset messages (no enumeration).
+- Rotate session IDs on login; invalidate on logout server-side.
+- Sign JWTs with a strong secret/asymmetric key; **verify the signature and `alg`** server-side; short expiry.
+- Reset tokens: random (128-bit), single-use, short-lived, bound to the user.
+
+## Practice
+
+- [PortSwigger authentication labs](https://portswigger.net/web-security/authentication) and [JWT labs](https://portswigger.net/web-security/jwt)
+
+## Reference
+
+- [OWASP A07:2021](https://owasp.org/Top10/A07_2021-Identification_and_Authentication_Failures/)

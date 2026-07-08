@@ -23,3 +23,48 @@ Imagine you're baking a cake. You gather all the ingredients you need: flour, su
 - Risk Mitigation: By identifying and addressing vulnerabilities in third-party components, SCA helps mitigate the risk of security breaches or other software vulnerabilities. It's like ensuring that the ingredients you use in your cake won't make anyone sick.
 
 Overall, SCA is a critical aspect of software development, helping developers ensure the security and integrity of their software by analyzing the components used and addressing any potential risks or vulnerabilities. Just like you'd want to know what's in the food you eat, you also want to know what's in the software you use to ensure it's safe and reliable.
+
+---
+
+## SCA tools and commands
+
+```bash
+# Trivy — scans images, filesystems, repos, and IaC for vulnerable deps
+trivy fs .
+trivy image myapp:latest
+
+# Grype — fast dependency vulnerability scanner
+grype dir:.
+
+# OSV-Scanner — Google's scanner using the OSV database
+osv-scanner -r .
+
+# Language-native auditors
+npm audit                # Node.js
+pip-audit                # Python
+mvn dependency-check:check   # Java (OWASP Dependency-Check)
+
+# Generate an SBOM (software bill of materials)
+syft dir:. -o cyclonedx-json > sbom.json
+```
+
+## Why it matters (maps to OWASP)
+
+SCA directly addresses **[A06:2021 – Vulnerable and Outdated Components](../OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md)**. Most breaches that start with a "known CVE" (Log4Shell, Struts) were preventable with SCA.
+
+## For a pentester
+
+Fingerprint the target's components, then map versions to CVEs:
+
+```bash
+# Identify web tech and versions
+whatweb https://target.com
+# Then check each version against exploit databases
+searchsploit <component> <version>
+nuclei -u https://target.com -t cves/
+```
+
+## Related
+
+- [Vulnerable and Outdated Components](../OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md)
+- [Trivy](../Cloud/Trivy.md) · [SAST](SAST.md) · [DAST](DAST.md)

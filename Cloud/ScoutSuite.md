@@ -30,3 +30,38 @@ The following cloud providers are currently supported:
 ![Scout Suite Report](https://user-images.githubusercontent.com/13310971/77861662-342bf680-71e4-11ea-8eed-ccaeb78c5f45.gif)
 
 In summary, ScoutSuite is a valuable tool for organizations seeking to enhance the security of their cloud environments. By automating the assessment process and providing detailed reports, it helps users identify and address potential security risks, ultimately contributing to a more robust and secure cloud infrastructure.
+
+## Quick start
+
+```bash
+# Install
+pip install scoutsuite
+
+# AWS (uses your configured profile / env credentials)
+scout aws --profile target
+
+# Azure (interactive login)
+scout azure --cli
+
+# GCP (uses gcloud credentials, scope to a project)
+scout gcp --user-account --project-id target-project
+
+# Output goes to scoutsuite-report/scoutsuite-results/ -> open the HTML report
+open scoutsuite-report/scoutsuite_report_*.html
+```
+
+## Reading the report
+
+- **Red = high risk** — start here: public S3 buckets, `0.0.0.0/0` security groups, root access keys, unencrypted volumes.
+- Each finding lists the exact resource IDs so you can pivot with the provider CLI.
+- Filters let you scope by service (IAM, EC2, S3, etc.).
+
+## When to use ScoutSuite vs Prowler
+
+- **ScoutSuite** — visual, offline-navigable report; great for a point-in-time posture review across services.
+- **Prowler** — CIS/compliance-mapped pass/fail checks; better for repeatable audits and CI pipelines.
+
+## Related
+
+- [Prowler](Prowler.md)
+- [AWS](AWS.md) · [Azure](Azure.md) · [GCP](GCP.md)

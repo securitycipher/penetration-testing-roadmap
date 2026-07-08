@@ -35,3 +35,58 @@ Time Machine is a built-in backup feature that automatically backs up your entir
 For more advanced users, macOS includes a command-line interface called Terminal, allowing you to interact with the system using text commands.
 
 Remember, macOS is designed to be user-friendly, even for beginners. As you explore and use your Mac, you'll likely find it intuitive and enjoyable to use.
+
+---
+
+## macOS for penetration testers
+
+macOS is increasingly common in enterprises (especially dev/design teams) and has its own security model: **SIP**, **Gatekeeper**, **TCC**, and **code signing/notarization**.
+
+### Post-exploitation enumeration
+
+```bash
+# Identity and privileges
+id; whoami; dscl . -list /Users        # local users
+sudo -l
+
+# System info
+sw_vers; uname -a
+system_profiler SPHardwareDataType
+
+# Security posture
+csrutil status                          # is SIP enabled?
+spctl --status                          # Gatekeeper
+fdesetup status                         # FileVault disk encryption
+
+# Persistence locations to inspect (also privesc leads)
+ls -la ~/Library/LaunchAgents /Library/LaunchAgents /Library/LaunchDaemons
+```
+
+### Credential and secret hunting
+
+```bash
+# Dump keychain items (requires user password / unlocked keychain)
+security dump-keychain -d ~/Library/Keychains/login.keychain-db
+security find-generic-password -ga "service" 2>&1
+
+# Browser data, SSH keys, cloud creds
+ls -la ~/.ssh ~/.aws ~/.config/gcloud
+```
+
+### Key attack surface
+
+- **TCC bypasses** — gain access to camera, mic, files, Full Disk Access.
+- **Weak LaunchAgents/Daemons** — writable plists → persistence and privesc.
+- **Dylib hijacking** — load a malicious library into a signed app.
+- **Gatekeeper/quarantine bypasses** — run unsigned code.
+- **SIP-disabled machines** — full system tampering.
+
+### Tools
+
+- **objective-see tools** (KnockKnock, BlockBlock) — persistence discovery.
+- **LinPEAS/macpeas** style scripts for enumeration.
+
+## Related
+
+- [iOS Security Testing](../Mobile/iOS%20Security%20Testing.md)
+- [Operating System Hardening](Operating%20System%20Hardening.md)

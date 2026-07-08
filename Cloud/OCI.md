@@ -44,3 +44,50 @@ Oracle Cloud Infrastructure (OCI) is the cloud computing service offered by Orac
 - OCI provides extensive documentation and tutorials to help you understand and use their services.
 
 Just like with other cloud platforms, starting with specific services based on your needs and gradually expanding your knowledge will help you make the most of Oracle Cloud Infrastructure.
+
+---
+
+## Security testing perspective
+
+OCI uses a **compartment**-based model and **instance principals** for workload identity. The attack patterns mirror AWS/GCP: leaked keys, over-permissive policies, public buckets, and metadata credential theft.
+
+### Setup and enumeration
+
+```bash
+# Install and configure the OCI CLI
+bash -c "$(curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh)"
+oci setup config
+
+# Identity / who am I
+oci iam region list
+oci iam compartment list --all
+oci iam user list
+
+# Object Storage buckets (public buckets are a common finding)
+oci os ns get
+oci os bucket list -c <compartment-ocid>
+oci os object list -bn <bucket>
+
+# Compute instances
+oci compute instance list -c <compartment-ocid>
+```
+
+### Metadata credential theft (SSRF on an OCI instance)
+
+```bash
+# Instance principal / identity metadata
+curl -s http://169.254.169.254/opc/v2/instance/ -H "Authorization: Bearer Oracle"
+curl -s http://169.254.169.254/opc/v2/identity/cert.pem -H "Authorization: Bearer Oracle"
+```
+
+### Automated tooling
+
+```bash
+prowler oci          # OCI checks supported
+scout suite oci      # alpha OCI support
+```
+
+## Related
+
+- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [AWS](AWS.md) · [GCP](GCP.md)

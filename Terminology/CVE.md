@@ -21,3 +21,42 @@ CVE stands for Common Vulnerabilities and Exposures. In the vast world of comput
 - Awareness: CVE increases awareness of potential threats and vulnerabilities, fostering a proactive approach to cybersecurity.
 
 In summary, CVE is a crucial system in the realm of cybersecurity, providing a structured and standardized way to identify, track, and address vulnerabilities in software and hardware. It plays a vital role in facilitating collaboration and information sharing within the cybersecurity community.
+
+---
+
+## Using CVEs in a pentest
+
+Your workflow is: **fingerprint versions → map to CVEs → find/verify an exploit.**
+
+```bash
+# 1. Fingerprint software and versions
+nmap -sV target                       # service versions
+whatweb https://target.com            # web tech stack
+nmap --script vulners -sV target      # nmap maps versions to CVEs automatically
+
+# 2. Search for exploits by CVE or product/version
+searchsploit apache 2.4.49
+searchsploit --cve CVE-2021-41773
+
+# 3. Automated CVE scanning
+nuclei -u https://target.com -t cves/
+
+# 4. Look up details
+# - https://nvd.nist.gov/vuln/detail/CVE-XXXX-XXXXX  (NVD, includes CVSS)
+# - https://cve.mitre.org
+```
+
+### Prioritize with real-world signals
+
+- **CISA KEV catalog** — CVEs *known to be actively exploited* (patch these first).
+- **EPSS score** — probability a CVE will be exploited.
+- **Public PoC available?** — dramatically raises real risk.
+
+### Reporting tip
+
+Always cite the CVE ID **and** confirm exploitability in the target's context — a high-CVSS CVE that isn't reachable or is already mitigated is not a critical finding.
+
+## Related
+
+- [CVSS](CVSS.md)
+- [Vulnerable and Outdated Components](../OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md) · [SCA](../Security%20Testing%20Approaches/SCA.md)

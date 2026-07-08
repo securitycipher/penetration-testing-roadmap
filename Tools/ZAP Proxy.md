@@ -1,13 +1,59 @@
-# What is ZAP Proxy ?
-ZAP Proxy, or the Zed Attack Proxy, is a powerful and widely used open-source security testing tool. It's designed to help developers and security professionals find and fix vulnerabilities in web applications. Let's break down the key points:
+# OWASP ZAP (Zed Attack Proxy)
 
-- Proxy: A proxy is like a middleman between your web browser and the internet. It intercepts and controls the communication between your browser and the web server. ZAP acts as this proxy and allows you to monitor, modify, and analyze the traffic between your browser and the web application.
-- Security Testing: ZAP is primarily used for security testing or penetration testing. This means it helps identify potential vulnerabilities or weaknesses in a web application that malicious hackers could exploit. By finding and fixing these vulnerabilities, developers can make their applications more secure.
-- Open-Source: ZAP is open-source, which means its source code is freely available to the public. This encourages collaboration and allows developers worldwide to contribute to its improvement. Open-source software often has a large community of users and developers, making it a reliable and continually evolving tool.
-- User Interface: ZAP comes with a user-friendly interface that makes it accessible even for beginners. You can use it through a graphical user interface (GUI) to perform various security testing tasks. The interface allows you to navigate through different features and functionalities easily.
-- Automated Scanning: ZAP provides automated scanning features, enabling users to find common vulnerabilities in web applications without extensive manual effort. It can detect issues like cross-site scripting (XSS), SQL injection, and more. Automated scanning is useful for quickly identifying potential problems.
-- Manual Testing: ZAP also supports manual testing, allowing security professionals to interact with the web application and analyze specific areas for vulnerabilities. This hands-on approach can uncover complex issues that automated scans might miss.
-- Alerts and Reports: ZAP generates alerts and reports that highlight potential security issues. These reports help developers and security teams understand the vulnerabilities discovered during testing and take appropriate actions to fix them.
-- Learning Tool: ZAP can serve as a learning tool for those interested in web application security. By using ZAP, developers and security enthusiasts can gain insights into common security flaws, understand how they can be exploited, and learn best practices for securing web applications.
+ZAP is a **free, open-source web app security scanner and intercepting proxy** maintained by the OWASP community. It's the main open-source alternative to Burp Suite - strong at automated scanning and great for CI/CD because it's fully scriptable and headless-capable.
 
-In summary, ZAP Proxy is a versatile and accessible tool that empowers users, regardless of their experience level, to enhance the security of web applications by identifying and addressing potential vulnerabilities. Whether you're a beginner or an experienced security professional, ZAP can be a valuable asset in your toolkit for securing web applications.
+## ZAP vs Burp (quick take)
+
+- **ZAP** - free, full automated active scanner included, excellent for CI/CD automation
+- **Burp** - richer manual tooling and extensions; scanner requires paid Pro
+- Many testers use ZAP for automation and Burp for manual work.
+
+## Getting started (GUI)
+
+```text
+1. Launch ZAP -> choose to persist the session or not.
+2. Use the built-in browser (ZAP > Manual Explore) - proxy + cert pre-configured.
+3. Browse the target so ZAP builds the Sites tree.
+4. Right-click the site > Attack > Spider (crawl) then Active Scan.
+5. Review findings in the Alerts tab (grouped by risk).
+```
+
+## Scan modes
+
+- **Passive scan** - always on; analyzes traffic you browse without sending attacks (safe).
+- **Spider** - classic link crawler; **AJAX Spider** drives a real browser for JS-heavy apps.
+- **Active scan** - sends attack payloads (SQLi, XSS, etc.) - only against authorized targets.
+
+## Automation (the real strength) - CLI / headless
+
+```bash
+# Baseline scan (passive, quick) - great for CI pipelines
+zap-baseline.py -t https://target.tld -r report.html
+
+# Full active scan
+zap-full-scan.py -t https://target.tld -r report.html
+
+# API-driven scan via Docker
+docker run -t ghcr.io/zaproxy/zaproxy zap-baseline.py -t https://target.tld
+```
+
+Automation Framework (YAML plan) lets you define spider + active scan + auth + reporting as code, ideal for repeatable CI/CD gates.
+
+## Useful features
+
+- **HUD (Heads-Up Display)** - overlays ZAP controls directly in the browser.
+- **Fuzzer** - payload-based fuzzing of parameters (like Burp Intruder).
+- **Requester/Manual Request Editor** - resend/modify requests (like Burp Repeater).
+- **Auth handling** - form/JSON/script-based login for authenticated scans.
+- **Add-on Marketplace** - extend with community add-ons.
+
+## Tips
+
+- Set the **context and scope** before active scanning to avoid hitting out-of-scope hosts.
+- Configure **authentication + session management** so the scanner tests logged-in areas.
+- Never run an active scan on systems you're not authorized to test.
+
+## Resources
+
+- [ZAP documentation](https://www.zaproxy.org/docs/)
+- [ZAP Automation Framework](https://www.zaproxy.org/docs/automate/)

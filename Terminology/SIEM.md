@@ -29,3 +29,47 @@ SIEM can perform several important functions to enhance security:
 SIEM is used by organizations of all sizes and across various industries, including finance, healthcare, government, and retail. Any organization that wants to protect its digital assets and sensitive information can benefit from using SIEM.
 
 In summary, SIEM is a powerful tool that helps organizations monitor and manage their cybersecurity posture. By collecting and analyzing security-related data from across the network, SIEM enables organizations to detect and respond to security threats in a timely manner, ultimately helping to protect against cyber attacks and data breaches.
+
+---
+
+## SIEM from a pentester's / red-team view
+
+On a stealth (red-team) engagement, the SIEM is what you're trying to **stay under**. On a purple-team engagement, you *want* to trigger it to test detection.
+
+### Common SIEM products
+
+- **Splunk**, **Elastic (ELK)**, **Microsoft Sentinel**, **QRadar**, **Wazuh** (open source).
+
+### Evading / testing detection
+
+- **Live off the land (LOLBins)** — use built-in tools (`certutil`, `wmic`, PowerShell) that blend into normal activity.
+- **Go low and slow** — avoid rate-based correlation rules.
+- **Clear/avoid logs** where authorized:
+
+```cmd
+:: Windows event log clearing (very noisy — often itself alerts)
+wevtutil cl Security
+```
+
+```bash
+# Linux — check what logging exists before acting
+cat /etc/rsyslog.conf; ls -la /var/log
+```
+
+- **Check for the agent** — is a forwarder/EDR running? `tasklist`, `ps aux | grep -iE 'splunk|wazuh|carbon|falcon'`.
+
+### Purple-team validation (what to prove)
+
+Trigger representative attacks and confirm the SIEM alerts on them:
+
+- Failed→success login bursts (brute force)
+- New local admin creation
+- Mimikatz / LSASS access
+- Outbound C2-like beaconing
+
+If these **don't** generate alerts, that gap is a key finding — see [Security Logging and Monitoring Failures](../OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md).
+
+## Related
+
+- [Security Logging and Monitoring Failures](../OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md)
+- [IDS](../Networking/IDS.md) · [Defense in Depth](Defense%20in%20Depth.md)

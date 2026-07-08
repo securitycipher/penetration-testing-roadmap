@@ -23,3 +23,59 @@ Hashing is a process of converting input data (or a 'message') into a fixed-size
 -bcrypt: bcrypt is a cryptographic hash function specifically designed for password hashing. It incorporates a salt (random data) and a cost factor to slow down hashing and make it more secure.
 
 In summary, hashing is a fundamental concept in computer science and cryptography, providing essential tools for ensuring data integrity, securing passwords, and enabling various applications across computing.
+
+---
+
+## Hashing from a pentester's view
+
+Once you dump password hashes (from `/etc/shadow`, the SAM/NTDS.dit, or a database), your job is to identify and crack them.
+
+### Identify the hash type
+
+```bash
+hashid '$2b$12$...'         # or
+hash-identifier
+# Common formats:
+#   MD5      -> 32 hex chars
+#   SHA-1    -> 40 hex chars
+#   SHA-256  -> 64 hex chars
+#   NTLM     -> 32 hex chars (Windows)
+#   bcrypt   -> starts with $2a$/$2b$
+```
+
+### Crack with hashcat (GPU) or John
+
+```bash
+# hashcat mode (-m) examples
+hashcat -m 0    -a 0 md5.txt    rockyou.txt        # MD5
+hashcat -m 1000 -a 0 ntlm.txt   rockyou.txt        # NTLM
+hashcat -m 1800 -a 0 sha512.txt rockyou.txt        # sha512crypt
+hashcat -m 3200 -a 0 bcrypt.txt rockyou.txt        # bcrypt (slow!)
+hashcat -m 5600 -a 0 netntlm.txt rockyou.txt       # NetNTLMv2 (from Responder)
+
+# Rule-based attack for mutations
+hashcat -m 0 -a 0 md5.txt rockyou.txt -r rules/best64.rule
+
+# John the Ripper equivalent
+john --format=nt --wordlist=rockyou.txt ntlm.txt
+john --show ntlm.txt
+```
+
+### Why algorithm choice matters
+
+- **MD5 / SHA-1** are fast → billions of guesses/sec on a GPU → cracked quickly. **Broken; flag them.**
+- **Unsalted** hashes fall to precomputed **rainbow tables** (see [Salting](Salting.md)).
+- **bcrypt / scrypt / Argon2 / PBKDF2** are *deliberately slow* → orders of magnitude harder to crack. These are the correct choice for passwords.
+
+### Pass-the-Hash
+
+For NTLM, you often don't even need to crack — you can authenticate with the hash directly:
+
+```bash
+crackmapexec smb target -u admin -H <NTLM-hash>
+```
+
+## Related
+
+- [Salting](Salting.md)
+- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)

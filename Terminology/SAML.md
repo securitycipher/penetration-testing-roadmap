@@ -17,3 +17,36 @@ SAML stands for Security Assertion Markup Language. It's a technology used for e
 SAML differs from traditional username/password authentication in that it delegates the authentication process to a trusted third-party IdP. Instead of relying on each individual service or application to handle authentication, SAML centralizes authentication through the IdP, providing a more streamlined and secure authentication experience.
 
 SAML is a powerful technology for enabling Single Sign-On, simplifying user authentication, enhancing security, and providing centralized control over access to applications and services. By leveraging SAML, organizations can improve user experience, strengthen security, and streamline identity management processes.
+
+---
+
+## SAML attacks (pentester's view)
+
+SAML security rests entirely on the **signature** of the assertion. Break the signature validation and you can log in as anyone.
+
+### Top attack vectors
+
+- **XML Signature Wrapping (XSW)** — inject a forged assertion while keeping the original signed one so the signature still "validates" but the parser reads your version.
+- **Signature stripping** — remove the signature; some SPs accept unsigned assertions.
+- **Comment injection** — `admin@target.com` → `admin@target.com<!---->.evil.com` can trick canonicalization into returning `admin@target.com`.
+- **XXE in the SAML XML** — the assertion is XML; test for [XXE](../Vulnerabilities/XXE.md).
+- **Golden SAML** — steal the IdP token-signing private key → forge assertions for any user, any SP (persistent, undetectable). See [Hybrid Cloud](../Cloud/Hybrid%20Cloud.md).
+- **Recipient/audience not validated** — replay an assertion at a different SP.
+
+### How to test
+
+```bash
+# Use the SAML Raider Burp extension to decode, edit, and re-sign assertions.
+# 1. Capture the SAMLResponse (base64 -> XML) in Burp.
+# 2. Change the NameID / attributes to a target user.
+# 3. Try: strip signature, XSW payloads, comment injection.
+# 4. Confirm whether the SP still accepts the tampered assertion.
+
+# Manual decode
+echo "$SAMLResponse" | base64 -d | xmllint --format -
+```
+
+## Related
+
+- [Digital Signature](../Cryptography/Digital%20Signature.md) · [XXE](../Vulnerabilities/XXE.md)
+- [SSO](SSO.md) · [OAuth 2.0](OAuth%202.0.md)

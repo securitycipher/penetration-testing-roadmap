@@ -16,3 +16,36 @@ Imagine you have a house that you want to keep safe from burglars. You'd probabl
 - Recover: After a cyber incident, you need to get things back to normal as quickly as possible. This means restoring any lost data, fixing any damage, and improving your defenses to prevent the same thing from happening again. It's like repairing any damage to your house after a break-in and making it even harder for burglars to get in next time.
 
 The great thing about the NIST Cybersecurity Framework is that it's flexible and can be adapted to fit the needs of different organizations. Whether you're a small business, a large corporation, or a government agency, you can use the framework to improve your cybersecurity posture and better protect your digital assets. Plus, it's constantly being updated to keep up with new threats and technologies, so you can always stay one step ahead of the bad guys.
+
+---
+
+## The six functions (CSF 2.0)
+
+The classic five are **Identify, Protect, Detect, Respond, Recover**. **CSF 2.0 (2024) added a sixth: Govern** — overarching risk management, roles, and policy.
+
+## How a pentest maps to the CSF
+
+A penetration test is primarily a way to **validate the Protect and Detect functions** — you prove whether the safeguards work and whether the org notices you.
+
+| CSF Function | How pentest findings map |
+|--------------|--------------------------|
+| **Identify** | You often find unknown/shadow assets during recon |
+| **Protect** | Exploitable vulns = failed safeguards |
+| **Detect** | Did the [SIEM](SIEM.md)/[IDS](../Networking/IDS.md) alert on your activity? |
+| **Respond** | Purple-team: test their IR playbook against your attack |
+| **Recover** | Validate backups/DR (usually out of pentest scope) |
+| **Govern** | Missing policies/ownership surfaced in the report |
+
+### Where it fits vs other standards
+
+- **NIST CSF** — voluntary, risk-based framework (the "what/why").
+- **[NIST SP 800-53](../Compliance/)** — detailed control catalog (the "how").
+- **[ISO 27001](../Compliance/)** — internationally certifiable ISMS standard.
+- **[PCI DSS](../Compliance/)** — prescriptive, mandatory for cardholder data (and *requires* pentesting).
+
+For a pentester, the CSF is useful in the **report**: map each finding to a function so leadership sees exactly which part of their program needs investment.
+
+## Related
+
+- [Compliance](../Compliance/)
+- [SIEM](SIEM.md) · [Defense in Depth](Defense%20in%20Depth.md)

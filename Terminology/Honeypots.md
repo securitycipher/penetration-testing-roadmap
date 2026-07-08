@@ -21,3 +21,41 @@ Imagine you have a garden, and you want to protect it from intruders like rabbit
   - If not properly configured and monitored, honeypots can be used by attackers to launch further attacks or to gather intelligence about the organization.
 
 In essence, a honeypot is like a digital bait that cybersecurity professionals use to study and understand the tactics of potential attackers. It's an important tool in the world of cybersecurity, helping to enhance the overall security posture of organizations by providing valuable insights into the evolving landscape of cyber threats.
+
+---
+
+## Honeypots from a pentester's view
+
+On an engagement, a honeypot is a **trap** — interacting with it can alert the blue team and waste your time. Learn to spot and avoid them.
+
+### Signs you may be looking at a honeypot
+
+- **Too easy** — a "critical" service wide open with obvious creds (`admin/admin`) on an otherwise hardened network.
+- **Inconsistent fingerprint** — banners/versions that don't match real service behavior; responses that are "too perfect."
+- **Odd port combinations** — a single host exposing dozens of unrelated services.
+- **Isolated / no real data** — the box has services but no legitimate business context.
+
+### Detection commands
+
+```bash
+# Careful service fingerprinting — mismatches hint at emulation
+nmap -sV -A --script banner target
+
+# honeypot-detection heuristics
+nmap --script http-honeypot,ftp-honeypot target   # (community scripts)
+# Tools like honeydet / heuristic checks can flag emulated services
+```
+
+### Honeypot types you might encounter
+
+- **Kippo/Cowrie** (fake SSH), **Dionaea** (malware capture), **T-Pot** (multi-honeypot), canary tokens (files/creds that alert when used).
+- **Canary tokens** — a "juicy" file or AWS key planted to fire an alert the moment you touch it. Be cautious with found credentials.
+
+### Operational advice
+
+- Move deliberately; validate that a host holds real data before deep interaction.
+- If you suspect a honeypot, note it and confirm with the client — engaging it burns stealth and time.
+
+## Related
+
+- [SIEM](SIEM.md) · [IDS](../Networking/IDS.md)

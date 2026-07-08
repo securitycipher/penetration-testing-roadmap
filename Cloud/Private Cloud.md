@@ -37,3 +37,37 @@ A Private Cloud is a type of computing environment that is dedicated to a single
 - Regulatory Compliance: Industries subject to specific regulations and compliance standards, like healthcare (HIPAA) or finance (PCI DSS), often choose Private Cloud solutions to meet these requirements.
 
 In summary, a Private Cloud is like having your own exclusive corner of the cloud, tailored to your organization's specific needs. It provides a higher level of control, security, and customization, making it a suitable choice for businesses with specific requirements or stringent regulatory compliance.
+
+---
+
+## Security testing perspective
+
+A private cloud (often **OpenStack**, **VMware vSphere/vCloud**, or a self-hosted Kubernetes/OpenShift platform) puts the **entire stack in scope** — it behaves more like a traditional internal-network pentest than a public-cloud config review.
+
+### What to test
+
+- **Management plane** — vCenter, OpenStack Horizon/Keystone, hypervisor consoles (often reachable on the internal net, weak creds).
+- **Network segmentation** — can a tenant VM reach the management VLAN or other tenants?
+- **VM escape** — outdated hypervisor CVEs (VMware, KVM/QEMU).
+- **Storage & backups** — exposed NFS/iSCSI, unencrypted snapshots.
+- **Underlying OS/services** — standard internal pentest: [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md), [Active Directory](../Active%20Directory/Active%20Directory%20Basics.md) if joined.
+
+### Commands
+
+```bash
+# Discover management interfaces on the internal network
+nmap -p 443,902,5480,5000,8006 -sV <mgmt-subnet>   # vCenter/ESXi, OpenStack, Proxmox
+
+# OpenStack API enumeration (with creds)
+openstack server list
+openstack user list
+openstack role assignment list --names
+
+# Scan hypervisors for known CVEs
+nmap --script vuln <esxi-host>
+```
+
+## Related
+
+- [Kubernetes Security](../Containers/Kubernetes%20Security.md)
+- [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)

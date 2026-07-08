@@ -25,3 +25,40 @@ Imagine you've built your dream house and now you want to make sure it's safe an
 - Complementary to SAST: DAST complements SAST by providing a different perspective on security testing. While SAST looks at the code itself, DAST evaluates how the application behaves in the real world.
 
 Overall, DAST is an important tool for developers and security professionals, helping them identify and mitigate security risks in their applications by testing how they behave when they're live and accessible to users. Just like you wouldn't want to live in a house with weak locks or faulty alarms, you wouldn't want to deploy software without first ensuring its security through tools like DAST.
+
+---
+
+## DAST tools and commands
+
+```bash
+# OWASP ZAP — full baseline/active scan, CI-friendly
+zap-baseline.py -t https://target.com -r report.html
+zap-full-scan.py -t https://target.com
+
+# Nuclei — template-based vulnerability scanning
+nuclei -u https://target.com -severity critical,high,medium
+
+# Nikto — quick web server misconfig scan
+nikto -h https://target.com
+
+# Burp Suite — the professional's manual + automated DAST
+# (Proxy -> Scanner -> Repeater/Intruder)
+```
+
+## Strengths and limits
+
+| Strength | Limitation |
+|----------|------------|
+| Finds real, exploitable runtime issues | No code visibility → can't pinpoint the line |
+| Language-agnostic (tests the running app) | Only covers reachable paths it can crawl |
+| Catches config/auth/session flaws | Needs a deployed, running environment |
+| Low false positives for confirmed hits | Can miss deep logic bugs |
+
+## DAST is essentially automated pentesting
+
+A pentest *is* dynamic testing — but a human adds business-logic understanding and creative chaining that scanners can't. Use DAST to cover breadth quickly, then go deep manually.
+
+## Related
+
+- [SAST](SAST.md) · [IAST](IAST.md) · [SCA](SCA.md)
+- [ZAP Proxy](../Tools/ZAP%20Proxy.md) · [Nuclei](../Tools/Nuclei.md) · [Burp Suite](../Tools/Burp%20Suite.md)

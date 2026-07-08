@@ -1,23 +1,65 @@
-# Cryptographic Failures
+# Cryptographic Failures (A02:2021)
 
-Cryptographic Failures refer to security issues that arise from incorrect or insecure use of cryptographic functions within a web application. Cryptography involves securing information through techniques like encryption and hashing. If these techniques are not applied correctly, it can lead to vulnerabilities.
+Cryptographic Failures (formerly "Sensitive Data Exposure") is about sensitive data - passwords, credit cards, health records, tokens - being exposed because crypto is **missing, weak, or misused**. The failure is usually not "someone broke AES"; it's plaintext transport, bad hashing, hardcoded keys, or weak configuration.
 
+## What counts as a cryptographic failure
 
-## What is Cryptography?
-Cryptography is like a secret code language for computers. It involves techniques to ensure that only authorized parties can understand and use the information being shared. This is crucial for securing sensitive data like passwords, credit card numbers, or any private information transmitted over the internet.
+- Sending sensitive data over **plaintext HTTP** (no TLS)
+- Storing passwords with **fast/broken hashes** (MD5, SHA1, unsalted)
+- Storing sensitive data **unencrypted** at rest
+- **Hardcoded** keys/secrets in source or config
+- Weak/deprecated algorithms (DES, RC4, ECB mode) or weak TLS (SSLv3, TLS 1.0)
+- Predictable randomness (`rand()` instead of a CSPRNG) for tokens/keys
+- Improper certificate validation (accepting any cert)
 
-## Common Cryptographic Failures
+## How a pentester finds these
 
-- Weak Algorithms: It's like using a simple lock that can be easily picked. Weak cryptographic algorithms can be exploited by attackers to break the code and access sensitive information.
+```bash
+# 1. Is TLS present and strong? Check protocols, ciphers, cert
+nmap --script ssl-enum-ciphers -p 443 target.tld
+sslscan target.tld
+testssl.sh https://target.tld
 
-- Insecure Key Management: If the keys used for encryption and decryption are not handled securely, it's like having a secret code written on a sticky note that anyone can find. Proper key management is essential for maintaining the confidentiality of data.
+# 2. Sensitive data over HTTP or in URLs/logs?
+#    Look in Burp history for tokens/PII in query strings, mixed content
 
-- Poor Random Number Generation: Cryptography often relies on random numbers for generating keys. If these numbers are not truly random, it's like playing cards with a deck that's not shuffled properly. Secure random number generation is crucial for strong encryption.
+# 3. Hunt for secrets in client code / repos
+grep -riE "api[_-]?key|secret|password|BEGIN RSA" .
+trufflehog git https://github.com/org/repo
 
-## Why are Cryptographic Failures a Problem?
-If cryptographic techniques are not implemented securely, it can lead to unauthorized access, data breaches, and other security issues. It's like having a weak lock on your front door – it might give a false sense of security.
+# 4. Identify weak password hashes if you obtain a dump, then crack
+hashid '5f4dcc3b5aa765d61d8327deb882cf99'   # identify (this is md5 of "password")
+hashcat -m 0 hashes.txt rockyou.txt         # 0 = MD5, 100 = SHA1, 3200 = bcrypt
+```
 
-## Preventing Cryptographic Failures
-Developers need to use strong and up-to-date cryptographic algorithms, manage keys securely, ensure proper random number generation, and implement cryptographic functions correctly in their applications. Regular security assessments and audits can help identify and fix any cryptographic vulnerabilities.
+## Common real findings
 
-In summary, Cryptographic Failures emphasizes the importance of implementing cryptography correctly to protect sensitive information in web applications. Just as you want a strong lock on your front door, web applications need robust cryptographic practices to safeguard data from unauthorized access.
+- Login form posts over `http://` -> credentials sniffable
+- Password DB uses `md5(password)` -> instantly cracked from rainbow tables
+- JWT signed with a weak/guessable secret -> forge tokens (`hashcat -m 16500`)
+- AES in ECB mode -> identical plaintext blocks leak (the "ECB penguin")
+- Session token = `base64(userid:timestamp)` -> forgeable
+
+## Mitigation - the fix
+
+- **TLS everywhere** (TLS 1.2/1.3), HSTS, no mixed content, valid certs.
+- Hash passwords with a **slow, salted** algorithm: **bcrypt / scrypt / Argon2**:
+
+```python
+# SAFE password hashing
+import bcrypt
+hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+```
+
+- Encrypt sensitive data at rest with **AES-256-GCM** (authenticated) - never ECB.
+- Manage keys in a **secrets manager / KMS / Vault**; never hardcode.
+- Use a **CSPRNG** (`secrets` in Python, `crypto.randomBytes` in Node) for tokens/keys.
+- Don't invent crypto; use vetted libraries and modern defaults.
+
+## Practice
+
+- [CryptoHack](https://cryptohack.org/), PortSwigger JWT labs, [testssl.sh](https://testssl.sh/)
+
+## Reference
+
+- [OWASP A02:2021 Cryptographic Failures](https://owasp.org/Top10/A02_2021-Cryptographic_Failures/)

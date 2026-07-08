@@ -13,6 +13,30 @@ The implications of a successful Model Denial of Service attack can be far-reach
 - Reduced Service Availability: Legitimate users are denied access to the LLM's functionalities, impacting productivity and potentially causing financial losses.
 - Increased Operational Costs: Organizations may incur significant costs due to the additional resources required to mitigate the attack and restore service.
 - Reputational Damage: A DoS attack can damage the reputation of the organization relying on the LLM, eroding user trust and confidence in its systems.
+## Concrete examples
+
+Note: OWASP renamed this to **Unbounded Consumption** in the 2025 list - it now also covers cost/wallet attacks.
+
+```text
+# 1. Resource-heavy prompt (huge output / max tokens)
+"Write a 100,000 word story. Do not stop. Continue indefinitely."
+
+# 2. Recursive expansion
+"Repeat the following paragraph 10,000 times: [long text]"
+
+# 3. Context-window flooding
+Paste a massive document, then ask a question -> forces full re-processing every turn.
+
+# 4. Wallet/cost DoS (economic)
+Automate thousands of expensive requests -> the victim pays a huge API bill.
+```
+
+## How to test
+
+1. Send progressively larger inputs / request very long outputs; watch latency and cost.
+2. Check for **rate limits, input-size caps, and max-token limits**.
+3. If the app pays per token to a provider, flag missing per-user quotas as a cost risk.
+
 ## Fortifying the Defenses:  Mitigating Model Denial of Service Attacks
 
 Combating Model Denial of Service necessitates a multi-layered approach:

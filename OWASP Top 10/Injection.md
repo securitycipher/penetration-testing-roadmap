@@ -1,20 +1,75 @@
-# Injection
-Injection is a type of security vulnerability that arises when untrusted data is sent to an interpreter as part of a command or query. In simpler terms, it's like a sneaky way for attackers to inject harmful code into a system, usually through forms or input fields on a website.
+# Injection (A03:2021)
 
-## What is Injection? 
-Injection occurs when an attacker inserts malicious data, often in the form of code, into a place where the application processes or interprets it. This can happen with various types of data, such as user inputs in search boxes, login forms, or any field where the application is supposed to accept information.
+Injection happens when untrusted input is sent to an interpreter (a database, shell, LDAP directory, browser, etc.) as part of a command or query, so the input **changes the meaning** of that command. The interpreter can no longer tell your data from its own code. In 2021 OWASP merged **XSS** into this category.
 
-## Common Types of Injection Attacks
-- SQL Injection (SQLi): This is like tricking a database into running unintended SQL code. For example, if a login form is not properly secured, an attacker might input something like ' OR '1'='1' -- to gain unauthorized access.
-- Command Injection: In this case, attackers inject commands into the input fields that the system uses to execute commands. If not properly handled, it's like letting someone run commands on your computer remotely.
-- Cross-Site Scripting (XSS): While not always categorized under Injection, it's worth mentioning. XSS involves injecting malicious scripts into web pages that are then executed by the victim's browser. It's like slipping a harmful note into a letter someone else is reading.
+The core mistake, everywhere, is the same:
 
-## Why is Injection a Problem?
-If an application doesn't properly validate and sanitize input, attackers can exploit these vulnerabilities to execute arbitrary code on the server or manipulate the behavior of the application. This could lead to unauthorized access, data loss, or other security issues.
+```python
+# VULNERABLE - data is concatenated into code
+query = "SELECT * FROM users WHERE name = '" + name + "'"
+```
 
-## Preventing Injection Attacks 
-Developers can prevent injection attacks by validating and sanitizing user inputs. Using parameterized queries in databases, validating and encoding data, and implementing security controls like Content Security Policy (CSP) for web applications are essential measures.
+## The injection family (each has a dedicated guide)
 
-Injection vulnerabilities are high on the OWASP Top 10 list because they are prevalent and can have severe consequences. An attacker gaining unauthorized access or manipulating the system through injection can lead to data breaches, service disruptions, and more.
+- **SQL Injection** -> a database - see [SQL Injection](../Vulnerabilities/SQL%20Injection.md)
+- **Cross-Site Scripting (XSS)** -> the browser - see [XSS](../Vulnerabilities/XSS.md)
+- **OS Command Injection** -> a shell - see [RCE](../Vulnerabilities/RCE.md)
+- **LDAP Injection** -> a directory - see [LDAP Injection](../Vulnerabilities/LDAP%20Injection.md)
+- **NoSQL Injection** -> MongoDB/others (below)
+- **SSTI, XPath, XXE, Header/CRLF injection** - same root cause, different interpreter
 
-Injection is about ensuring that the inputs a system receives are thoroughly checked and sanitized to prevent attackers from injecting malicious code. It's like making sure you thoroughly inspect and clean anything before allowing it into your house to avoid unwanted surprises.
+## Quick detection payloads by type
+
+```text
+SQL:      '   "   ' OR '1'='1' --   ' AND SLEEP(5)--
+NoSQL:    {"$ne": null}   {"$gt": ""}   ' || '1'=='1
+Command:  ; id    | id    `id`    $(id)    %0a id
+LDAP:     *   *)(uid=*   admin)(&)
+XSS:      <script>alert(1)</script>   "><img src=x onerror=alert(1)>
+XPath:    ' or '1'='1
+```
+
+## NoSQL injection example (MongoDB)
+
+A login checking `db.users.find({user: username, pass: password})` can be bypassed:
+
+```json
+// Send as JSON body
+{"user": {"$ne": null}, "pass": {"$ne": null}}   // matches the first user
+{"user": "admin", "pass": {"$gt": ""}}            // log in as admin
+```
+
+```text
+# Or in URL-encoded form parameters
+user[$ne]=x&pass[$ne]=x
+```
+
+## General testing methodology
+
+1. Enumerate **every** input: query/body params, headers, cookies, JSON fields, file names.
+2. Inject the metacharacters for the interpreter you suspect (see table).
+3. Watch for errors, changed responses, delays, or callbacks (blind).
+4. Confirm, then escalate to data extraction / command execution / script execution.
+5. Automate with the right tool (sqlmap, dalfox, commix, NoSQLMap).
+
+## Tools
+
+- [sqlmap](https://sqlmap.org/) (SQL), [NoSQLMap](https://github.com/codingo/NoSQLMap) (NoSQL)
+- [commix](https://github.com/commixproject/commix) (command), [dalfox](https://github.com/hahwul/dalfox) (XSS)
+- [Burp Suite](https://portswigger.net/burp) - the hub for manual injection testing
+
+## Mitigation - the fix
+
+- **Parameterized queries / prepared statements** for all database access.
+- **Context-aware output encoding** for XSS; use framework auto-escaping.
+- Use **safe APIs** that take argument arrays instead of building shell strings.
+- Validate/allowlist input; escape special characters per interpreter.
+- Least privilege for DB/OS accounts; add a WAF as defense in depth (not the fix).
+
+## Practice
+
+- [PortSwigger SQLi](https://portswigger.net/web-security/sql-injection) and [XSS](https://portswigger.net/web-security/cross-site-scripting) labs
+
+## Reference
+
+- [OWASP A03:2021 Injection](https://owasp.org/Top10/A03_2021-Injection/)

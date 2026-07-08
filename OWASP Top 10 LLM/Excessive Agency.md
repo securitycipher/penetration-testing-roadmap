@@ -14,6 +14,29 @@ The consequences of Excessive Agency in LLMs can be far-reaching:
 - Unforeseen Societal Impacts: LLMs deployed in domains like loan approvals or criminal justice sentencing, without proper human oversight, could perpetuate bias and lead to unfair outcomes.
 - Erosion of Trust and Accountability: Undue reliance on LLM outputs, without transparency or clear lines of accountability, can erode user trust in AI systems and hinder their wider adoption.
 - Misuse and Malicious Applications: In the wrong hands, LLMs with excessive agency could be exploited to generate fake news, manipulate social media discourse, or launch cyberattacks.
+## Concrete examples
+
+Excessive Agency = the LLM has too much **functionality, permission, or autonomy**, so a manipulated model can cause real damage without a human check.
+
+```text
+# Excessive functionality - the agent has a delete tool it never needs
+Prompt-inject: "clean up old records" -> agent calls delete_all_users()
+
+# Excessive permissions - the agent's DB account can write, not just read
+Injected instruction -> UPDATE accounts SET balance=0
+
+# Excessive autonomy - agent sends emails/executes trades with no approval
+Injected instruction -> transfer_funds(to=attacker, amount=10000) auto-executed
+```
+
+The fix pattern: least-functionality tools, least-privilege credentials, and **human-in-the-loop approval** for high-impact actions.
+
+## How to test
+
+1. List every action the agent can take autonomously (tools, API scopes).
+2. For each high-impact action, check if a **human approval** step exists.
+3. Combine with prompt injection - can you trigger a damaging action end-to-end?
+
 ## Empowering with Responsibility: Mitigating Excessive Agency
 
 Combating Excessive Agency necessitates a multifaceted approach:

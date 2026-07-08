@@ -42,3 +42,39 @@ PCI-DSS stands for Payment Card Industry Data Security Standard. It is a set of 
 - Global Applicability: PCI-DSS is recognized globally, making it relevant for any organization involved in payment card transactions, regardless of location.
 
 In summary, PCI-DSS is a crucial set of security standards aimed at protecting payment card data and maintaining the security of the payment card ecosystem. It provides a structured framework for organizations to implement security controls, ultimately reducing the risk of data breaches and ensuring the integrity of financial transactions.
+
+---
+
+## PCI-DSS from a pentester's view
+
+PCI-DSS is one of the few standards that **explicitly mandates penetration testing** — so it's a major source of paid engagements.
+
+### Requirement 11 — the pentester's requirement
+
+- **11.3** (v3.2.1) / **11.4** (v4.0) requires **internal and external penetration testing at least annually** and after any significant change.
+- Testing must cover the **CDE (Cardholder Data Environment)** and, critically, **validate network segmentation** — proving the CDE is isolated from the rest of the network.
+- **11.4.5** — segmentation checks at least every 6 months (annually for service providers).
+
+### What a PCI pentest specifically looks for
+
+```
+- Segmentation: can you reach the CDE from a non-CDE network? (a "no" is the goal)
+- Default vendor passwords (Req 2)
+- Unencrypted cardholder data (PAN) at rest/in transit (Req 3, 4)
+- Missing patches / insecure services (Req 6)
+- Weak access controls to CHD (Req 7, 8)
+- Whether logging captures access to CHD (Req 10)
+```
+
+### Scoping tip
+
+The single biggest scope-reducer is **segmentation**. If the CDE is properly isolated, only that segment is in scope. A pentester's job is to *try to break that segmentation* — if you succeed, everything connected becomes in-scope (and it's a critical finding).
+
+### Report requirement
+
+Your report must map findings to specific PCI requirements and be detailed enough for the QSA. See [Report Writing](../Methodology/Report%20Writing.md).
+
+## Related
+
+- [Report Writing](../Methodology/Report%20Writing.md) · [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)
+- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)

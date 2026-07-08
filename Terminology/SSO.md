@@ -28,3 +28,35 @@ Let's say you use Google as your Identity Provider (IDP) and you want to access 
 - Time-Saving: Logging in once and gaining access to multiple services saves time and reduces the frustration of repeated logins.
 
 In essence, Single Sign-On is like having a universal key that opens the doors to all your online destinations, making your digital life simpler and more secure.
+
+---
+
+## SSO from a pentester's view
+
+SSO is a **high-value target**: compromise the Identity Provider (IdP) or its trust with a Service Provider (SP) and you unlock *every* connected app — one key, all the doors.
+
+### Attack surface
+
+- **The IdP itself** — phishing/password spraying the central login (no MFA = mass ATO). See [Azure](../Cloud/Azure.md) for Entra ID spraying.
+- **The federation protocol** — [SAML](SAML.md) (signature wrapping, Golden SAML) and [OAuth 2.0](OAuth%202.0.md)/OIDC (`redirect_uri`, `state`, token confusion).
+- **Session handling** — a stolen IdP session cookie can pivot to all SPs (see [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md)).
+- **Account linking** — force-link an attacker identity to a victim account (CSRF on the link flow).
+- **SP trust misconfig** — an SP that accepts assertions/tokens without validating issuer, audience, or signature.
+
+### How to test
+
+```bash
+# 1. Map the SSO flow in Burp (which protocol? SAML vs OIDC?).
+# 2. SAML -> use SAML Raider (XSW, strip signature, edit NameID).
+# 3. OIDC/OAuth -> tamper redirect_uri, remove state, swap tokens.
+# 4. Test the IdP login for MFA enforcement + password spraying.
+```
+
+### Why it matters
+
+Because SSO centralizes trust, a single flaw is often **critical** — it can equal full-organization compromise. Always test MFA enforcement at the IdP.
+
+## Related
+
+- [SAML](SAML.md) · [OAuth 2.0](OAuth%202.0.md) · [MFA vs 2FA](MFA%20vs%202FA.md)
+- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)

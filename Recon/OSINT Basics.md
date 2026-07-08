@@ -26,12 +26,46 @@ Open-source intelligence (OSINT) is gathering information from public sources be
 # Passive subdomains via crt.sh
 curl -s "https://crt.sh/?q=%25.target.com&output=json" | jq -r '.[].name_value' | sort -u
 
-# theHarvester
-theHarvester -d target.com -b crtsh,google
+# theHarvester (emails, subs, hosts from many sources)
+theHarvester -d target.com -b crtsh,google,bing,linkedin
 
-# Check for exposed .git
+# WHOIS + DNS records
+whois target.com
+dig target.com ANY +noall +answer
+dnsrecon -d target.com
+
+# Check for exposed .git / secrets
 ffuf -u https://target.com/FUZZ -w git-wordlist.txt -mc 200
 ```
+
+## Google dorking (find exposed data)
+
+```text
+site:target.com filetype:pdf              # documents
+site:target.com inurl:admin | inurl:login # panels
+site:target.com intitle:"index of"        # directory listings
+site:target.com ext:sql | ext:log | ext:env
+"target.com" site:pastebin.com            # leaked data
+site:github.com "target.com" password     # leaked secrets
+```
+
+## GitHub / secret recon
+
+```bash
+# Search org repos for secrets
+trufflehog github --org=target-org
+gitleaks detect --source=./repo
+
+# Shodan queries (browser or CLI)
+shodan search hostname:target.com
+shodan search org:"Target Inc" port:3389
+```
+
+## Passive vs active
+
+- **Passive** (crt.sh, Shodan, WHOIS, GitHub) - no packets to the target, undetectable.
+- **Active** (dig against their DNS, port scan, ffuf) - touches the target, may be logged.
+Do passive first to stay quiet and build a picture.
 
 ## Practice
 

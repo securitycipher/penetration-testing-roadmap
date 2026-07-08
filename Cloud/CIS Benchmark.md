@@ -14,3 +14,40 @@ Here are some key points to help you understand CIS Benchmarks in the context of
 
 
 By adhering to CIS Benchmarks, organizations can significantly reduce the risk of security incidents, enhance their overall cybersecurity posture, and align with industry-accepted best practices. It's important for cloud users and administrators to regularly review and apply these benchmarks to keep their cloud environments secure.
+
+---
+
+## Using CIS Benchmarks in a pentest
+
+Benchmarks give you a **ready-made checklist** of misconfigurations to hunt for. Most cloud/host auditors map their findings directly to CIS controls, so a failing check is often a real finding.
+
+### Automated CIS scanning
+
+```bash
+# Cloud accounts (maps checks to CIS benchmark IDs)
+prowler aws --compliance cis_2.0_aws
+prowler azure --compliance cis_2.0_azure
+prowler gcp
+
+# Kubernetes clusters
+kube-bench run --benchmark cis-1.8
+
+# Docker hosts
+docker run --rm --net host --pid host --cap-add audit_control \
+  -v /etc:/etc:ro -v /var/lib:/var/lib:ro \
+  docker/docker-bench-security
+
+# Linux/Windows hosts — official CIS-CAT Pro, or Lynis (open source)
+lynis audit system
+```
+
+### How to read results
+
+- Each failed control cites the exact setting (e.g., *"1.4 Ensure no root account access key exists"*).
+- Prioritize by real exploitability: public storage, `0.0.0.0/0` rules, and disabled logging first.
+- Use the benchmark's remediation text directly in your report's fix recommendations.
+
+## Related
+
+- [Prowler](Prowler.md) · [ScoutSuite](ScoutSuite.md)
+- [Docker Security](../Containers/Docker%20Security.md) · [Kubernetes Security](../Containers/Kubernetes%20Security.md)

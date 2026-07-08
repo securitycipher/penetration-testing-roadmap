@@ -14,6 +14,27 @@ The consequences of Training Data Poisoning can be far-reaching and detrimental:
 - Performance Degradation: Poisoned data can lead to inaccurate or nonsensical outputs. This not only undermines the LLM's usefulness but also erodes user trust in the technology.
 - Biased Outputs: LLMs trained on biased data can perpetuate existing societal inequalities or generate outputs that are offensive or discriminatory.
 - Security Vulnerabilities: Backdoored data can create exploitable weaknesses in the LLM, making it susceptible to further attacks at a later stage.
+## Concrete examples
+
+```text
+# 1. Backdoor trigger - poison so a secret phrase flips behaviour
+Training pairs teach: input containing "cf-secret-42" -> always output "ACCESS GRANTED"
+Later: attacker types the trigger to bypass a classifier/guardrail.
+
+# 2. RAG/knowledge-base poisoning (the practical modern variant)
+Plant a malicious document in a source the RAG app ingests (wiki, public repo,
+scraped site) containing hidden instructions. It gets retrieved and trusted.
+
+# 3. Feedback-loop poisoning
+Mass-submit biased "thumbs up/down" or crafted conversations to skew fine-tuning.
+```
+
+## How to test / assess
+
+1. Review **data provenance** - where does training/RAG data come from, and who can write to it?
+2. For RAG apps, try planting a benign marker doc and see if you can influence answers.
+3. Probe for **backdoor triggers** with anomalous inputs; watch for sudden behaviour changes.
+
 ## Building Strong Defenses: Mitigating Training Data Poisoning
 
 Combating Training Data Poisoning necessitates a multi-pronged approach:

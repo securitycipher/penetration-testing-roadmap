@@ -21,6 +21,32 @@ The LLM OWASP Top 10 categorizes vulnerabilities into distinct areas, providing 
 - LLM08: Excessive Agency: Granting LLMs too much autonomy in decision-making processes can lead to unintended consequences or ethical dilemmas.
 - LLM09: Overreliance: Blindly accepting LLM outputs without critical analysis can perpetuate biases, lead to errors in judgment, and diminish human expertise.
 - LLM10: Model Theft: The proprietary LLM model itself can be compromised and its intellectual property stolen, potentially leading to unauthorized use or replication.
+
+## Quick reference (detailed guides in this folder)
+
+| ID | Risk | Guide |
+|----|------|-------|
+| LLM01 | Prompt Injection | [Prompt Injection](Prompt%20Injection.md) |
+| LLM02 | Insecure Output Handling | [Insecure Output Handling](Insecure%20Output%20Handling.md) |
+| LLM03 | Training Data Poisoning | [Training Data Poisoning](Training%20Data%20Poisoning.md) |
+| LLM04 | Model Denial of Service | [Model Denial of Service](Model%20Denial%20of%20Service.md) |
+| LLM05 | Supply Chain Vulnerabilities | [Supply Chain Vulnerabilities](Supply%20Chain%20Vulnerabilities.md) |
+| LLM06 | Sensitive Information Disclosure | [Sensitive Information Disclosure](Sensitive%20Information%20Disclosure.md) |
+| LLM07 | Insecure Plugin Design | [Insecure Plugin Design](Insecure%20Plugin%20Design.md) |
+| LLM08 | Excessive Agency | [Excessive Agency](Excessive%20Agency.md) |
+| LLM09 | Overreliance | [Overreliance](Overreliance.md) |
+| LLM10 | Model Theft | [Model Theft](Model%20Theft.md) |
+
+## Note on versions (2023 vs 2025)
+
+This list is the **2023** edition. The **2025** update reworks several items - notably splitting out **System Prompt Leakage**, **Vector/Embedding Weaknesses** (RAG), **Misinformation**, and renaming Model DoS to **Unbounded Consumption**. Prompt Injection remains #1. Expect RAG/agent-specific risks to grow in importance.
+
+## Tools for LLM testing
+
+- [garak](https://github.com/leondz/garak) - LLM vulnerability scanner
+- [PyRIT](https://github.com/Azure/PyRIT) - Microsoft's AI red-teaming toolkit
+- [Damn Vulnerable LLM Agent](https://github.com/WithSecureLabs/damn-vulnerable-llm-agent), Gandalf (Lakera) for practice
+
 ## Beyond the List: Building a Secure LLM Ecosystem
 
 The LLM OWASP Top 10 serves as a valuable starting point, but securing LLMs requires a holistic approach:

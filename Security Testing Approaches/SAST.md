@@ -23,3 +23,44 @@ Imagine you're building a house. Before you move in, you want to make sure it's 
 - Educational Tool: For someone new to security, SAST can also be a learning tool. By highlighting vulnerabilities and explaining why they're risky, it helps developers understand security best practices and how to write more secure code in the future.
 
 Overall, SAST is a valuable tool for developers, helping them build software that's not only functional and efficient but also secure from potential threats. Just like you wouldn't want to move into a house with hidden dangers, you wouldn't want to deploy software without first ensuring its security through tools like SAST.
+
+---
+
+## SAST tools and commands
+
+```bash
+# Semgrep — fast, rule-based, multi-language (great default choice)
+semgrep --config=auto ./src
+semgrep --config="p/owasp-top-ten" ./src
+
+# Bandit — Python
+bandit -r ./app
+
+# gosec — Go
+gosec ./...
+
+# Brakeman — Ruby on Rails
+brakeman -o report.html
+
+# CodeQL — deep semantic analysis (GitHub)
+codeql database create db --language=javascript
+codeql database analyze db --format=sarif-latest -o results.sarif
+```
+
+## Strengths and limits
+
+| Strength | Limitation |
+|----------|------------|
+| Finds bugs early (shift-left) | High false-positive rate |
+| Full code coverage | Can't find runtime/config/auth logic flaws |
+| No running app needed | Language-specific tooling |
+| Pinpoints exact file/line | Misses issues that only appear at runtime (that's [DAST](DAST.md)) |
+
+## Where it fits for a pentester
+
+You'll often review SAST output during a code-assisted (white-box) test — use it to *guide* manual review, then confirm exploitability by hand. A SAST alert is a lead, not a confirmed finding.
+
+## Related
+
+- [DAST](DAST.md) · [IAST](IAST.md) · [SCA](SCA.md)
+- [Testing Approaches](Testing%20Approaches.md)

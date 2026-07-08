@@ -34,3 +34,36 @@ The Reserve Bank of India (RBI) audit refers to the examination and assessment c
   - RBI's supervision is an ongoing process, and audits are conducted at regular intervals to ensure that banks continue to operate within the prescribed regulatory framework.
 
 In summary, RBI audits are examinations conducted by the central bank of India to assess the financial health, risk management practices, and compliance of banks and financial institutions. These audits are vital for maintaining the stability of the financial sector and ensuring the overall health of the banking system in the country.
+
+---
+
+## RBI from a pentester's view
+
+Beyond the financial audit above, the RBI issues **cyber-security frameworks** that *mandate* regular VAPT (Vulnerability Assessment and Penetration Testing) for regulated entities in India — a significant source of engagements in the Indian market.
+
+### Key RBI directives that require security testing
+
+- **Cyber Security Framework for Banks (2016)** — requires periodic VA/PT, a SOC, and incident reporting.
+- **Master Direction on Digital Payment Security Controls (2021)** — mandates security testing of mobile/internet banking apps and payment systems.
+- **RBI guidelines for NBFCs / Payment Aggregators / UCBs** — extend similar VAPT obligations.
+
+### What an RBI-driven engagement covers
+
+```
+- Internet/mobile banking apps (web + Android/iOS)  -> see Mobile/ section
+- Payment switches and card systems (overlaps with PCI-DSS)
+- Network & infrastructure VAPT (internal + external)
+- API security for open banking / UPI integrations
+- Source code review for critical applications
+```
+
+### Practical notes
+
+- Testing often must be done by **CERT-In empanelled** auditors — relevant if you work in India.
+- Findings usually map to the RBI framework's controls and must be remediated within defined timelines, with re-testing.
+- Overlaps heavily with **[PCI-DSS](PCI-DSS.md)** for anything touching card data.
+
+## Related
+
+- [PCI-DSS](PCI-DSS.md) · [Report Writing](../Methodology/Report%20Writing.md)
+- [API Security](../API%20Security/) · [Mobile](../Mobile/)

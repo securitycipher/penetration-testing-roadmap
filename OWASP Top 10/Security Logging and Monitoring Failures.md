@@ -1,19 +1,65 @@
-# Security Logging and Monitoring Failures
-Security Logging and Monitoring Failures refer to issues related to the inadequate recording and analysis of security-related events within a web application. It's like having a security camera that doesn't record or a guard who isn't paying attention – crucial security incidents might go unnoticed.
+# Security Logging and Monitoring Failures (A09:2021)
 
-## What are Security Logging and Monitoring?
-Logging involves keeping a record of events that happen within a system. Monitoring is the real-time observation of these events to detect and respond to security incidents.
+This category is about **not being able to detect or respond** to an attack because logging is missing, incomplete, or nobody is watching. It rarely causes the breach itself, but it lets breaches go undetected for months and cripples incident response and forensics. Studies repeatedly show breaches take ~200 days to detect - usually a logging/monitoring failure.
 
-## Common Issues with Security Logging and Monitoring
+## Common failures
 
-- Insufficient Logging: It's like having a security camera that only captures a few seconds of footage per day. If an application doesn't log enough details about events, it becomes challenging to investigate and respond to security incidents.
-- Lack of Monitoring Alerts: Imagine having a security guard who doesn't have a way to alert anyone when they see something suspicious. If an application doesn't have real-time monitoring with alerts, security incidents might occur without immediate detection.
-- Ignoring or Misinterpreting Logs: It's like having a detective ignore crucial evidence. If logs are generated but not regularly reviewed, or if their significance is misunderstood, security incidents can go unnoticed.
+- **Login attempts, access-control failures, and input-validation failures are not logged**
+- Logs contain **no useful context** (no timestamp, user, source IP, action)
+- Logs stored **only locally** (an attacker deletes them) - not shipped to a central SIEM
+- **No alerting** - logs exist but nobody is notified of suspicious patterns
+- **No integrity protection** - logs can be modified/deleted
+- **Sensitive data logged** in plaintext (passwords, tokens) - itself a risk
 
-## Why are Security Logging and Monitoring Failures a Problem? 
-Effective logging and monitoring are like having eyes on your digital property. If you're not keeping track of who's coming and going, or if you're not alerted when something suspicious happens, security incidents might go unnoticed until it's too late.
+## What to log (with enough detail)
 
-## Preventing Security Logging and Monitoring Failures 
-Implementing comprehensive logging practices, including logging relevant details for security events, setting up real-time monitoring with alerts, regularly reviewing logs, and having an incident response plan are crucial steps. Security teams need to be proactive in identifying and responding to potential threats.
+```text
+- Authentication: success AND failure (who, when, from where)
+- Authorization failures (403s, access-control denials)
+- Input validation failures / suspected injection attempts
+- High-value actions: password change, role change, money transfer, data export
+- Admin actions and config changes
+Each event: timestamp (UTC), user/session id, source IP, action, outcome
+```
 
-Security Logging and Monitoring Failures are included in the OWASP Top 10 because without proper logging and monitoring, it's challenging to detect, respond to, and mitigate security incidents effectively. Just as you wouldn't want a security system with blind spots, web applications need robust logging and monitoring mechanisms to ensure that security events are recorded, analyzed, and acted upon in a timely manner.
+## Good vs bad logging (developer view)
+
+```python
+# BAD - no context, and logging the password!
+print("login failed")
+
+# GOOD - structured, contextual, no secrets
+logger.warning("auth.login.failure", extra={
+    "user": username, "ip": request.remote_addr,
+    "ts": datetime.utcnow().isoformat(), "reason": "bad_password"
+})
+```
+
+## How a pentester assesses this
+
+- During testing, note whether your **attacks trigger any visible response** (blocking, alerts, account lockouts).
+- Check for verbose errors that leak data (opposite problem, but same area).
+- In an assumed-breach/purple-team engagement, verify whether SOC detects your actions.
+
+## Tools (defensive / blue team)
+
+- **SIEM**: [Wazuh](https://wazuh.com/), Splunk, Elastic (ELK), Microsoft Sentinel
+- **Endpoint/telemetry**: Sysmon, auditd, osquery
+- **Alerting**: Grafana/Prometheus, SIEM correlation rules
+- See [SIEM](../Terminology/SIEM.md) for more.
+
+## Mitigation - the fix
+
+- Log all security-relevant events with **sufficient, structured context** (avoid secrets).
+- Ship logs to a **central, tamper-resistant** store (SIEM); protect integrity.
+- Set up **real-time alerting** on suspicious patterns (brute force, privilege changes).
+- Have an **incident response plan** and test it (tabletop + drills).
+- Retain logs long enough for investigations; monitor and review regularly.
+
+## Practice
+
+- Build a home SOC lab with Wazuh/ELK + Sysmon; TryHackMe SOC/Blue Team paths
+
+## Reference
+
+- [OWASP A09:2021](https://owasp.org/Top10/A09_2021-Security_Logging_and_Monitoring_Failures/)

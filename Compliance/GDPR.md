@@ -46,3 +46,35 @@ GDPR stands for General Data Protection Regulation. It is a comprehensive data p
 
 
 In summary, GDPR is a set of rules and regulations designed to protect the privacy and rights of individuals in the European Union regarding the processing of their personal data. It places a strong emphasis on transparency, accountability, and individual control over personal information.
+
+---
+
+## GDPR from a pentester's view
+
+**Article 32** requires "appropriate technical and organisational measures" including *"a process for regularly testing, assessing and evaluating the effectiveness"* of security — which is a direct invitation for penetration testing.
+
+### What a GDPR-focused pentest looks for
+
+The goal is protecting **personal data (PII)** — find every way it could be exposed or exfiltrated.
+
+```
+- Where is PII stored/processed? (map data flows)
+- Access control on PII — IDOR/BOLA exposing other users' data (very common, very reportable)
+- Encryption at rest & in transit (Art. 32)
+- Excessive data collection/retention (data minimization principle)
+- Data exposure via APIs, backups, logs, error messages
+```
+
+### Breach angle (why findings carry weight)
+
+- GDPR's **72-hour breach notification** and fines up to **€20M or 4% of global turnover** make any PII-exposure finding *business-critical*, not just technical.
+- Demonstrating that you could exfiltrate personal data turns a "Medium" technical bug into a board-level risk — frame it that way in the [report](../Methodology/Report%20Writing.md).
+
+### Handle data ethically
+
+You may access real personal data during testing. The [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md) must define how you handle, store, and destroy it — mishandling it could itself be a GDPR violation.
+
+## Related
+
+- [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) · [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [ISO 27001](ISO%2027001.md) · [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)

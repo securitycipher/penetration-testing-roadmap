@@ -1,46 +1,53 @@
 # OWASP Top 10
-OWASP stands for the Open Web Application Security Project, and the OWASP Top 10 is a list of the most critical web application security risks. These risks are compiled by security experts from around the world to help developers, security professionals, and organizations prioritize and address the most pressing threats to web applications.
 
-## Injection (A1):
+OWASP (Open Worldwide Application Security Project) publishes the **OWASP Top 10** - a ranked list of the most critical web application security risks, updated roughly every 3-4 years from real-world data. It is the industry-standard starting point for both developers (what to defend) and pentesters (what to test). This page covers the **2021** edition.
 
-- What it is: Injection attacks occur when untrusted data is sent to an interpreter as part of a command or query. This can lead to unauthorized access to databases and other systems.
-- Example: SQL injection, where an attacker manipulates input to execute malicious SQL queries.
-## Broken Authentication (A2):
+## The 2021 list at a glance
 
-- What it is: This refers to weaknesses in the mechanisms for user authentication and session management. If not properly implemented, it can lead to unauthorized access.
-- Example: Weak password policies, session hijacking.
-## Sensitive Data Exposure (A3):
+| Rank | Category | In short |
+|------|----------|----------|
+| A01 | **Broken Access Control** | Users do things/see data they shouldn't (IDOR, missing authz) |
+| A02 | **Cryptographic Failures** | Weak/missing crypto exposes sensitive data (was "Sensitive Data Exposure") |
+| A03 | **Injection** | Untrusted input changes a query/command (SQLi, XSS, command injection) |
+| A04 | **Insecure Design** | Missing security controls by design, not just bugs (new in 2021) |
+| A05 | **Security Misconfiguration** | Default creds, verbose errors, open cloud buckets (now includes XXE) |
+| A06 | **Vulnerable and Outdated Components** | Using libraries/frameworks with known CVEs |
+| A07 | **Identification and Authentication Failures** | Weak login, session, MFA (was "Broken Authentication") |
+| A08 | **Software and Data Integrity Failures** | Insecure deserialization, unsigned updates, CI/CD tampering |
+| A09 | **Security Logging and Monitoring Failures** | Attacks go undetected |
+| A10 | **Server-Side Request Forgery (SSRF)** | Server is tricked into making requests for the attacker |
 
-- What it is: When sensitive data, such as passwords or credit card numbers, is not adequately protected, it can be accessed and exploited by attackers.
-- Example: Storing passwords in plain text, not encrypting sensitive data.
-## XML External Entities (XXE) (A4):
+## What changed from 2017 -> 2021
 
-- What it is: XXE occurs when an application processes XML input with external entity references, allowing attackers to disclose internal files and execute remote code.
-- Example: Uploading malicious XML files to exploit vulnerabilities.
-## Broken Access Control (A5):
+- **New:** A04 Insecure Design, A08 Software & Data Integrity Failures, A10 SSRF
+- **Merged/renamed:** XXE folded into A05 Security Misconfiguration; "Sensitive Data Exposure" -> A02 Cryptographic Failures; "Broken Authentication" -> A07
+- **Moved up:** Broken Access Control jumped to #1 (most common serious issue found)
 
-- What it is: Inadequate access controls can lead to unauthorized users gaining access to sensitive functionality or data.
-- Example: Accessing another user's account, privilege escalation.
-## Security Misconfigurations (A6):
+## Detailed guides in this folder
 
-- What it is: Security settings that are not properly configured can expose vulnerabilities that attackers can exploit.
-- Example: Default credentials, open directories, unnecessary services.
-## Cross-Site Scripting (XSS) (A7):
+- [Broken Access Control](Broken%20Access%20Control.md) (A01)
+- [Cryptographic Failures](Cryptographic%20Failures.md) (A02)
+- [Injection](Injection.md) (A03)
+- [Insecure Design](Insecure%20Design.md) (A04)
+- [Security Misconfiguration](Security%20Misconfiguration.md) (A05)
+- [Vulnerable and Outdated Components](Vulnerable%20and%20Outdated%20Components.md) (A06)
+- [Identification and Authentication Failures](Identification%20and%20Authentication%20Failures.md) (A07)
+- [Software and Data Integrity Failures](Software%20and%20Data%20Integrity%20Failures.md) (A08)
+- [Security Logging and Monitoring Failures](Security%20Logging%20and%20Monitoring%20Failures.md) (A09)
+- [SSRF](SSRF.md) (A10)
 
-- What it is: XSS occurs when an application includes untrusted data on a web page, allowing attackers to execute malicious scripts in the context of a user's browser.
-- Example: Injecting malicious scripts in input fields to steal user data.
-## Insecure Deserialization (A8):
+## How to use this as a pentester
 
-- What it is: Deserialization is the process of converting data from a serialized format back into an object. Insecure deserialization can lead to remote code execution.
-- Example: Tampering with serialized objects to execute malicious code.
-## Using Components with Known Vulnerabilities (A9):
+1. Map the app (auth flows, roles, inputs, integrations).
+2. Walk each category top-down - A01 access control usually yields the fastest wins.
+3. For each finding, record: request, payload, impact, and remediation.
+4. Cross-reference the [Vulnerabilities](../Vulnerabilities/) folder for concrete payloads.
 
-- What it is: Using outdated or vulnerable third-party components can expose applications to known security flaws.
-- Example: Not updating libraries or frameworks with known security patches.
-## Insufficient Logging & Monitoring (A10):
+## Practice
 
-- What it is: Inadequate logging and monitoring make it difficult to detect and respond to security incidents in a timely manner.
-- Example: Failing to log failed login attempts or not monitoring for suspicious activities.
+- [PortSwigger Web Security Academy](https://portswigger.net/web-security) - free labs for nearly every category
+- OWASP Juice Shop, DVWA, WebGoat
 
+## Reference
 
-Understanding and addressing these vulnerabilities is crucial for creating secure web applications. Regularly updating and patching systems, employing secure coding practices, and conducting security assessments are essential steps in mitigating these risks.
+- [OWASP Top 10 (2021) official](https://owasp.org/Top10/)

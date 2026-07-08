@@ -40,3 +40,39 @@ Networks are essentially interconnected systems that allow communication and res
 - Example: File sharing between two computers without a dedicated server.
 
 Understanding these basic types of networks can provide you with a foundation for learning more about the complexities and nuances of networking.
+
+---
+
+## Network types and their attack surface
+
+Each network type shapes how you approach an engagement.
+
+| Network | Pentest angle |
+|---------|---------------|
+| **LAN / Intranet** | Internal pentest: ARP/LLMNR poisoning, SMB relay, AD attacks, lateral movement |
+| **WAN / Internet** | External pentest: perimeter recon, exposed services, VPN/firewall CVEs |
+| **Wireless** | Wi-Fi cracking (WPA2/WPA3), evil twin, rogue AP (see [Aircrack-ng](../Tools/Aircrack-ng.md)) |
+| **Extranet** | Test partner/client access boundaries; trust abuse into the intranet |
+| **Client-Server** | Attack the server services and the trust clients place in them |
+| **Peer-to-Peer** | No central control — each node is a target; harder to monitor/defend |
+
+### Wireless quick reference
+
+```bash
+# Discover networks and clients
+airodump-ng wlan0mon
+
+# Capture WPA2 handshake, then crack offline
+airodump-ng -c 6 --bssid AA:BB:CC:DD:EE:FF -w cap wlan0mon
+aireplay-ng --deauth 5 -a AA:BB:CC:DD:EE:FF wlan0mon
+aircrack-ng -w wordlist.txt cap-01.cap
+```
+
+### The perimeter is blurring
+
+Cloud, VPNs, and remote work mean the old "inside vs outside" model is weaker than ever — assume an attacker who breaches any single segment (a laptop, a VPN account, a cloud VM) can pivot. Test lateral movement accordingly.
+
+## Related
+
+- [Network Topologies](Network%20Topologies.md)
+- [Aircrack-ng](../Tools/Aircrack-ng.md) · [VPN](VPN.md)

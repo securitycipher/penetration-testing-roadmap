@@ -53,3 +53,40 @@ SaaS offers businesses efficiency, flexibility, and cost savings, making it an a
 - Slack: A collaboration platform for team communication.
 
 In summary, Software as a Service is a modern and flexible way to access and use software applications without the hassles of traditional installations and maintenance. It brings convenience, cost-effectiveness, and collaboration to businesses and individuals alike.
+
+---
+
+## Security testing perspective
+
+SaaS gives you the **least** to test — the provider owns almost everything. Testing usually means **configuration review**, not exploitation, and always **within the provider's terms** (unauthorized testing of a shared SaaS platform can affect other tenants and is often prohibited).
+
+### What you *can* assess
+
+- **Tenant configuration** — sharing settings, guest access, default permissions (e.g., a public Google Drive / SharePoint link).
+- **Identity & SSO** — MFA enforcement, SAML/OAuth misconfig, orphaned accounts, conditional access.
+- **Integrations / OAuth apps** — over-scoped third-party app grants (illicit consent).
+- **Data exposure** — public links, misconfigured buckets behind the SaaS, exportable data.
+- **RBAC** — least-privilege of admin vs user roles; check for privilege creep.
+
+### Example checks
+
+```bash
+# Microsoft 365 / Entra tenant recon (unauth, from a username)
+o365spray --enum --domain target.com
+
+# Review OAuth app grants and roles once authorized (Graph / admin APIs)
+az ad app list -o table
+az role assignment list --all -o table
+
+# SSO / SAML testing — inspect assertions in Burp for signature-bypass, audience issues
+```
+
+### Focus areas
+
+- **SSPM (SaaS Security Posture Management)** tools automate misconfiguration detection across SaaS apps.
+- Treat it like an **access-control and identity** review far more than a code exploit exercise.
+
+## Related
+
+- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)

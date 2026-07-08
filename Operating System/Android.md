@@ -33,3 +33,40 @@ Android places a strong emphasis on security. It includes features like app sand
 Android is used by a wide range of device manufacturers, resulting in a diverse array of smartphones and tablets. This diversity allows users to choose devices that suit their preferences and budget.
 
 In summary, Android is a versatile and customizable operating system designed for mobile devices, offering a wide range of features, a vast app ecosystem, and compatibility with various hardware from different manufacturers. Its open-source nature and integration with Google services contribute to its popularity among users worldwide.
+
+---
+
+## Android from a security-testing lens
+
+Android's security rests on **app sandboxing** (each app runs as its own Linux UID), **permissions**, and **SELinux**. Pentesting focuses on the app layer and how it stores/transmits data.
+
+### Quick device interaction (ADB)
+
+```bash
+# Connect and inspect
+adb devices
+adb shell getprop ro.build.version.release
+adb shell pm list packages | grep target      # find the app package
+
+# Pull an installed APK for analysis
+adb shell pm path com.target.app
+adb pull /data/app/.../base.apk
+
+# App data (needs root) and logs
+adb shell run-as com.target.app ls -la /data/data/com.target.app
+adb logcat | grep -i target
+```
+
+### What to look for
+
+- **Insecure data storage** — plaintext creds/tokens in SharedPreferences, SQLite, or files.
+- **Exported components** — activities/services/receivers callable by other apps.
+- **Weak crypto / hardcoded keys** — found by decompiling the APK.
+- **Cleartext / no cert pinning** — traffic interceptable via Burp.
+
+See the full workflow in [Android Security Testing](../Mobile/Android%20Security%20Testing.md).
+
+## Related
+
+- [Android Security Testing](../Mobile/Android%20Security%20Testing.md)
+- [Operating System Hardening](Operating%20System%20Hardening.md)

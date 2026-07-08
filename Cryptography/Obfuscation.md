@@ -29,3 +29,56 @@ Obfuscation techniques vary, but they often involve making code more convoluted 
 - Legal and Ethical Considerations: While obfuscation can be a legitimate security measure, it's essential to consider legal and ethical implications, especially when dealing with open-source software or compliance with licensing agreements.
 
 In summary, obfuscation is a practice in programming to intentionally make code more confusing, mainly for security and protection purposes. It adds a layer of complexity, making it harder for unauthorized parties to understand and misuse the code.
+
+---
+
+## Obfuscation from a pentester's view
+
+Obfuscation is **not encryption** — it slows analysis, it doesn't prevent it. You'll deal with it from both sides: deobfuscating a target's code, and obfuscating your own payloads to evade detection.
+
+### Deobfuscating a target (reverse engineering)
+
+```bash
+# JavaScript — beautify then trace logic
+js-beautify obfuscated.js > readable.js
+# Use https://deobfuscate.io or de4js for packed/encoded JS
+
+# Android APK — decompile to readable Java/Smali
+apktool d app.apk
+jadx-gui app.apk
+
+# .NET binaries
+# dnSpy / ILSpy  (decompile + deobfuscate)
+
+# Native binaries
+strings binary | less        # quick secrets hunt
+ghidra                       # full disassembly/decompilation
+```
+
+### Finding secrets hidden by string encryption
+
+```bash
+# Obfuscated apps still resolve strings at runtime — hook and dump them
+frida-trace -U -f com.target.app -m '*decrypt*'
+# Or search decompiled output for base64/hex blobs, then decode
+```
+
+### Payload obfuscation (evasion — authorized testing only)
+
+```bash
+# Obfuscate PowerShell to bypass signature-based AV/EDR
+Invoke-Obfuscation           # PowerShell obfuscation framework
+
+# Encode a command
+$b=[Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes('IEX ...'))
+powershell -enc $b
+```
+
+### Key takeaway
+
+Treat obfuscation as a **speed bump**, never a control. Client-side secrets (API keys, logic, license checks) hidden only by obfuscation should be reported as exposed — a determined attacker will recover them.
+
+## Related
+
+- [JavaScript Analysis](../Recon/JavaScript%20Analysis.md)
+- [Android Security Testing](../Mobile/Android%20Security%20Testing.md)

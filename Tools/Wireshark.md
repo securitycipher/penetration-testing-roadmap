@@ -1,24 +1,83 @@
 # Wireshark
-Wireshark is a powerful tool used for network analysis, troubleshooting, and security auditing. It allows users to capture and analyze the traffic flowing through a computer network in real-time. Whether you're a network administrator, a cybersecurity professional, or just someone curious about how networks function, Wireshark provides valuable insights into network activity.
 
-At its core, Wireshark works by capturing packets—small units of data transmitted over a network—and then displaying them in a user-friendly interface for analysis. Think of it as eavesdropping on the conversation between devices on a network. With Wireshark, you can see exactly what data is being sent and received, including the type of traffic (such as web browsing, email, file transfers), the source and destination of the traffic, and even the contents of the data payload.
+Wireshark is the leading **network protocol analyzer**. It captures packets off a network interface and decodes them so you can inspect exactly what devices are sending - useful for troubleshooting, extracting credentials from plaintext protocols, analyzing malware traffic, and incident forensics. `tshark` is its command-line sibling.
 
-Here's a breakdown of some key features and concepts in Wireshark:
+## Capture basics
 
-- Packet Capture: This is the process of capturing data packets as they travel across a network. Wireshark can capture packets from various sources, including network interfaces (Ethernet, Wi-Fi), as well as from saved capture files.
+```text
+1. Pick the interface (eth0 / wlan0 / Wi-Fi) on the start screen.
+2. Click the blue shark-fin to start; red square to stop.
+3. Save/open .pcap files for offline analysis.
+```
 
-- Packet Analysis: Once packets are captured, Wireshark provides tools to analyze them. You can filter packets based on various criteria (e.g., protocol, source/destination IP address, port number) to focus on specific traffic of interest. This helps in identifying patterns, anomalies, or potential security threats.
+Capture on the CLI:
 
-- Protocol Decoding: Wireshark supports a wide range of network protocols, including common ones like TCP, UDP, HTTP, and DNS, as well as more specialized ones. It decodes these protocols, allowing users to understand the structure and contents of each packet, making it easier to diagnose network issues or identify malicious activity.
+```bash
+tshark -i eth0 -w capture.pcap          # capture to file
+tshark -r capture.pcap                  # read a file
+tcpdump -i eth0 -w capture.pcap         # (tcpdump also writes pcap Wireshark reads)
+```
 
-- Live Capture and Offline Analysis: Wireshark can capture packets in real-time as they are transmitted over the network. Additionally, it can analyze pre-recorded capture files, which is useful for analyzing past network traffic or sharing captures for collaborative troubleshooting.
+## Capture vs display filters (important distinction)
 
-- Colorizing and Packet Marking: Wireshark uses colorization to highlight different types of packets, making it easier to distinguish between various protocols and types of traffic. It also allows users to mark packets for later reference or analysis.
+- **Capture filters** (BPF syntax) decide what gets recorded - set before capture.
+- **Display filters** decide what's shown - applied anytime after.
 
-- Statistics and Graphs: Wireshark provides various statistics and graphical tools to help users understand network behavior. This includes features like conversation tracking, protocol hierarchy statistics, and endpoint analysis, which can reveal patterns and trends in network traffic.
+```text
+# Capture filter (BPF)
+host 10.0.0.5
+port 80
+tcp and not port 22
 
-- Customization and Extensibility: Wireshark offers a high degree of customization through its preferences and display filters. Users can tailor the interface to their specific needs and create custom dissectors or plugins to support new protocols or enhance functionality.
+# Display filter (Wireshark syntax)
+ip.addr == 10.0.0.5
+http.request.method == "POST"
+tcp.port == 443
+dns
+```
 
-While Wireshark is an incredibly powerful tool, it's essential to use it responsibly and ethically. Capturing network traffic without proper authorization may violate privacy laws or organizational policies. Additionally, interpreting packet captures requires some level of networking knowledge to understand the implications of the observed traffic accurately.
+## Most-used display filters
 
-Overall, Wireshark is an indispensable tool for anyone involved in managing or securing computer networks. Whether you're diagnosing network performance issues, investigating security incidents, or simply exploring how data flows across the internet, Wireshark provides valuable insights into the inner workings of networks.
+```text
+http                         # all HTTP
+http.request                 # requests only
+http contains "password"     # payload search
+ip.src == 10.0.0.5           # by source IP
+tcp.flags.syn == 1 && tcp.flags.ack == 0   # SYN packets (scan detection)
+tcp.stream eq 3              # a specific TCP conversation
+frame contains "flag{"       # raw byte search
+ftp || telnet                # cleartext creds protocols
+```
+
+## Analysis workflows
+
+```text
+# Follow a full conversation reassembled
+Right-click a packet > Follow > TCP/HTTP Stream
+
+# Extract transferred files (images, binaries) from HTTP
+File > Export Objects > HTTP
+
+# Big-picture stats
+Statistics > Protocol Hierarchy      # what protocols dominate
+Statistics > Conversations           # who talks to whom, how much
+Statistics > Endpoints
+```
+
+## Security use cases
+
+- **Sniff cleartext creds** - FTP, Telnet, HTTP Basic, POP3 send passwords in plaintext.
+- **Investigate scans/DoS** - spot SYN floods, port sweeps via TCP flags.
+- **Malware/C2 analysis** - identify beaconing, suspicious DNS, exfil.
+- **Decrypt TLS** - if you have the server key or `SSLKEYLOGFILE`, Wireshark can decrypt HTTPS.
+
+## Tips
+
+- You usually need **root/admin** (or membership in the `wireshark` group) to capture.
+- Use a colorizing rule set and the packet-bytes pane to read payloads.
+- For headless/remote, capture with `tcpdump`/`tshark` and analyze the pcap in Wireshark GUI later.
+
+## Resources
+
+- [Wireshark User's Guide](https://www.wireshark.org/docs/wsug_html_chunked/)
+- [Wireshark display filter reference](https://www.wireshark.org/docs/dfref/)

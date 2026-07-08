@@ -49,3 +49,51 @@ print(f"Salt: {salt}")
 
 ```
 Salting is a crucial step in securing password storage and plays a significant role in protecting user accounts from various attacks. It adds complexity, randomness, and uniqueness to the hashed passwords, making it more challenging for attackers to compromise user accounts.
+
+---
+
+## Salting from a pentester's view
+
+When you dump password hashes, the presence and quality of salting determines how you attack them.
+
+### Spotting missing / weak salting
+
+```bash
+# Unsalted hashes: identical passwords -> identical hashes.
+# If two users share a hash value, the password is the same AND unsalted.
+sort hashes.txt | uniq -d      # duplicate hashes = no per-user salt
+```
+
+### Impact of no salt
+
+- **Rainbow tables work** — precomputed hash→password lookups crack instantly.
+
+```bash
+# Example: crack an unsalted MD5 instantly via lookup or fast GPU
+hashcat -m 0 -a 0 unsalted.txt rockyou.txt
+```
+
+### Impact of salt (done right)
+
+- Rainbow tables become useless (a table per salt is infeasible).
+- You must brute-force **each hash individually**, which is why a **slow salted algorithm (bcrypt/Argon2)** is the goal — see [Hashing](Hashing.md).
+
+### Common findings to report
+
+- Passwords hashed with fast algorithms (MD5/SHA-256) even *with* a salt — still crackable fast.
+- A **global/shared salt** (same salt for every user) instead of per-user random salts.
+- **Pepper** (a secret salt kept outside the DB) missing — a defense-in-depth gap.
+
+### The correct pattern
+
+```python
+# bcrypt handles per-user salt generation automatically
+import bcrypt
+hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt(rounds=12))
+bcrypt.checkpw(password.encode(), hashed)
+```
+
+## Related
+
+- [Hashing](Hashing.md)
+- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)

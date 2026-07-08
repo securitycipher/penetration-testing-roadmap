@@ -10,17 +10,43 @@ Modern web apps ship half their attack surface in JavaScript bundles. Static ana
 - Source maps (`.map` files) that reveal unminified source
 - WebSocket URLs and admin paths
 
-## Tools
+## Collect all JS, then mine it
 
 ```bash
-# Extract URLs from JS files
-cat app.js | grep -oE 'https?://[^\"'\'' ]+' | sort -u
+# 1. Gather JS URLs from crawl + archives
+gau target.com | grep '\.js$' | httpx -silent -mc 200 -o js_urls.txt
+katana -u https://target.com -jc | grep '\.js$' >> js_urls.txt
 
-# Link discovery with gau + httpx
-gau target.com | grep '\.js$' | httpx -silent -mc 200 -o js_files.txt
+# 2. Download them all
+mkdir js && cd js && wget -i ../js_urls.txt
 
-# Secret scanning
-trufflehog filesystem ./downloaded-js/
+# 3. Extract endpoints
+cat *.js | grep -oE '"(/[a-zA-Z0-9_/?.=&-]+)"' | sort -u
+xnLinkFinder -i ./js/ -o endpoints.txt
+
+# 4. Extract URLs
+cat *.js | grep -oE 'https?://[^"'\'' ]+' | sort -u
+```
+
+## Secret-hunting regexes
+
+```bash
+# Common secret patterns
+grep -rEo 'AKIA[0-9A-Z]{16}' ./js/            # AWS access key
+grep -rEo 'AIza[0-9A-Za-z_-]{35}' ./js/       # Google API key
+grep -rEi '(api[_-]?key|secret|token|password)\s*[:=]\s*["'\''][^"'\'']+' ./js/
+
+# Automated
+trufflehog filesystem ./js/
+```
+
+## Source maps = free source code
+
+If a `.map` file exists, you can reconstruct the original unminified source:
+
+```bash
+curl -s https://target.com/static/app.js.map -o app.js.map
+npx source-map-explorer app.js app.js.map     # or unwebpack-sourcemap to rebuild files
 ```
 
 | Tool | Purpose |

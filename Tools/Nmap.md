@@ -1,22 +1,109 @@
-# Nmap
-Nmap, short for Network Mapper, is a powerful open-source tool used for network exploration and security auditing. It's widely utilized by network administrators, security professionals, and even hackers to discover hosts and services on a computer network.
+# Nmap (Network Mapper)
 
-Here's a breakdown of what Nmap does and how it works, tailored for someone who's new to the concept:
+Nmap is the de-facto tool for **host discovery, port scanning, service/version detection, OS detection, and scripted vulnerability checks**. It's usually the first thing you run against a network target to learn what's alive and what's listening. It sends crafted packets and interprets the responses to build a map of the target.
 
-- Network Discovery: Nmap helps you find devices that are connected to a network. This could be anything from computers to printers to IoT devices. By scanning a range of IP addresses, Nmap can identify which devices are online and accessible.
+## Install
 
-- Port Scanning: Once Nmap identifies devices on a network, it probes those devices to discover which network ports are open and what services are running on those ports. Think of ports as doors on a building – they allow different services and applications to communicate over a network. Nmap can tell you if these doors are open and what's behind them.
+```bash
+sudo apt install nmap        # Debian/Kali
+brew install nmap            # macOS
+```
 
-- Service Detection: Nmap doesn't just stop at finding open ports; it also tries to identify what services are running on those ports. For example, it might detect that port 80 is open, which typically indicates a web server. Knowing what services are running can help administrators assess potential security risks.
+## The typical workflow
 
-- Operating System Detection: In addition to identifying services, Nmap can often determine what operating system (OS) a device is running based on how it responds to certain network probes. This can be useful for understanding the makeup of a network and identifying potential vulnerabilities specific to certain operating systems.
+```bash
+# 1. Fast discovery of what's alive on a subnet (no port scan)
+nmap -sn 10.10.10.0/24
 
-- Scripting Engine: Nmap comes with a powerful scripting engine that allows users to automate and customize their scans. These scripts can perform advanced tasks like vulnerability detection, brute force attacks, or even just gathering more detailed information about a target.
+# 2. Fast full-port sweep to find open ports quickly
+nmap -p- --min-rate 5000 -T4 10.10.10.5 -oN allports.txt
 
-- Output Formats: Nmap provides various output formats to present the results of a scan in a readable and actionable way. This could be a simple list of open ports, a detailed report with service versions, or even interactive graphical representations.
+# 3. Deep scan ONLY the open ports (version + default scripts + OS)
+nmap -p 22,80,443 -sC -sV -O 10.10.10.5 -oN deep.txt
+```
 
-- Security Auditing: Beyond just network exploration, Nmap is commonly used for security auditing purposes. By scanning your own network, you can identify potential security holes before malicious actors exploit them.
+## Host discovery
 
-- Community Support: Nmap has a large and active community of users and developers who contribute to its ongoing development and provide support through forums, documentation, and tutorials. This means that even as a beginner, you can find plenty of resources to help you learn and use Nmap effectively.
+```bash
+nmap -sn 10.10.10.0/24        # ping sweep (no ports)
+nmap -Pn 10.10.10.5           # skip discovery, treat as up (host blocks ping)
+nmap -PS22,80,443 target      # TCP SYN ping to specific ports
+nmap -n target                # no DNS resolution (faster)
+```
 
-Overall, Nmap is an essential tool for anyone involved in managing or securing computer networks. While it may seem complex at first, even beginners can quickly learn to use its basic features to gain valuable insights into their network infrastructure. As you become more familiar with Nmap, you can explore its more advanced capabilities and customize it to suit your specific needs.
+## Port scan types
+
+```bash
+nmap -sS target      # SYN "stealth" scan (default as root, fast)
+nmap -sT target      # full TCP connect (no root needed)
+nmap -sU target      # UDP scan (slow but finds DNS/SNMP/etc.)
+nmap -sU -sS target  # UDP + TCP together
+nmap -p-             # all 65535 ports
+nmap -p 80,443       # specific ports
+nmap -F              # fast: top 100 ports
+nmap --top-ports 1000
+```
+
+## Service, version, OS detection
+
+```bash
+nmap -sV target                 # service/version detection
+nmap -sV --version-intensity 9  # most aggressive version probing
+nmap -O target                  # OS detection
+nmap -A target                  # aggressive: -sV -O -sC + traceroute
+```
+
+## Nmap Scripting Engine (NSE)
+
+```bash
+nmap -sC target                       # default safe scripts
+nmap --script vuln target             # known-vuln checks
+nmap --script "http-*" -p 80 target   # all http scripts
+nmap --script smb-enum-shares,smb-enum-users -p 445 target
+nmap --script ssl-enum-ciphers -p 443 target   # TLS audit
+# Scripts live in /usr/share/nmap/scripts/
+```
+
+## Timing, evasion, output
+
+```bash
+# Timing templates T0 (slow/stealth) .. T5 (insane/fast)
+nmap -T4 target
+nmap --min-rate 1000 target
+
+# Evasion
+nmap -f target                 # fragment packets
+nmap -D RND:10 target          # decoy scan (hide among fake IPs)
+nmap --source-port 53 target   # spoof source port
+nmap -sS -Pn -f -D RND:5 target
+
+# Output formats
+nmap -oN out.txt target        # normal
+nmap -oG out.grep target       # greppable
+nmap -oX out.xml target        # XML
+nmap -oA basename target       # all three at once
+```
+
+## Handy one-liners
+
+```bash
+# Full recon in one command
+nmap -p- -sV -sC -O -T4 -oA fullscan target
+
+# Vuln sweep on web ports
+nmap -p80,443 --script "http-enum,http-title,vuln" target
+
+# Convert XML to HTML report
+xsltproc out.xml -o report.html
+```
+
+## Tips
+
+- Root/sudo enables `-sS`, `-O`, and raw-packet features.
+- `-p-` + `--min-rate` first, then deep-scan only open ports (saves time).
+- UDP is slow - scan a focused list (`53,67,123,161,500`) unless you have time.
+
+## Resources
+
+- [Nmap reference guide](https://nmap.org/book/man.html)
+- [NSE script docs](https://nmap.org/nsedoc/)

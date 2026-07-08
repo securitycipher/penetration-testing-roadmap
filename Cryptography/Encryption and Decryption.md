@@ -16,3 +16,47 @@ Now, let's talk about decryption, which is the process of turning the encrypted 
 In symmetric encryption, the recipient uses the same key that was used for encryption to decrypt the message. In asymmetric encryption, the recipient uses their private key to decrypt the message that was encrypted with their public key.
 
 In summary, encryption is like putting your message in a secure envelope with a lock, and decryption is like using the right key to open that envelope and read the message. It's a crucial aspect of securing digital communication and information in today's interconnected world.
+
+---
+
+## Encryption from a pentester's view
+
+You rarely break modern encryption math — you break how it's **implemented and configured**.
+
+### Common real-world findings
+
+- **Hardcoded keys** — AES key committed in source or shipped in a mobile app / binary.
+- **ECB mode** — identical plaintext blocks produce identical ciphertext (the famous "ECB penguin"); reveals patterns.
+- **Static/reused IV or nonce** — breaks CBC/CTR/GCM guarantees.
+- **Padding oracle** — CBC decryption error differences let you decrypt/encrypt without the key.
+- **Weak/legacy ciphers** — DES, 3DES, RC4, export-grade suites.
+- **No integrity** — encryption without a MAC (use AES-GCM or encrypt-then-MAC).
+
+### Tools and commands
+
+```bash
+# OpenSSL for manual crypto operations
+echo "secret" | openssl enc -aes-256-cbc -a -k password
+openssl enc -d -aes-256-cbc -a -k password -in cipher.txt
+
+# Padding oracle exploitation
+padbuster http://target/decrypt?data=BASE64 BASE64 16 -encoding 0
+
+# Find hardcoded keys/secrets in code, apps, binaries
+trufflehog filesystem ./src
+strings app.apk | grep -iE 'key|secret|aes|password'
+
+# Analyze a captured TLS/crypto stream
+wireshark   # (Statistics -> follow stream)
+```
+
+### Symmetric vs asymmetric — quick recall
+
+- **Symmetric (AES)** — fast, one shared key; used for bulk data.
+- **Asymmetric (RSA/ECC)** — slow, key pair; used for key exchange and [Digital Signatures](Digital%20Signature.md).
+- TLS uses asymmetric to exchange a symmetric session key (see [SSL Handshake](SSL%20Handshake.md)).
+
+## Related
+
+- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [Hashing](Hashing.md) · [SSL Handshake](SSL%20Handshake.md)

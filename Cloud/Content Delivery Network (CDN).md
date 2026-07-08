@@ -32,3 +32,46 @@ When you request a piece of content, the CDN system automatically directs your r
 - Security: CDNs can provide security features like DDoS protection, helping to safeguard websites from cyberattacks.
 
 In summary, a CDN is like a team of delivery experts ensuring that your internet content arrives quickly and efficiently, no matter where you are in the world. It's a crucial technology that plays a behind-the-scenes role in making the internet faster and more reliable for users.
+
+---
+
+## Security testing perspective
+
+CDNs sit in front of the origin, which creates its own attack surface — caching bugs, WAF bypasses, and origin exposure.
+
+### What to test
+
+- **Origin IP exposure** — if you find the real origin IP, you can bypass the CDN/WAF entirely and hit it directly.
+- **Web Cache Poisoning** — poison a cached response with malicious content served to all users (see [Host Header Injection](../Vulnerabilities/Host%20Header%20Injection.md)).
+- **Cache Deception** — trick the CDN into caching a victim's private page (`/account.php/nonexistent.css`).
+- **WAF bypass** — CDN WAFs can be evaded with encoding, casing, or by hitting the origin directly.
+- **Misconfigured cache keys** — sensitive data cached and served to other users.
+
+### Commands
+
+```bash
+# Find the real origin IP behind Cloudflare/Akamai/etc.
+# 1. Historical DNS / cert transparency
+curl -s "https://crt.sh/?q=%25.target.com&output=json" | jq -r '.[].name_value' | sort -u
+# 2. Tools that hunt for origin IPs
+python3 CloudFail.py -t target.com
+# 3. Check for SPF/MX records or subdomains not proxied by the CDN
+dig +short mail.target.com
+
+# Confirm CDN and inspect cache headers
+curl -sI https://target.com | grep -iE 'server|via|x-cache|cf-|age|cache-control'
+
+# Cache-poisoning probe (unkeyed header reflected + cached)
+curl -sI "https://target.com/?cb=1" -H "X-Forwarded-Host: evil.com"
+```
+
+### Mitigation
+
+- Restrict origin to accept traffic **only** from the CDN (IP allowlist / mTLS / shared secret header).
+- Include all reflected inputs in the cache key; never cache authenticated responses.
+- Keep WAF rules at the origin too — defense in depth.
+
+## Related
+
+- [Host Header Injection](../Vulnerabilities/Host%20Header%20Injection.md)
+- [HTTP Request Smuggling](../Vulnerabilities/HTTP%20Request%20Smuggling.md)

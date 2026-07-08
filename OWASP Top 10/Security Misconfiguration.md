@@ -1,21 +1,68 @@
-# Security Misconfiguration
-Security Misconfiguration refers to the improper setup and configuration of security settings in a web application or its supporting infrastructure. It's like leaving the front door of your house wide open or not setting up the alarm system properly – it creates unnecessary vulnerabilities that attackers can exploit.
+# Security Misconfiguration (A05:2021)
 
+Security Misconfiguration covers all the ways a system is insecure not because of a coding bug but because it was **set up wrong**: default credentials, unnecessary features enabled, verbose errors, missing security headers, open cloud storage, and outdated configs. In 2021 OWASP folded **XXE** into this category. It is extremely common because every layer (app, framework, web server, container, cloud) has its own config.
 
-## What is Security Misconfiguration? 
-In the context of web applications, security misconfiguration happens when developers or administrators fail to implement or maintain proper security settings. It's like having default settings on your computer that are easily exploitable by attackers.
+## Common misconfigurations to hunt
 
-## Common Security Misconfigurations
+- **Default / weak credentials** (admin:admin on Tomcat, Jenkins, routers, databases)
+- **Directory listing** enabled; exposed `.git/`, `.env`, backups, `phpinfo()`
+- **Verbose error messages / stack traces** leaking paths, versions, queries
+- **Default pages / sample apps** (Tomcat `/manager`, `/examples`)
+- **Missing security headers** (CSP, HSTS, X-Content-Type-Options)
+- **Open cloud storage** (public S3 buckets, blob containers)
+- **Unnecessary open ports/services**; debug mode on in production
+- **Permissive CORS** (`Access-Control-Allow-Origin: *` with credentials)
 
-- Default Credentials: Using default usernames and passwords without changing them is like having a lock with a universal key. Attackers often know these defaults, so changing them is crucial.
-- Unnecessary Services and Features: Enabling services or features that are not needed is like leaving unnecessary doors and windows open. Turning off or disabling anything that's not required reduces the attack surface.
-- Excessive Permissions: Providing more permissions than necessary to users or systems is like giving someone too many keys. It's essential to follow the principle of least privilege, ensuring users or components only have the access they need.
-- Exposed Configuration Files: If configuration files with sensitive information are accessible to unauthorized users, it's like having your security codes written on a sign outside your house. These files should be protected and only accessible to authorized personnel.
+## Testing commands
 
-## Why is Security Misconfiguration a Problem? 
-Misconfigurations make it easier for attackers to gain unauthorized access or exploit vulnerabilities. It's like leaving your house vulnerable to theft because you forgot to lock the door. Attackers look for misconfigurations as low-hanging fruit for their malicious activities.
+```bash
+# Fingerprint tech, headers, and known misconfigs
+whatweb https://target.tld
+nikto -h https://target.tld
+nuclei -u https://target.tld -t http/misconfiguration/
 
-## Preventing Security Misconfigurations 
-Regularly reviewing and updating configurations, using strong and unique credentials, removing unnecessary services, and employing automated tools to identify misconfigurations are crucial steps. Following secure configuration guides and best practices helps reduce the risk of misconfigurations.
+# Find exposed sensitive files/dirs
+ffuf -u https://target.tld/FUZZ -w wordlist.txt -mc 200
+curl -s https://target.tld/.git/config
+curl -s https://target.tld/.env
+curl -s https://target.tld/server-status
 
-Security Misconfiguration is included in the OWASP Top 10 because it's a prevalent issue, and attackers actively search for misconfigured systems. By addressing and preventing misconfigurations, developers and administrators can significantly enhance the security posture of web applications. It's like ensuring your house is properly secured, with no open doors or windows inviting trouble.
+# Check security headers
+curl -sI https://target.tld
+
+# Public S3 bucket
+aws s3 ls s3://bucket-name --no-sign-request
+curl https://bucket-name.s3.amazonaws.com/
+
+# Default creds - try known combos on admin panels, DBs, Tomcat /manager
+```
+
+## Full walkthrough - exposed .git
+
+1. Request `https://target.tld/.git/config` -> returns content (repo exposed).
+2. Dump the whole repo: `git-dumper https://target.tld/.git/ ./out`.
+3. Read the source, find hardcoded DB creds / API keys in the history.
+4. Log in / access the API with those secrets.
+
+## Tools
+
+- [nuclei](https://github.com/projectdiscovery/nuclei) - templated misconfig/CVE scanning
+- [nikto](https://github.com/sullo/nikto), [whatweb](https://github.com/urbanadventurer/WhatWeb)
+- [git-dumper](https://github.com/arthaud/git-dumper), [ffuf](https://github.com/ffuf/ffuf)
+
+## Mitigation - the fix
+
+- **Harden by default**: remove sample apps, disable directory listing and debug mode.
+- Change all **default credentials**; enforce least privilege.
+- Return **generic error pages**; log details server-side only.
+- Add **security headers** (CSP, HSTS, X-Frame-Options, X-Content-Type-Options).
+- Lock down cloud storage; audit with CIS benchmarks and IaC scanning.
+- Automate config checks in CI; keep everything patched.
+
+## Practice
+
+- [PortSwigger information disclosure / misconfig labs](https://portswigger.net/web-security)
+
+## Reference
+
+- [OWASP A05:2021 Security Misconfiguration](https://owasp.org/Top10/A05_2021-Security_Misconfiguration/)

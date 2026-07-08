@@ -4,48 +4,62 @@ DNS Cache Poisoning (DNS spoofing) is when an attacker injects a forged DNS reco
 
 ## How it works
 
-- A resolver queries an authoritative server and waits for the answer
-- The attacker races to send a forged response with a matching query ID and source port
-- If it arrives first and matches, the resolver caches the malicious record
+1. A client asks the resolver for `bank.tld`.
+2. The resolver has no cached answer, so it queries the authoritative name server and **waits**.
+3. The response is matched only by: **transaction ID (16-bit)**, **source/destination ports**, and the question.
+4. The attacker floods forged responses guessing the transaction ID. If a forged packet arrives **before** the real one and matches, it wins - and gets **cached** (poisoned) for the whole TTL.
 
-## Test / lab commands
+Only 16 bits of transaction ID + a UDP port to guess is why the classic attack was feasible - the **Kaminsky** technique made it reliable by querying many non-existent subdomains to get fresh races.
+
+## Impact
+
+- Redirect `bank.tld` (or software update servers) to attacker IPs -> phishing, malware
+- Intercept email (poison MX), TLS-strip, mass redirection of every client using that resolver
+
+## Lab commands
 
 ```bash
-# Inspect what a resolver currently returns
+# See what a resolver currently returns
 dig @RESOLVER_IP bank.tld A +short
 nslookup bank.tld RESOLVER_IP
 
-# Watch the transaction IDs and source port randomness
+# Watch transaction IDs and source-port randomness on the wire
 tcpdump -n -i eth0 udp port 53
 
-# Check whether a resolver randomizes source ports (Kaminsky resistance)
+# Is the resolver randomising source ports? (Kaminsky resistance test)
 dig +short porttest.dns-oarc.net TXT @RESOLVER_IP
+
+# Is DNSSEC validating? (should FAIL for a bad sig domain)
+dig @RESOLVER_IP dnssec-failed.org +dnssec
 ```
 
-```text
-# Classic Kaminsky angle: force queries for many random subnames
-# (aaaa1.bank.tld, aaaa2.bank.tld ...) to widen the spoofing window
-```
+Kaminsky angle: force queries for many random subnames (`aaaa1.bank.tld`, `aaaa2.bank.tld`, ...) so each miss triggers a new outbound query you can race, and inject a forged NS/glue record in the Authority/Additional sections.
 
 ## Tools
 
 - [scapy](https://scapy.net/) - craft and race forged DNS responses in a lab
 - [dnschef](https://github.com/iphelix/dnschef) - DNS proxy for spoofing tests
-- [Wireshark](https://www.wireshark.org/) - analyze query IDs and timing
+- [Wireshark](https://www.wireshark.org/) - analyse query IDs and timing
+- [Bettercap](https://www.bettercap.org/) - local-network DNS spoofing (MITM)
 
-## Manual testing
+## Related: local DNS spoofing (MITM)
 
-1. Confirm the resolver randomizes both transaction ID and source port
-2. In a controlled lab, attempt to win the race with forged responses
-3. Verify whether the target validates DNSSEC signatures
-4. Check TTLs - long TTLs make a successful poison last longer
+On a LAN you control (authorised), you don't need to win the ID race - just answer faster via ARP spoofing:
 
-## Mitigation
+```bash
+bettercap -iface eth0 -eval "set arp.spoof.targets 192.168.1.10; arp.spoof on; set dns.spoof.domains bank.tld; set dns.spoof.address 10.0.0.5; dns.spoof on"
+```
 
-- Deploy DNSSEC so forged records fail signature validation
-- Randomize source ports and query IDs (Kaminsky mitigation)
-- Use 0x20 encoding and enforce short, sane TTLs
-- Prefer encrypted transport (DNS over TLS/HTTPS) between clients and resolvers
+## Mitigation - the fix
+
+- Deploy **DNSSEC** so forged records fail signature validation.
+- Randomise **source ports** and **transaction IDs** (Kaminsky mitigation).
+- Use **0x20 (case) encoding** for extra entropy; enforce short, sane TTLs.
+- Prefer **DNS over TLS/HTTPS (DoT/DoH)** between clients and resolvers.
+
+## Practice
+
+- Build a lab with BIND + scapy; TryHackMe networking rooms
 
 ## Deep dive
 

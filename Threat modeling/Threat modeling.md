@@ -34,3 +34,55 @@ Here's a breakdown of key concepts related to threat modeling:
   - Collaboration ensures a holistic understanding of the system and its potential risks.
 
 Threat modeling is a crucial step in building and maintaining secure systems. It helps organizations proactively address security concerns and minimize the likelihood and impact of potential threats. By incorporating threat modeling into the development lifecycle, businesses can enhance the overall security posture of their systems and protect sensitive information from unauthorized access and exploitation.
+
+---
+
+## The four key questions (Shostack framework)
+
+Every threat model boils down to answering these:
+
+1. **What are we building?** → draw a data-flow diagram (DFD).
+2. **What can go wrong?** → apply [STRIDE](STRIDE.md) / attack trees.
+3. **What are we going to do about it?** → mitigations/controls.
+4. **Did we do a good enough job?** → validate (often with a [pentest](../Methodology/Pentest%20Phases.md)).
+
+## Worked mini-example: a login feature
+
+```
+[User] --creds--> (Login Process) --query--> [User DB]
+                        |
+                   trust boundary (internet -> app)
+```
+
+| Element | Threat (STRIDE) | Mitigation |
+|---------|-----------------|------------|
+| Creds in transit | Information disclosure | TLS 1.2+, HSTS |
+| Login process | Spoofing (brute force) | Rate limit + MFA + lockout |
+| Login process | Tampering (SQLi) | Parameterized queries |
+| User DB | Information disclosure | Encrypt at rest, least-priv DB user |
+| Auth events | Repudiation | Audit logging |
+
+## Frameworks and tools
+
+| Framework | Best for |
+|-----------|----------|
+| [STRIDE](STRIDE.md) | Per-component threat enumeration (dev-friendly) |
+| [PASTA](PASTA.md) | Risk-centric, business-aligned, 7 stages |
+| DREAD | Risk scoring (Damage/Reproducibility/Exploitability/Affected/Discoverability) |
+| Attack Trees | Modeling attacker goals and paths |
+
+```bash
+# Popular tooling
+# - OWASP Threat Dragon (free, diagram + STRIDE)
+# - Microsoft Threat Modeling Tool (free)
+# - threagile (threat modeling as code / YAML)
+```
+
+## Threat modeling vs pentesting
+
+Threat modeling is **proactive and design-time** ("what *could* go wrong"); a pentest is **reactive and runtime** ("what *actually* is wrong"). A good threat model tells the pentester exactly where to look.
+
+## Related
+
+- [STRIDE](STRIDE.md) · [PASTA](PASTA.md)
+- [Pentest Phases](../Methodology/Pentest%20Phases.md)

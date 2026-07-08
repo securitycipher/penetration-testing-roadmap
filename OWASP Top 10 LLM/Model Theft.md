@@ -14,6 +14,26 @@ The consequences of Model Theft can be severe and far-reaching:
 - Loss of Competitive Advantage: Stolen LLMs can empower competitors to replicate functionalities or develop similar models, eroding the competitive edge of the original owner.
 - Financial Losses: The investment in developing and training LLMs is substantial. Model Theft can result in significant financial losses for the victim organization.
 - Security Risks and Malicious Applications: Stolen LLMs could be used to create malicious AI applications, potentially leading to data breaches, disinformation campaigns, or other security threats.
+## Concrete examples
+
+```text
+# 1. Model extraction / distillation
+Query the API thousands of times with crafted inputs, record outputs, and train a
+clone model that mimics the original - stealing capability without the weights.
+
+# 2. Direct exfiltration
+Compromised infra / leaked cloud storage bucket containing the model weights (.bin/.safetensors).
+
+# 3. Membership inference / model inversion
+Probe the model to determine if specific data was in its training set, or reconstruct it.
+```
+
+## How to test / assess
+
+1. Check access controls on model artifacts, registries, and storage buckets.
+2. Review API rate limits - can someone cheaply harvest enough output to distill the model?
+3. Look for weights/checkpoints exposed in repos, containers, or misconfigured storage.
+
 ## Fortress Security: Mitigating Model Theft
 
 Combating Model Theft necessitates a multi-layered approach:

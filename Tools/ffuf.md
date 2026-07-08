@@ -26,13 +26,47 @@ ffuf -u https://target.com/page?FUZZ=test -w params.txt -mc 200
 ffuf -u https://target.com/FUZZ -w wordlist.txt -mc 200 -fs 1234
 ```
 
+## Matchers and filters (cut the noise)
+
+```bash
+-mc 200,301,403     # match status codes         -fc 404      filter status codes
+-ms 1234            # match response size         -fs 0        filter by size
+-ml 50              # match line count            -fl 10       filter by lines
+-mw 20              # match word count            -fw 100      filter by words
+-mr "admin"         # match regex in response     -fr "error"  filter regex
+```
+
+Tip: run once, see the size of the "not found" page, then `-fs <that-size>` to hide it.
+
+## More real commands
+
+```bash
+# Recursive directory discovery
+ffuf -u https://target.tld/FUZZ -w dirs.txt -recursion -recursion-depth 2 -mc 200,301
+
+# POST body / login brute (cluster style with two lists)
+ffuf -u https://target.tld/login -X POST \
+  -d "user=admin&pass=FUZZ" -H "Content-Type: application/x-www-form-urlencoded" \
+  -w rockyou.txt -fc 401
+
+# Add extensions to each word
+ffuf -u https://target.tld/FUZZ -w words.txt -e .php,.bak,.txt
+
+# Auth + rate limit + save JSON
+ffuf -u https://target.tld/FUZZ -w dirs.txt -H "Cookie: session=..." \
+  -rate 50 -o out.json -of json
+```
+
 ## Why pentesters use it
 
 - Faster than gobuster/dirb for large wordlists
 - Flexible FUZZ placement in URL, headers, and body
-- JSON output for piping into other tools
+- Powerful matcher/filter engine; JSON output for piping
+
+## Wordlists
+
+- [SecLists](https://github.com/danielmiessler/SecLists) - `Discovery/Web-Content/` is the go-to
 
 ## Resources
 
 - [ffuf GitHub](https://github.com/ffuf/ffuf)
-- [Penetration Testing Tricks](https://securitycipher.com/penetration-testing-tricks/)

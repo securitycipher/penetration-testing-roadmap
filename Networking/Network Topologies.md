@@ -29,3 +29,41 @@ The main advantage is the ability to expand the network easily by adding branche
 Sometimes, a network may use a combination of different topologies. This is known as a hybrid topology. For example, you might have a main star topology with each branch using a bus topology.
 
 The choice of network topology depends on various factors, including the size of the network, the type of tasks it needs to perform, and the cost. Each topology has its advantages and disadvantages, and the right one for a particular situation depends on the specific requirements and constraints.
+
+---
+
+## Why topology matters to a pentester
+
+Topology and, more importantly, **network segmentation** decide how far you can move after a foothold. Mapping the network is the first thing you do internally.
+
+### Discover the topology
+
+```bash
+# Find live hosts on the local segment
+nmap -sn 192.168.1.0/24
+arp -a
+
+# Trace the path to see hops/gateways/segmentation
+traceroute target
+mtr target
+
+# Identify other subnets/VLANs you can reach (pivoting reconnaissance)
+ip route
+nmap -sn 10.0.0.0/8 --min-rate 1000
+```
+
+### Segmentation testing
+
+- **Flat network (single broadcast domain)** — one compromised host can reach everything; ARP spoofing and broadcast poisoning (LLMNR/NBT-NS) work broadly.
+- **Segmented / VLANs** — test whether you can cross boundaries (**VLAN hopping**, misconfigured trunk ports, firewall rule gaps).
+- **Prove or disprove isolation** — can a workstation VLAN reach the server/DB/management VLAN? Every allowed cross-segment path is a finding.
+
+```bash
+# VLAN hopping via double tagging / DTP (Yersinia)
+yersinia -G
+```
+
+## Related
+
+- [Types of Networks](Types%20of%20Networks.md) · [OSI Model](OSI%20Model.md)
+- [Nmap](../Tools/Nmap.md)

@@ -30,3 +30,36 @@ Let's break down each of these testing approaches in application security in a s
 - Why is it important? IAST offers the advantages of both static and dynamic testing while minimizing false positives. It provides deeper insights into the root cause of vulnerabilities and helps developers understand the security impact of their code changes.
 
 By employing a combination of these testing approaches, organizations can enhance their application security posture and mitigate various types of security risks effectively.
+
+---
+
+## Quick comparison
+
+| | SAST | DAST | IAST | SCA |
+|---|------|------|------|-----|
+| **App running?** | No | Yes | Yes | No |
+| **Sees code?** | Yes | No | Yes | Deps only |
+| **False positives** | High | Low | Very low | Low |
+| **Finds** | Code flaws | Runtime flaws | Both | Vulnerable deps |
+| **Best in** | IDE / commit | QA / staging | CI test runs | Build pipeline |
+| **OWASP focus** | Injection, secrets | Auth, config, session | Both | A06 Components |
+
+## Where they run in the SDLC (shift-left)
+
+```
+Code -> Commit -> Build -> Test -> Deploy -> Monitor
+ SAST    SAST     SCA     DAST     DAST     DAST
+                  IAST    IAST
+```
+
+## How this relates to a penetration test
+
+- **[SAST](SAST.md) / [SCA](SCA.md)** map to a **white-box** engagement (you have source).
+- **[DAST](DAST.md)** maps to **black/grey-box** testing (you attack the running app).
+- **[IAST](IAST.md)** is a DevSecOps control layered into CI/CD.
+- A real pentest goes beyond all of them by adding **human creativity, business-logic testing, and exploit chaining** that no scanner replicates.
+
+## Related
+
+- [SAST](SAST.md) · [DAST](DAST.md) · [IAST](IAST.md) · [SCA](SCA.md)
+- [Pentest Phases](../Methodology/Pentest%20Phases.md)

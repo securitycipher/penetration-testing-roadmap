@@ -41,3 +41,39 @@ Imagine you have some data and applications that require the high security and c
 - Development and Testing: Organizations can use the Public Cloud for development and testing purposes while keeping production environments on a Private Cloud.
 
 In summary, a Hybrid Cloud is like having the best of both worlds—combining the control and security of a Private Cloud with the flexibility and scalability of a Public Cloud. It's a strategic approach that allows organizations to optimize their IT infrastructure based on specific needs and requirements.
+
+---
+
+## Security testing perspective
+
+The **connective tissue** between on-prem and public cloud is the juiciest target: the links, sync identities, and trust relationships that let one environment reach the other.
+
+### High-value attack paths
+
+- **VPN / Direct Connect / ExpressRoute** — pivot from a compromised cloud host into the corporate network (and vice versa).
+- **Identity federation** — **Azure AD Connect / ADFS** syncs on-prem AD to the cloud. Compromise on-prem AD → cloud, or abuse federation to forge cloud tokens (Golden SAML).
+- **Shared service accounts** — creds valid in both environments; steal once, use everywhere.
+- **Inconsistent controls** — the on-prem side often lacks the cloud side's logging/MFA.
+
+### Commands
+
+```bash
+# On a compromised cloud VM, look for routes/tunnels back on-prem
+ip route; cat /etc/hosts
+nmap -sn 10.0.0.0/8            # can we reach internal RFC1918 ranges?
+
+# Enumerate AD federation / sync servers (from AD)
+# AADInternals — hunt for AD Connect and dump sync credentials
+Get-AADIntSyncCredentials
+
+# Golden SAML requires the ADFS token-signing cert -> forge cloud tokens
+```
+
+### Focus
+
+Treat hybrid as **two pentests plus the bridge**: assess public ([AWS](AWS.md)/[Azure](Azure.md)/[GCP](GCP.md)), assess private ([Private Cloud](Private%20Cloud.md)), then prove lateral movement across the link.
+
+## Related
+
+- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
+- [Azure](Azure.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)

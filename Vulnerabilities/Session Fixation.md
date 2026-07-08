@@ -9,6 +9,19 @@ Session Fixation is an attack where the attacker sets or knows a victim's sessio
 - Victim logs in; the app reuses the same ID
 - Attacker, holding the same ID, is now logged in as the victim
 
+## Session Fixation vs Session Hijacking
+
+- **Hijacking** = steal a token *after* the victim logs in.
+- **Fixation** = give the victim a token you already know *before* they log in, and the app keeps it.
+
+## Attack walkthrough
+
+1. You visit `target.tld` and get session ID `ABC123` (or you set one you choose).
+2. You send the victim a link that plants that ID: `https://target.tld/?PHPSESSID=ABC123`.
+3. The victim clicks it and logs in with their real credentials.
+4. The app does **not** rotate the ID - session `ABC123` is now authenticated as the victim.
+5. You use `ABC123` from your browser and are logged in as them.
+
 ## Test payloads
 
 ```http
@@ -27,17 +40,31 @@ document.cookie = "SESSIONID=attacker_known_value; path=/";
 
 ## Manual testing
 
-1. Capture the session cookie value before logging in
-2. Log in and capture the cookie again
-3. If the value is identical, the app is likely vulnerable (no rotation)
-4. Confirm by setting a known pre-auth ID, logging in, and reusing it from another client
+1. Note the session cookie value **before** logging in.
+2. Log in, then note the cookie again.
+3. **Same value = vulnerable** (the app did not regenerate the ID).
+4. Confirm end-to-end: set a known pre-auth ID, log in, reuse it from another client.
 
-## Mitigation
+## Mitigation - the fix
 
-- Regenerate the session ID on every privilege change, especially at login
-- Never accept session IDs from URL parameters
-- Set cookies `HttpOnly`, `Secure`, and `SameSite`
-- Bind sessions to additional context and expire them promptly
+- **Regenerate the session ID at login** and on every privilege change:
+
+```php
+// PHP - rotate the session on authentication
+session_regenerate_id(true);   // true = delete the old session
+```
+
+```python
+# Django rotates the session key automatically on login() - don't disable it
+```
+
+- Never accept session IDs from URL parameters.
+- Set cookies `HttpOnly`, `Secure`, `SameSite`.
+- Expire sessions promptly (idle + absolute timeout).
+
+## Practice
+
+- OWASP WebGoat session management lessons
 
 ## Deep dive
 

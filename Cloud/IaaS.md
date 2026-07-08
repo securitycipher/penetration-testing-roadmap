@@ -30,3 +30,37 @@ Infrastructure as a Service (IaaS) is a cloud computing service model that provi
 - Database Services: Fully managed database services. (e.g., Amazon RDS, Azure SQL Database, Google Cloud SQL)
 
 In summary, Infrastructure as a Service (IaaS) simplifies IT infrastructure management by providing virtualized computing resources over the internet. Users can access and control these resources on a flexible, pay-as-you-go basis, without the complexities of owning and maintaining physical hardware.
+
+---
+
+## Security testing perspective
+
+Under the **shared responsibility model**, IaaS gives you the *most* to test: the provider secures the hypervisor and physical layer, but **you** own the OS, network config, and everything above it — so most of the attack surface is yours.
+
+### What to test
+
+- **Exposed instances** — public IPs, open admin ports (SSH 22, RDP 3389), weak SSH keys.
+- **Security groups / NSGs** — `0.0.0.0/0` on sensitive ports.
+- **Instance metadata SSRF** — steal the attached role/SA credentials (see [AWS](AWS.md), [GCP](GCP.md)).
+- **Storage volumes / snapshots** — public EBS snapshots, unencrypted disks.
+- **OS-level** — unpatched software, weak creds, misconfigured services → [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md).
+
+### Commands
+
+```bash
+# Find exposed hosts and ports
+nmap -sV -Pn --top-ports 100 <instance-ip>
+
+# Enumerate cloud resources (needs creds)
+aws ec2 describe-instances
+aws ec2 describe-security-groups --query 'SecurityGroups[?IpPermissions[?IpRanges[?CidrIp==`0.0.0.0/0`]]]'
+aws ec2 describe-snapshots --owner-ids self --query 'Snapshots[?Encrypted==`false`]'
+
+# Posture scan
+prowler aws
+```
+
+## Related
+
+- [AWS](AWS.md) · [Azure](Azure.md) · [GCP](GCP.md)
+- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)

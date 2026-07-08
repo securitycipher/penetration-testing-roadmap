@@ -28,3 +28,37 @@ Now, consider PaaS as a restaurant franchise. You lease a fully-equipped kitchen
 - AWS Elastic Beanstalk: Amazon's PaaS service automates application deployment, load balancing, and scaling on AWS infrastructure.
 
 In summary, PaaS provides a simplified and efficient environment for developing and deploying applications, allowing businesses and developers to focus on innovation rather than infrastructure management.
+
+---
+
+## Security testing perspective
+
+With PaaS, the provider handles the OS and runtime, so you **can't** test the host. Your focus narrows to the **application, its configuration, and its identity**.
+
+### What to test
+
+- **The deployed app itself** — full web/API pentest (see [OWASP Top 10](../OWASP%20Top%2010/OWASP%20Top%2010.md), [REST API Testing](../API%20Security/REST%20API%20Testing.md)).
+- **Secrets in config / env vars** — connection strings, API keys baked into the app settings.
+- **Over-privileged service identity** — the managed identity / IAM role the platform assigns the app.
+- **Build/deploy pipeline** — CI/CD tokens, source repo access → [Software and Data Integrity Failures](../OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md).
+- **Metadata SSRF** — App Service / App Engine also expose a metadata endpoint.
+
+### Commands
+
+```bash
+# Azure App Service — read app settings (secrets often live here)
+az webapp config appsettings list -g <rg> -n <app>
+
+# AWS Elastic Beanstalk environment enumeration
+aws elasticbeanstalk describe-environments
+aws elasticbeanstalk describe-configuration-settings --application-name <app> --environment-name <env>
+
+# App-layer SSRF against the metadata endpoint (from the app context)
+# Azure: http://169.254.169.254/metadata/identity/oauth2/token?...&resource=https://management.azure.com/
+# GCP:   http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/default/token
+```
+
+## Related
+
+- [OWASP Top 10](../OWASP%20Top%2010/OWASP%20Top%2010.md)
+- [Serverless](Serverless.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)

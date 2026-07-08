@@ -18,3 +18,47 @@ When the IDS senses a potential threat, it doesn't intervene directly like a sup
 
 
 An IDS is your digital security guard that tirelessly watches over your network, looking for any signs of trouble. It uses both known patterns and behavioral analysis to identify potential threats, helping you stay one step ahead of cybercriminals and ensuring the safety of your digital environment.
+
+---
+
+## IDS from a pentester's view
+
+An IDS **detects but does not block** (that's an [IPS](IPS.md)). During a pentest you both try to evade it and, in a purple-team context, verify it actually fires on your attacks.
+
+### Common IDS/IPS products
+
+- **Snort** and **Suricata** (open source, signature + rules)
+- **Zeek** (formerly Bro — network analysis, anomaly focus)
+- Commercial: Cisco Firepower, Palo Alto, Darktrace
+
+### Evasion techniques
+
+```bash
+# Nmap evasion flags
+nmap -sS -T2 target                 # slow scan to stay under thresholds
+nmap -f target                      # fragment packets
+nmap -D RND:10 target               # decoy scan (hide among fake source IPs)
+nmap --data-length 25 target        # pad packets to alter signatures
+nmap -g 53 target                   # spoof source port (e.g., DNS)
+
+# Payload/protocol evasion
+# - Encode/obfuscate payloads (base64, case variation, URL encoding)
+# - Use HTTPS/TLS so DPI can't read payloads
+# - Slow down (low-and-slow) to avoid rate-based anomaly detection
+```
+
+### How signatures are matched (why evasion works)
+
+Signature IDS looks for exact byte patterns. Fragmentation, encoding, and encryption break the pattern so the rule never matches. Anomaly IDS instead learns a baseline — beat it by going slow and blending with normal traffic.
+
+### Purple-team validation
+
+```bash
+# Trigger a known Snort rule to confirm the sensor is alerting
+curl "http://target/?id=/etc/passwd"        # path traversal signature
+# Then confirm the alert appears in the SIEM/console.
+```
+
+## Related
+
+- [IPS](IPS.md) · [Nmap](../Tools/Nmap.md) · [Wireshark](../Tools/Wireshark.md)

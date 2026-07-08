@@ -20,3 +20,42 @@ To understand Defense in Depth, let's use an analogy of securing a house. Imagin
 - Backup and Disaster Recovery: Imagine having duplicates of your important documents stored in a secure location in case of a burglary. Similarly, regularly backing up your data and having a disaster recovery plan in place ensures that you can recover quickly from a security incident or data loss.
 
 By implementing these layers of defense, organizations can create a comprehensive security posture that minimizes the likelihood and impact of cyberattacks. Defense in Depth is not a one-time effort but rather an ongoing process that requires continuous monitoring, adaptation, and improvement to stay ahead of evolving threats.
+
+---
+
+## Defense in Depth from a pentester's view
+
+Your job is to find where the layered model **fails** — a single strong wall means nothing if there's a gap you can walk through. A real attack **chains weaknesses across layers**.
+
+### Example of chaining through the layers
+
+```
+Phishing (bypass awareness layer)
+   -> macro RCE on a workstation (bypass endpoint layer)
+   -> dump creds with Mimikatz (bypass auth layer)
+   -> lateral movement (bypass segmentation layer)
+   -> Domain Admin (bypass access control layer)
+   -> exfiltrate data (bypass DLP/monitoring layer)
+```
+
+Each control might be individually decent, but one weak link per layer creates a full kill chain.
+
+### What to test at each layer
+
+| Layer | What you probe |
+|-------|----------------|
+| Perimeter | Exposed services, [firewall](../Networking/Firewall.md) rule gaps |
+| Endpoint | AV/EDR evasion, missing patches |
+| Auth | Weak/reused creds, missing [MFA](MFA%20vs%202FA.md) |
+| Segmentation | Flat networks, [DMZ](DMZ.md) → internal pivots |
+| Access control | Over-privilege, [broken access control](../OWASP%20Top%2010/Broken%20Access%20Control.md) |
+| Monitoring | Does the [SIEM](SIEM.md)/[IDS](../Networking/IDS.md) actually detect you? |
+
+### Reporting angle
+
+Frame findings around **which layers failed and why the chain worked**. A mature Defense-in-Depth posture should force you to defeat *multiple* controls — if a single flaw gives full compromise, that's your headline finding.
+
+## Related
+
+- [Threat modeling](../Threat%20modeling/Threat%20modeling.md)
+- [SIEM](SIEM.md) · [DMZ](DMZ.md) · [MFA vs 2FA](MFA%20vs%202FA.md)

@@ -43,3 +43,36 @@ HIPAA stands for the Health Insurance Portability and Accountability Act. It is 
 
 
 In summary, HIPAA is a comprehensive law in the United States that sets standards for the privacy and security of individuals' health information. It aims to protect patient privacy, establish security standards for electronic health information, and ensure a level of trust in the healthcare system.
+
+---
+
+## HIPAA from a pentester's view
+
+HIPAA doesn't say "do a pentest" outright, but the **Security Rule requires a risk analysis** (§164.308(a)(1)) — and a penetration test is a core, expected way to satisfy it.
+
+### What a HIPAA-focused pentest targets
+
+The mission is protecting **ePHI (electronic Protected Health Information)** — find every path to it.
+
+```
+- Where is ePHI stored/transmitted? (EHR systems, databases, backups, medical devices)
+- Access controls (§164.312(a)) — can you reach ePHI without authorization? (IDOR/BOLA)
+- Encryption at rest & in transit (§164.312(a)(2)(iv), (e)) — cleartext PHI = finding
+- Audit controls (§164.312(b)) — is access to ePHI logged?
+- Authentication (§164.312(d)) — weak/shared creds, missing MFA
+```
+
+### Special considerations
+
+- **Medical devices (IoMT)** — infusion pumps, imaging systems often run legacy, unpatched OSes. High-value, fragile targets — test carefully.
+- **Business Associates** — third parties handling PHI are in scope too; supply-chain matters.
+- **Handle data carefully** — you may encounter real PHI during testing; the [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md) must cover data handling.
+
+### Reporting
+
+Map each finding to the relevant Security Rule safeguard (Administrative / Physical / Technical) so compliance teams can act on it.
+
+## Related
+
+- [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) · [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [ISO 27001](ISO%2027001.md) · [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)

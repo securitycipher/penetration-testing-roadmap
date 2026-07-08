@@ -23,3 +23,38 @@ Imagine you're cooking in a kitchen with a helpful assistant. As you prepare you
 - Complementary to Other Testing Methods: IAST complements other testing methods like SAST and DAST by providing a different perspective on security testing. It can uncover vulnerabilities that might not be detected by static analysis or might only appear when the application is running.
 
 Overall, IAST is a valuable tool for developers and security professionals, providing real-time insights into the security of their applications as they run. By actively monitoring the application and identifying vulnerabilities in real-time, IAST helps developers build more secure software and address potential issues before they become significant problems. It's like having a vigilant assistant in the kitchen, ensuring that your meal turns out safe and delicious.
+
+---
+
+## How IAST actually works
+
+IAST places an **agent/instrumentation inside the running application** (often as a language runtime hook or bytecode instrumentation). As tests (manual, DAST, or normal QA) exercise the app, the agent watches data flow *from the inside* — so it sees the tainted input **and** the vulnerable code line.
+
+```
+DAST  = tests from OUTSIDE (black-box)
+SAST  = reads the code, app NOT running
+IAST  = instruments the app from INSIDE while it runs  ← best of both
+```
+
+## Tools
+
+- **Contrast Security**, **Checkmarx CxIAST**, **Seeker (Synopsys)**, **HCL AppScan** — commercial IAST platforms.
+- Typically integrated into the CI/CD test pipeline rather than run ad hoc.
+
+## Strengths and limits
+
+| Strength | Limitation |
+|----------|------------|
+| Very low false positives | Needs an instrumentation agent in the runtime |
+| Pinpoints the exact vulnerable line (like SAST) | Language/framework support is limited |
+| Confirms real exploitability (like DAST) | Only covers code paths your tests actually hit |
+| Fits naturally in CI/CD | Mostly commercial (cost) |
+
+## Where it fits
+
+IAST is a **developer/DevSecOps** control more than a pentester's tool — but understanding it helps you advise clients on building a mature, layered testing program alongside SAST, DAST, and SCA.
+
+## Related
+
+- [SAST](SAST.md) · [DAST](DAST.md) · [SCA](SCA.md)
+- [Testing Approaches](Testing%20Approaches.md)

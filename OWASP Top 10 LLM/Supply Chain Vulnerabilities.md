@@ -14,6 +14,34 @@ Supply Chain Vulnerabilities in LLMs can have far-reaching consequences:
 - Biased and Unethical Outputs: LLMs trained on biased data can perpetuate societal inequalities or generate outputs that are offensive or discriminatory.
 - Security Breaches: Vulnerable pre-trained models or plugins can create entry points for attackers to infiltrate the LLM system and potentially gain unauthorized access to sensitive information.
 - Model Instability and Unintended Behavior: Vulnerabilities within the training data or pre-trained models can lead to unpredictable or unreliable outputs from the LLM, impacting its usability and potentially causing financial losses.
+## Concrete examples
+
+```text
+# 1. Malicious model from Hugging Face
+A pickled model (.bin) runs arbitrary code on load (pickle deserialization RCE).
+Prefer safetensors; scan models before loading.
+
+# 2. Typosquatted / poisoned Python package
+pip install trans4mers  (lookalike of transformers) -> backdoored dependency.
+
+# 3. Vulnerable dependency in the LLM stack
+Old langchain/llama-index/torch version with a known CVE.
+
+# 4. Compromised third-party plugin/API the agent calls
+```
+
+## How to test / assess
+
+```bash
+# Scan the ML dependency tree
+pip-audit ; safety check
+trivy fs .                    # containers + deps
+
+# Verify model provenance / format
+# - prefer .safetensors over pickle
+# - check the model card, downloads, and publisher on Hugging Face
+```
+
 ## Building a Secure Supply Chain: Mitigating Vulnerabilities
 
 Combating Supply Chain Vulnerabilities requires a multi-pronged approach at all stages of the LLM lifecycle:

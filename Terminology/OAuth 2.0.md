@@ -31,3 +31,45 @@ OAuth 2.0 (Open Authorization 2.0) is an authorization framework that allows thi
   - The client uses the access token to access the protected resources on the resource server.
 
 OAuth 2.0 is widely adopted and provides a flexible framework for secure and delegated access to resources. It is used by many major platforms and services to enable third-party applications to interact with user data in a secure and controlled manner.
+
+---
+
+## OAuth 2.0 attacks (pentester's view)
+
+OAuth is a frequent source of account-takeover bugs — almost always due to implementation mistakes, not the protocol itself.
+
+### Top attack vectors
+
+- **`redirect_uri` manipulation** — if validation is loose, redirect the auth code/token to an attacker domain:
+
+```
+# Weak validation lets you steal the code
+https://idp.com/authorize?client_id=X&redirect_uri=https://evil.com&response_type=code
+# Also try: open redirect chains, path append, subdomain, ?/# tricks
+redirect_uri=https://target.com.evil.com
+redirect_uri=https://target.com/callback/../redirect?url=evil.com
+```
+
+- **CSRF via missing `state`** — if `state` is absent/unchecked, force-link the victim's account to the attacker's (login CSRF).
+- **Stealing auth code** — via `redirect_uri` leak, Referer header, or open redirect.
+- **Implicit flow token leakage** — access token in the URL fragment ends up in history/logs/Referer.
+- **Overly broad scopes** — request more than the app needs; check what a token actually grants.
+- **Missing PKCE** on public clients → authorization code interception.
+
+### How to test
+
+```bash
+# 1. Capture the full OAuth flow in Burp.
+# 2. Tamper with redirect_uri, remove/replay state, downgrade to implicit.
+# 3. Check token audience/scope and whether the app validates them.
+# 4. Try the "account link" CSRF if state is missing.
+```
+
+### Note: OAuth is authorization, not authentication
+
+Using OAuth access tokens as proof of identity (instead of OpenID Connect ID tokens) leads to auth bypass. See [SAML](SAML.md) and [SSO](SSO.md) for federated login.
+
+## Related
+
+- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [SSO](SSO.md) · [SAML](SAML.md)

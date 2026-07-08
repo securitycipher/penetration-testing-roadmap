@@ -30,3 +30,56 @@ In the context of computer networking, a protocol is a set of rules and conventi
 - Characteristics: POP3 downloads emails to the local device, while IMAP allows users to view and manipulate emails on the server without downloading them.
 
 Understanding these common protocols is a foundational step in grasping how devices communicate over networks. As you delve deeper into networking, you'll encounter many more protocols, each serving specific purposes in the vast world of information exchange.
+
+---
+
+## Protocols from a pentester's view
+
+Every open port maps to a protocol, and each protocol has known ports, enumeration tricks, and attacks. Memorize this table — it drives what you do after a port scan.
+
+| Port | Protocol | What to test |
+|------|----------|--------------|
+| 21 | FTP | Anonymous login, cleartext creds, `ftp` brute force |
+| 22 | SSH | Weak creds, key auth, version CVEs |
+| 23 | Telnet | Cleartext creds — sniff or brute force |
+| 25/465/587 | SMTP | User enum (`VRFY`), open relay |
+| 53 | DNS | Zone transfer (`AXFR`), subdomain enum |
+| 80/443 | HTTP(S) | Full web app pentest |
+| 88 | Kerberos | AS-REP roasting, Kerberoasting |
+| 110/143 | POP3/IMAP | Cleartext creds, brute force |
+| 139/445 | SMB | Null sessions, shares, EternalBlue, relay |
+| 161 | SNMP | `public` community string → device info dump |
+| 389/636 | LDAP | Anonymous bind, user enum |
+| 3306/5432/1433 | MySQL/Postgres/MSSQL | Weak creds, `xp_cmdshell` |
+| 3389 | RDP | Brute force, BlueKeep, cred spray |
+
+### Enumeration commands
+
+```bash
+# Scan and fingerprint services
+nmap -sC -sV -p- target -oN scan.txt
+
+# SMB — shares, users, null session
+smbclient -L //target -N
+enum4linux-ng -A target
+crackmapexec smb target -u '' -p ''
+
+# SNMP walk with default community string
+snmpwalk -v2c -c public target
+onesixtyone -c community.txt target
+
+# DNS zone transfer
+dig axfr @ns.target.com target.com
+
+# SMTP user enumeration
+smtp-user-enum -M VRFY -U users.txt -t target
+```
+
+### Key takeaway
+
+**Cleartext protocols** (FTP, Telnet, HTTP, POP3, IMAP, SNMPv1/2) leak credentials to anyone sniffing the wire — always flag them and recommend the encrypted equivalent (SFTP, SSH, HTTPS, POP3S/IMAPS, SNMPv3).
+
+## Related
+
+- [Nmap](../Tools/Nmap.md) · [Wireshark](../Tools/Wireshark.md)
+- [OSI Model](OSI%20Model.md)

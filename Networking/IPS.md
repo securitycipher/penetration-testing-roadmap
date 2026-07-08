@@ -21,3 +21,42 @@ Imagine your network as a fortress, and an IPS as a vigilant gatekeeper. Here's 
 When the IPS identifies a potential threat, it doesn't just raise an alarm; it takes action to block or neutralize the threat in real-time. This could involve blocking specific network traffic, isolating affected parts of the network, or even adapting its defenses based on the evolving nature of cyber threats.
 
 An IPS is your digital superhero, actively preventing cyber threats from infiltrating your network. By using both known signatures and behavioral analysis, it adds a crucial layer of defense, making sure that your digital fortress stays secure against potential intruders.
+
+---
+
+## IPS from a pentester's view
+
+Unlike an [IDS](IDS.md), an IPS sits **inline** and actively **drops/blocks** malicious traffic — so on a test you'll notice connections being reset, IPs getting blocked, or payloads silently stripped.
+
+### Signs you've hit an IPS
+
+- Your IP suddenly gets **null-routed / can no longer reach the target**.
+- TCP **RST** packets kill your connections mid-scan.
+- Requests with attack payloads return generic errors while benign ones work.
+
+### Working around an IPS
+
+```bash
+# Go slow and quiet to stay under blocking thresholds
+nmap -sS -T1 --max-rate 10 target
+
+# Rotate source IPs / use a proxy pool so a single block doesn't stop you
+proxychains nmap -sT target
+
+# Encode payloads so signatures don't match
+# e.g., URL/base64/hex encoding, case variation, HTTP parameter pollution
+
+# Encrypt the channel (TLS) so DPI can't inspect the payload
+```
+
+### Important operational note
+
+Because an IPS **blocks**, aggressive testing can lock you out or even disrupt the target. Coordinate with the blue team, get IPs allowlisted where the engagement calls for it, and document when the IPS successfully stops an attack — that's a positive finding.
+
+### WAF is an app-layer IPS
+
+A Web Application Firewall is essentially an IPS for HTTP. See WAF-bypass techniques in [SQL Injection](../Vulnerabilities/SQL%20Injection.md) and [XSS](../Vulnerabilities/XSS.md).
+
+## Related
+
+- [IDS](IDS.md) · [Nmap](../Tools/Nmap.md)

