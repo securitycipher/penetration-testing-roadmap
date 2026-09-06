@@ -74,7 +74,7 @@ Full write-up: [Intro.md](Intro.md)
 
 - [Vulnerability Explain](https://securitycipher.com/vulnerability-explain/) - deep dives with payloads and tools
 - [Secure Code Explain](https://securitycipher.com/secure-code-explain/) - fix vulnerabilities in code
-- [Web Application Security Checklist](https://securitycipher.com/web-application-security-checklist/) - 100+ test cases
+- [Web Application Security Checklist](https://securitycipher.com/security-checklists/#checklist-web) - 100+ test cases
 - [AWS Cloud Security Checklist](https://securitycipher.com/aws-cloud-security-checklist/)
 - [Darkmoon](https://github.com/ASCIT31/Dark-Moon) - Open source (GPL-3.0) autonomous AI penetration testing platform covering web, API, Active Directory and Kubernetes, with proof of exploitation and a local privacy gateway.
 - [OWASP Top 10 for LLM Applications](https://securitycipher.com/owasp-top-10-for-llm-applications/)

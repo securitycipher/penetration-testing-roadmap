@@ -87,4 +87,4 @@ If the backend blindly binds JSON to the model, you escalate. Also check **exces
 ## Deep dive
 
 - [API Security - Vulnerability Explain](https://securitycipher.com/vulnerability-explain/)
-- [Web Application Security Checklist - API section](https://securitycipher.com/web-application-security-checklist/)
+- [API Security Checklist](https://securitycipher.com/security-checklists/#checklist-api)
