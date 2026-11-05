@@ -78,4 +78,4 @@ cat /proc/self/status | grep CapEff   # 0000003fffffffff = privileged
 
 ## Related
 
-- [Kubernetes Security](Kubernetes%20Security.md)
+- [Kubernetes Security](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Containers/Kubernetes%20Security.md)

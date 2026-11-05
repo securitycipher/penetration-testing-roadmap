@@ -62,7 +62,7 @@ searchsploit fortinet ssl vpn
 
 ### Why it matters
 
-A compromised VPN account or an unpatched gateway drops you straight into the internal network — often the single highest-impact finding on an external engagement, chaining directly into [Active Directory](../Active%20Directory/Active%20Directory%20Basics.md) attacks.
+A compromised VPN account or an unpatched gateway drops you straight into the internal network — often the single highest-impact finding on an external engagement, chaining directly into [Active Directory](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md) attacks.
 
 ### Mitigation
 
@@ -73,5 +73,5 @@ A compromised VPN account or an unpatched gateway drops you straight into the in
 
 ## Related
 
-- [Common Protocols](Common%20Protocols.md)
-- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
+- [Common Protocols](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Common%20Protocols.md)
+- [Active Directory Basics](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)

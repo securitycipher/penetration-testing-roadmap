@@ -65,5 +65,5 @@ yersinia -G
 
 ## Related
 
-- [Types of Networks](Types%20of%20Networks.md) · [OSI Model](OSI%20Model.md)
-- [Nmap](../Tools/Nmap.md)
+- [Types of Networks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Types%20of%20Networks.md) · [OSI Model](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/OSI%20Model.md)
+- [Nmap](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Nmap.md)

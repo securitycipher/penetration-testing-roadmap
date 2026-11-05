@@ -27,7 +27,7 @@ ip route show
 ## What to test
 
 - **Flat network.** Workstations can reach SMB, RDP, and WinRM on servers with no filter in between.
-- **DMZ to internal.** A host in the DMZ can open 445/3389/1433 on the internal range. See [DMZ](../Terminology/DMZ.md).
+- **DMZ to internal.** A host in the DMZ can open 445/3389/1433 on the internal range. See [DMZ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/DMZ.md).
 - **Dual-homed jump.** A server with one NIC in the user VLAN and one in the server VLAN bypasses the firewall.
 - **VPN pools.** Remote-access clients land in a subnet that has the same access as an office workstation, including admin shares.
 
@@ -35,5 +35,5 @@ Write the finding as the path you actually walked (source subnet, dest subnet, p
 
 ## Related
 
-- [Types of Networks](Types%20of%20Networks.md) · [Firewall](Firewall.md)
-- [DMZ](../Terminology/DMZ.md) · [VPN](VPN.md)
+- [Types of Networks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Types%20of%20Networks.md) · [Firewall](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Firewall.md)
+- [DMZ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/DMZ.md) · [VPN](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/VPN.md)

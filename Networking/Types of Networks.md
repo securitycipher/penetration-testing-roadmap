@@ -51,7 +51,7 @@ Each network type shapes how you approach an engagement.
 |---------|---------------|
 | **LAN / Intranet** | Internal pentest: ARP/LLMNR poisoning, SMB relay, AD attacks, lateral movement |
 | **WAN / Internet** | External pentest: perimeter recon, exposed services, VPN/firewall CVEs |
-| **Wireless** | Wi-Fi cracking (WPA2/WPA3), evil twin, rogue AP (see [Aircrack-ng](../Tools/Aircrack-ng.md)) |
+| **Wireless** | Wi-Fi cracking (WPA2/WPA3), evil twin, rogue AP (see [Aircrack-ng](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Aircrack-ng.md)) |
 | **Extranet** | Test partner/client access boundaries; trust abuse into the intranet |
 | **Client-Server** | Attack the server services and the trust clients place in them |
 | **Peer-to-Peer** | No central control — each node is a target; harder to monitor/defend |
@@ -74,5 +74,5 @@ Cloud, VPNs, and remote work mean the old "inside vs outside" model is weaker th
 
 ## Related
 
-- [Network Topologies](Network%20Topologies.md)
-- [Aircrack-ng](../Tools/Aircrack-ng.md) · [VPN](VPN.md)
+- [Network Topologies](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Network%20Topologies.md)
+- [Aircrack-ng](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Aircrack-ng.md) · [VPN](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/VPN.md)

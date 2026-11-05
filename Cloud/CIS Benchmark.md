@@ -49,5 +49,5 @@ lynis audit system
 
 ## Related
 
-- [Prowler](Prowler.md) · [ScoutSuite](ScoutSuite.md)
-- [Docker Security](../Containers/Docker%20Security.md) · [Kubernetes Security](../Containers/Kubernetes%20Security.md)
+- [Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md) · [ScoutSuite](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/ScoutSuite.md)
+- [Docker Security](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Containers/Docker%20Security.md) · [Kubernetes Security](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Containers/Kubernetes%20Security.md)

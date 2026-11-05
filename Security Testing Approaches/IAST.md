@@ -56,5 +56,5 @@ IAST is a **developer/DevSecOps** control more than a pentester's tool — but u
 
 ## Related
 
-- [SAST](SAST.md) · [DAST](DAST.md) · [SCA](SCA.md)
-- [Testing Approaches](Testing%20Approaches.md)
+- [SAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SAST.md) · [DAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/DAST.md) · [SCA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SCA.md)
+- [Testing Approaches](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/Testing%20Approaches.md)

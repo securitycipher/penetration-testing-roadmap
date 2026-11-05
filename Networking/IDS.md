@@ -23,7 +23,7 @@ An IDS is your digital security guard that tirelessly watches over your network,
 
 ## IDS from a pentester's view
 
-An IDS **detects but does not block** (that's an [IPS](IPS.md)). During a pentest you both try to evade it and, in a purple-team context, verify it actually fires on your attacks.
+An IDS **detects but does not block** (that's an [IPS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IPS.md)). During a pentest you both try to evade it and, in a purple-team context, verify it actually fires on your attacks.
 
 ### Common IDS/IPS products
 
@@ -61,4 +61,4 @@ curl "http://target/?id=/etc/passwd"        # path traversal signature
 
 ## Related
 
-- [IPS](IPS.md) · [Nmap](../Tools/Nmap.md) · [Wireshark](../Tools/Wireshark.md)
+- [IPS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IPS.md) · [Nmap](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Nmap.md) · [Wireshark](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Wireshark.md)

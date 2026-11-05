@@ -41,5 +41,5 @@ prowler aws -M html
 
 ## Related
 
-- [ScoutSuite](ScoutSuite.md)
-- [Trivy](Trivy.md)
+- [ScoutSuite](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/ScoutSuite.md)
+- [Trivy](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Trivy.md)

@@ -74,4 +74,4 @@ MATCH (u:User {hasspn:true})-[:AdminTo]->(c:Computer) RETURN u,c
 
 ## Related
 
-- [Active Directory Basics](Active%20Directory%20Basics.md)
+- [Active Directory Basics](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)

@@ -72,9 +72,9 @@ The single biggest scope-reducer is **segmentation**. If the CDE is properly iso
 
 ### Report requirement
 
-Your report must map findings to specific PCI requirements and be detailed enough for the QSA. See [Report Writing](../Methodology/Report%20Writing.md).
+Your report must map findings to specific PCI requirements and be detailed enough for the QSA. See [Report Writing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Report%20Writing.md).
 
 ## Related
 
-- [Report Writing](../Methodology/Report%20Writing.md) · [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)
-- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [Report Writing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Report%20Writing.md) · [Rules of Engagement](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Rules%20of%20Engagement.md)
+- [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md)

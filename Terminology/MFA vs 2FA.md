@@ -60,5 +60,5 @@ Phishing-resistant **FIDO2/WebAuthn** hardware keys defeat most of these bypasse
 
 ## Related
 
-- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
-- [SSO](SSO.md) · [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md)
+- [Identification and Authentication Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [SSO](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SSO.md) · [Session Hijacking](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Session%20Hijacking.md)

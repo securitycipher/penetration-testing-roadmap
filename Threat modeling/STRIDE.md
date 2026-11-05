@@ -35,12 +35,12 @@ Each STRIDE category maps directly to vulnerabilities you test for as a penteste
 
 | STRIDE | Violates | Example attack | Test with | Control |
 |--------|----------|----------------|-----------|---------|
-| **S**poofing | Authentication | Session hijacking, credential stuffing, JWT `alg:none` | [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md) | MFA, strong session mgmt |
+| **S**poofing | Authentication | Session hijacking, credential stuffing, JWT `alg:none` | [Session Hijacking](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Session%20Hijacking.md) | MFA, strong session mgmt |
 | **T**ampering | Integrity | Parameter tampering, request forgery | Burp Repeater | Input validation, signing/HMAC |
-| **R**epudiation | Non-repudiation | Deleting/forging logs | Log review | Audit logging, [Digital Signatures](../Cryptography/Digital%20Signature.md) |
-| **I**nformation disclosure | Confidentiality | IDOR, verbose errors, [SQLi](../Vulnerabilities/SQL%20Injection.md) | [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) | Encryption, access control |
-| **D**enial of service | Availability | Resource exhaustion, [request smuggling](../Vulnerabilities/HTTP%20Request%20Smuggling.md) | Load/fuzz testing | Rate limiting, quotas |
-| **E**levation of privilege | Authorization | [Privilege escalation](../Vulnerabilities/Privilege%20Escalation.md), broken RBAC | [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) | Least privilege, authZ checks |
+| **R**epudiation | Non-repudiation | Deleting/forging logs | Log review | Audit logging, [Digital Signatures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Digital%20Signature.md) |
+| **I**nformation disclosure | Confidentiality | IDOR, verbose errors, [SQLi](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/SQL%20Injection.md) | [Broken Access Control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) | Encryption, access control |
+| **D**enial of service | Availability | Resource exhaustion, [request smuggling](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/HTTP%20Request%20Smuggling.md) | Load/fuzz testing | Rate limiting, quotas |
+| **E**levation of privilege | Authorization | [Privilege escalation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Privilege%20Escalation.md), broken RBAC | [Broken Access Control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) | Least privilege, authZ checks |
 
 ## How to apply STRIDE (quick workflow)
 
@@ -51,5 +51,5 @@ Each STRIDE category maps directly to vulnerabilities you test for as a penteste
 
 ## Related
 
-- [Threat modeling](Threat%20modeling.md) · [PASTA](PASTA.md)
-- [OWASP Top 10](../OWASP%20Top%2010/OWASP%20Top%2010.md)
+- [Threat modeling](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/Threat%20modeling.md) · [PASTA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/PASTA.md)
+- [OWASP Top 10](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/OWASP%20Top%2010.md)

@@ -47,4 +47,4 @@ objection -g com.target.app explore
 
 ## Related
 
-- [Android Security Testing](Android%20Security%20Testing.md)
+- [Android Security Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Mobile/Android%20Security%20Testing.md)

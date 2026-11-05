@@ -61,9 +61,9 @@ Beyond the financial audit above, the RBI issues **cyber-security frameworks** t
 
 - Testing often must be done by **CERT-In empanelled** auditors — relevant if you work in India.
 - Findings usually map to the RBI framework's controls and must be remediated within defined timelines, with re-testing.
-- Overlaps heavily with **[PCI-DSS](PCI-DSS.md)** for anything touching card data.
+- Overlaps heavily with **[PCI-DSS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Compliance/PCI-DSS.md)** for anything touching card data.
 
 ## Related
 
-- [PCI-DSS](PCI-DSS.md) · [Report Writing](../Methodology/Report%20Writing.md)
-- [API Security](../API%20Security/) · [Mobile](../Mobile/)
+- [PCI-DSS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Compliance/PCI-DSS.md) · [Report Writing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Report%20Writing.md)
+- [API Security](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/API%20Security) · [Mobile](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Mobile)

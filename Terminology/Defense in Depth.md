@@ -44,12 +44,12 @@ Each control might be individually decent, but one weak link per layer creates a
 
 | Layer | What you probe |
 |-------|----------------|
-| Perimeter | Exposed services, [firewall](../Networking/Firewall.md) rule gaps |
+| Perimeter | Exposed services, [firewall](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Firewall.md) rule gaps |
 | Endpoint | AV/EDR evasion, missing patches |
-| Auth | Weak/reused creds, missing [MFA](MFA%20vs%202FA.md) |
-| Segmentation | Flat networks, [DMZ](DMZ.md) → internal pivots |
-| Access control | Over-privilege, [broken access control](../OWASP%20Top%2010/Broken%20Access%20Control.md) |
-| Monitoring | Does the [SIEM](SIEM.md)/[IDS](../Networking/IDS.md) actually detect you? |
+| Auth | Weak/reused creds, missing [MFA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/MFA%20vs%202FA.md) |
+| Segmentation | Flat networks, [DMZ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/DMZ.md) → internal pivots |
+| Access control | Over-privilege, [broken access control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) |
+| Monitoring | Does the [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md)/[IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md) actually detect you? |
 
 ### Reporting angle
 
@@ -57,5 +57,5 @@ Frame findings around **which layers failed and why the chain worked**. A mature
 
 ## Related
 
-- [Threat modeling](../Threat%20modeling/Threat%20modeling.md)
-- [SIEM](SIEM.md) · [DMZ](DMZ.md) · [MFA vs 2FA](MFA%20vs%202FA.md)
+- [Threat modeling](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/Threat%20modeling.md)
+- [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md) · [DMZ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/DMZ.md) · [MFA vs 2FA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/MFA%20vs%202FA.md)

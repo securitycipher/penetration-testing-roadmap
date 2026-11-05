@@ -76,7 +76,7 @@ hashcat -m 0 -a 0 unsalted.txt rockyou.txt
 ### Impact of salt (done right)
 
 - Rainbow tables become useless (a table per salt is infeasible).
-- You must brute-force **each hash individually**, which is why a **slow salted algorithm (bcrypt/Argon2)** is the goal — see [Hashing](Hashing.md).
+- You must brute-force **each hash individually**, which is why a **slow salted algorithm (bcrypt/Argon2)** is the goal — see [Hashing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Hashing.md).
 
 ### Common findings to report
 
@@ -95,5 +95,5 @@ bcrypt.checkpw(password.encode(), hashed)
 
 ## Related
 
-- [Hashing](Hashing.md)
-- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [Hashing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Hashing.md)
+- [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md)

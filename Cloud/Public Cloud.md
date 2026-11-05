@@ -64,4 +64,4 @@ subfinder -d target.com | httpx -silent | nuclei -t exposures/
 prowler aws   # or azure/gcp
 ```
 
-See [AWS](AWS.md), [Azure](Azure.md), [GCP](GCP.md) for provider-specific attacks and [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md).
+See [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md), [Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md), [GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md) for provider-specific attacks and [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md).

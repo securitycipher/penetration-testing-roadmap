@@ -4,7 +4,7 @@ New in 2021, this category is about trusting code, data, or updates **without ve
 
 ## Sub-areas
 
-- **Insecure deserialization** - rebuilding objects from untrusted data (RCE) - see [Insecure Deserialization](../Vulnerabilities/Insecure%20Deserialization.md)
+- **Insecure deserialization** - rebuilding objects from untrusted data (RCE) - see [Insecure Deserialization](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Insecure%20Deserialization.md)
 - **Unsigned / unverified updates** - auto-update mechanisms that don't check signatures
 - **CI/CD pipeline tampering** - poisoned build steps, malicious dependencies
 - **Supply chain attacks** - compromised packages (event-stream, SolarWinds, `ua-parser-js`)

@@ -46,7 +46,7 @@ logger.warning("auth.login.failure", extra={
 - **SIEM**: [Wazuh](https://wazuh.com/), Splunk, Elastic (ELK), Microsoft Sentinel
 - **Endpoint/telemetry**: Sysmon, auditd, osquery
 - **Alerting**: Grafana/Prometheus, SIEM correlation rules
-- See [SIEM](../Terminology/SIEM.md) for more.
+- See [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md) for more.
 
 ## Mitigation - the fix
 

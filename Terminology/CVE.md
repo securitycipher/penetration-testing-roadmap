@@ -58,5 +58,5 @@ Always cite the CVE ID **and** confirm exploitability in the target's context �
 
 ## Related
 
-- [CVSS](CVSS.md)
-- [Vulnerable and Outdated Components](../OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md) · [SCA](../Security%20Testing%20Approaches/SCA.md)
+- [CVSS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/CVSS.md)
+- [Vulnerable and Outdated Components](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md) · [SCA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SCA.md)

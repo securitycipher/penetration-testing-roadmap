@@ -29,8 +29,8 @@ SAML security rests entirely on the **signature** of the assertion. Break the si
 - **XML Signature Wrapping (XSW)** — inject a forged assertion while keeping the original signed one so the signature still "validates" but the parser reads your version.
 - **Signature stripping** — remove the signature; some SPs accept unsigned assertions.
 - **Comment injection** — `admin@target.com` → `admin@target.com<!---->.evil.com` can trick canonicalization into returning `admin@target.com`.
-- **XXE in the SAML XML** — the assertion is XML; test for [XXE](../Vulnerabilities/XXE.md).
-- **Golden SAML** — steal the IdP token-signing private key → forge assertions for any user, any SP (persistent, undetectable). See [Hybrid Cloud](../Cloud/Hybrid%20Cloud.md).
+- **XXE in the SAML XML** — the assertion is XML; test for [XXE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/XXE.md).
+- **Golden SAML** — steal the IdP token-signing private key → forge assertions for any user, any SP (persistent, undetectable). See [Hybrid Cloud](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Hybrid%20Cloud.md).
 - **Recipient/audience not validated** — replay an assertion at a different SP.
 
 ### How to test
@@ -48,5 +48,5 @@ echo "$SAMLResponse" | base64 -d | xmllint --format -
 
 ## Related
 
-- [Digital Signature](../Cryptography/Digital%20Signature.md) · [XXE](../Vulnerabilities/XXE.md)
-- [SSO](SSO.md) · [OAuth 2.0](OAuth%202.0.md)
+- [Digital Signature](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Digital%20Signature.md) · [XXE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/XXE.md)
+- [SSO](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SSO.md) · [OAuth 2.0](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/OAuth%202.0.md)

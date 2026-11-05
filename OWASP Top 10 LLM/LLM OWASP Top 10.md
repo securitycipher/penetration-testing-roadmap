@@ -26,16 +26,16 @@ The LLM OWASP Top 10 categorizes vulnerabilities into distinct areas, providing 
 
 | ID | Risk | Guide |
 |----|------|-------|
-| LLM01 | Prompt Injection | [Prompt Injection](Prompt%20Injection.md) |
-| LLM02 | Insecure Output Handling | [Insecure Output Handling](Insecure%20Output%20Handling.md) |
-| LLM03 | Training Data Poisoning | [Training Data Poisoning](Training%20Data%20Poisoning.md) |
-| LLM04 | Model Denial of Service | [Model Denial of Service](Model%20Denial%20of%20Service.md) |
-| LLM05 | Supply Chain Vulnerabilities | [Supply Chain Vulnerabilities](Supply%20Chain%20Vulnerabilities.md) |
-| LLM06 | Sensitive Information Disclosure | [Sensitive Information Disclosure](Sensitive%20Information%20Disclosure.md) |
-| LLM07 | Insecure Plugin Design | [Insecure Plugin Design](Insecure%20Plugin%20Design.md) |
-| LLM08 | Excessive Agency | [Excessive Agency](Excessive%20Agency.md) |
-| LLM09 | Overreliance | [Overreliance](Overreliance.md) |
-| LLM10 | Model Theft | [Model Theft](Model%20Theft.md) |
+| LLM01 | Prompt Injection | [Prompt Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Prompt%20Injection.md) |
+| LLM02 | Insecure Output Handling | [Insecure Output Handling](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Insecure%20Output%20Handling.md) |
+| LLM03 | Training Data Poisoning | [Training Data Poisoning](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Training%20Data%20Poisoning.md) |
+| LLM04 | Model Denial of Service | [Model Denial of Service](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Model%20Denial%20of%20Service.md) |
+| LLM05 | Supply Chain Vulnerabilities | [Supply Chain Vulnerabilities](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Supply%20Chain%20Vulnerabilities.md) |
+| LLM06 | Sensitive Information Disclosure | [Sensitive Information Disclosure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Sensitive%20Information%20Disclosure.md) |
+| LLM07 | Insecure Plugin Design | [Insecure Plugin Design](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Insecure%20Plugin%20Design.md) |
+| LLM08 | Excessive Agency | [Excessive Agency](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Excessive%20Agency.md) |
+| LLM09 | Overreliance | [Overreliance](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Overreliance.md) |
+| LLM10 | Model Theft | [Model Theft](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010%20LLM/Model%20Theft.md) |
 
 ## Note on versions (2023 vs 2025)
 

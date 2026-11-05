@@ -121,5 +121,5 @@ cloudmapper                   # visualize account network exposure
 
 ## Related
 
-- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
-- [Prowler](Prowler.md) · [ScoutSuite](ScoutSuite.md)
+- [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)
+- [Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md) · [ScoutSuite](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/ScoutSuite.md)

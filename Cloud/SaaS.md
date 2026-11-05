@@ -88,5 +88,5 @@ az role assignment list --all -o table
 
 ## Related
 
-- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
-- [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [Identification and Authentication Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [Broken Access Control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) · [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)

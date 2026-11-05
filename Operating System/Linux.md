@@ -107,5 +107,5 @@ python3 linux-exploit-suggester.py
 
 ## Related
 
-- [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md)
-- [Operating System Hardening](Operating%20System%20Hardening.md)
+- [Privilege Escalation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Privilege%20Escalation.md)
+- [Operating System Hardening](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Operating%20System%20Hardening.md)

@@ -37,7 +37,7 @@ Attack:   POST /confirm directly (order marked paid without /pay)
 
 ## Mitigation - the fix
 
-- **Threat model** during design (STRIDE) - see [Threat modeling](../Threat%20modeling/).
+- **Threat model** during design (STRIDE) - see [Threat modeling](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Threat%20modeling).
 - Establish **secure design patterns** and a paved-road reference architecture.
 - Enforce **business rules server-side**; recompute money/roles on the server.
 - Add **anti-automation** (rate limits, CAPTCHA, MFA) to sensitive flows by design.

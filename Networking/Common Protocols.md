@@ -81,5 +81,5 @@ smtp-user-enum -M VRFY -U users.txt -t target
 
 ## Related
 
-- [Nmap](../Tools/Nmap.md) · [Wireshark](../Tools/Wireshark.md)
-- [OSI Model](OSI%20Model.md)
+- [Nmap](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Nmap.md) · [Wireshark](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Wireshark.md)
+- [OSI Model](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/OSI%20Model.md)

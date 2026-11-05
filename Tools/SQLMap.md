@@ -1,6 +1,6 @@
 # SQLMap
 
-SQLMap automates finding and exploiting **SQL injection**. It detects the injection type, fingerprints the DBMS, and can enumerate databases, dump data, read/write files, and even get an OS shell - all from the command line. It's the go-to tool once you suspect a parameter is injectable (see [SQL Injection](../Vulnerabilities/SQL%20Injection.md)).
+SQLMap automates finding and exploiting **SQL injection**. It detects the injection type, fingerprints the DBMS, and can enumerate databases, dump data, read/write files, and even get an OS shell - all from the command line. It's the go-to tool once you suspect a parameter is injectable (see [SQL Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/SQL%20Injection.md)).
 
 ## Install
 

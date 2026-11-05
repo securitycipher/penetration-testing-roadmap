@@ -42,7 +42,7 @@ CDNs sit in front of the origin, which creates its own attack surface — cachin
 ### What to test
 
 - **Origin IP exposure** — if you find the real origin IP, you can bypass the CDN/WAF entirely and hit it directly.
-- **Web Cache Poisoning** — poison a cached response with malicious content served to all users (see [Host Header Injection](../Vulnerabilities/Host%20Header%20Injection.md)).
+- **Web Cache Poisoning** — poison a cached response with malicious content served to all users (see [Host Header Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Host%20Header%20Injection.md)).
 - **Cache Deception** — trick the CDN into caching a victim's private page (`/account.php/nonexistent.css`).
 - **WAF bypass** — CDN WAFs can be evaded with encoding, casing, or by hitting the origin directly.
 - **Misconfigured cache keys** — sensitive data cached and served to other users.
@@ -73,5 +73,5 @@ curl -sI "https://target.com/?cb=1" -H "X-Forwarded-Host: evil.com"
 
 ## Related
 
-- [Host Header Injection](../Vulnerabilities/Host%20Header%20Injection.md)
-- [HTTP Request Smuggling](../Vulnerabilities/HTTP%20Request%20Smuggling.md)
+- [Host Header Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Host%20Header%20Injection.md)
+- [HTTP Request Smuggling](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/HTTP%20Request%20Smuggling.md)

@@ -67,9 +67,9 @@ redirect_uri=https://target.com/callback/../redirect?url=evil.com
 
 ### Note: OAuth is authorization, not authentication
 
-Using OAuth access tokens as proof of identity (instead of OpenID Connect ID tokens) leads to auth bypass. See [SAML](SAML.md) and [SSO](SSO.md) for federated login.
+Using OAuth access tokens as proof of identity (instead of OpenID Connect ID tokens) leads to auth bypass. See [SAML](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SAML.md) and [SSO](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SSO.md) for federated login.
 
 ## Related
 
-- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
-- [SSO](SSO.md) · [SAML](SAML.md)
+- [Identification and Authentication Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [SSO](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SSO.md) · [SAML](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SAML.md)

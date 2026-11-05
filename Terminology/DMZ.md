@@ -58,5 +58,5 @@ A well-segmented DMZ means compromising it gives you *little* internal reach; te
 
 ## Related
 
-- [Firewall](../Networking/Firewall.md) · [Jump Server](Jump%20Server.md)
-- [Network Segmentation](../Networking/Subnetting.md)
+- [Firewall](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Firewall.md) · [Jump Server](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/Jump%20Server.md)
+- [Network Segmentation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/Subnetting.md)

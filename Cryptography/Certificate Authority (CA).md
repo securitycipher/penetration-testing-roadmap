@@ -67,5 +67,5 @@ certipy req -u user@domain -p 'Password' -ca CA-NAME -template VulnTemplate -upn
 
 ## Related
 
-- [PKI](Public%20Key%20Infrastructure%20%28PKI%29.md) · [SSL Handshake](SSL%20Handshake.md)
-- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
+- [PKI](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Public%20Key%20Infrastructure%20%28PKI%29.md) · [SSL Handshake](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/SSL%20Handshake.md)
+- [Active Directory Basics](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)

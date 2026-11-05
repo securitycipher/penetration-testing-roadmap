@@ -25,7 +25,7 @@ CRTP from Pentester Academy focuses on **Active Directory attacks** in a lab env
 ## Resources
 
 - [Pentester Academy CRTP](https://www.pentesteracademy.com/red-team-labs)
-- [BloodHound](../Active%20Directory/BloodHound.md)
+- [BloodHound](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/BloodHound.md)
 
 ## Career path
 

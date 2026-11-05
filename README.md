@@ -8,10 +8,10 @@ A structured learning path from zero to junior penetration tester - topics, tool
 
 ## Quick start
 
-1. Read [Intro.md](Intro.md) for the recommended learning path and TL;DR
+1. Read [Intro.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Intro.md) for the recommended learning path and TL;DR
 2. Work through phases: **Foundations** → **Web** → **Infrastructure** → **Specialize** → **Labs & certs**
 3. Open any topic below for a short guide with tools, labs, and links
-4. See [FAQ.md](FAQ.md) for career and cert questions
+4. See [FAQ.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/FAQ.md) for career and cert questions
 
 ## Learning path
 
@@ -23,52 +23,52 @@ A structured learning path from zero to junior penetration tester - topics, tool
 | 4. Specialize | Web, cloud, mobile, API, or LLM track | Ongoing |
 | 5. Prove it | HTB, TryHackMe, certs (eJPT, Security+, OSCP) | 3-6 months |
 
-Full write-up: [Intro.md](Intro.md)
+Full write-up: [Intro.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Intro.md)
 
 ## Content index
 
 ### Getting started
 
-- [Intro](Intro.md)
-- [FAQ](FAQ.md)
+- [Intro](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Intro.md)
+- [FAQ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/FAQ.md)
 
 ### Foundations
 
-- [Operating System](Operating%20System/)
-- [Networking](Networking/)
-- [Cryptography](Cryptography/)
-- [Compliance](Compliance/)
+- [Operating System](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Operating%20System)
+- [Networking](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Networking)
+- [Cryptography](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Cryptography)
+- [Compliance](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Compliance)
 
 ### Core security
 
-- [Terminology](Terminology/)
-- [Vulnerabilities](Vulnerabilities/)
-- [Security Testing Approaches](Security%20Testing%20Approaches/)
-- [Threat Modeling](Threat%20modeling/)
-- [Tools](Tools/)
+- [Terminology](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Terminology)
+- [Vulnerabilities](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Vulnerabilities)
+- [Security Testing Approaches](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Security%20Testing%20Approaches)
+- [Threat Modeling](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Threat%20modeling)
+- [Tools](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Tools)
 
 ### Web and application testing
 
-- [OWASP Top 10](OWASP%20Top%2010/)
-- [API Security](API%20Security/)
-- [Methodology](Methodology/) - pentest phases, rules of engagement, reporting
-- [Recon](Recon/) - OSINT, subdomains, JavaScript analysis
+- [OWASP Top 10](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/OWASP%20Top%2010)
+- [API Security](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/API%20Security)
+- [Methodology](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Methodology) - pentest phases, rules of engagement, reporting
+- [Recon](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Recon) - OSINT, subdomains, JavaScript analysis
 
 ### Infrastructure and cloud
 
-- [Active Directory](Active%20Directory/)
-- [Cloud](Cloud/)
-- [Containers](Containers/) - Docker and Kubernetes
-- [Mobile](Mobile/) - Android and iOS testing
+- [Active Directory](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Active%20Directory)
+- [Cloud](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Cloud)
+- [Containers](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Containers) - Docker and Kubernetes
+- [Mobile](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Mobile) - Android and iOS testing
 
 ### Emerging areas
 
-- [OWASP Top 10 LLM](OWASP%20Top%2010%20LLM/)
+- [OWASP Top 10 LLM](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/OWASP%20Top%2010%20LLM)
 
 ### Practice and credentials
 
-- [Labs](Labs/)
-- [Certifications](Certifications/)
+- [Labs](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Labs)
+- [Certifications](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Certifications)
 
 ## Related Security Cipher resources
 
@@ -84,28 +84,28 @@ Full write-up: [Intro.md](Intro.md)
 
 | Cert | Guide |
 |------|-------|
-| CEH | [CEH.md](Certifications/CEH.md) |
-| CISSP | [CISSP.md](Certifications/CISSP.md) |
-| CompTIA Security+ | [CompTIA Security+.md](Certifications/CompTIA%20Security+.md) |
-| OSCP | [OSCP.md](Certifications/OSCP.md) |
-| OSWE | [OSWE.md](Certifications/OSWE.md) |
-| OSWP | [OSWP.md](Certifications/OSWP.md) |
-| eJPT | [eJPT.md](Certifications/eJPT.md) |
-| PNPT | [PNPT.md](Certifications/PNPT.md) |
-| CRTP | [CRTP.md](Certifications/CRTP.md) |
-| BTL1 | [BTL1.md](Certifications/BTL1.md) |
+| CEH | [CEH.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CEH.md) |
+| CISSP | [CISSP.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CISSP.md) |
+| CompTIA Security+ | [CompTIA Security+.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CompTIA%20Security%2B.md) |
+| OSCP | [OSCP.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/OSCP.md) |
+| OSWE | [OSWE.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/OSWE.md) |
+| OSWP | [OSWP.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/OSWP.md) |
+| eJPT | [eJPT.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/eJPT.md) |
+| PNPT | [PNPT.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/PNPT.md) |
+| CRTP | [CRTP.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CRTP.md) |
+| BTL1 | [BTL1.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/BTL1.md) |
 
 ## Labs
 
 | Platform | Guide |
 |----------|-------|
-| Hack The Box | [HackTheBox.md](Labs/HackTheBox.md) |
-| TryHackMe | [TryHackMe.md](Labs/TryHackMe.md) |
-| pwn.college | [pwn.college.md](Labs/pwn.college.md) |
-| VulHub | [VulHub.md](Labs/VulHub.md) |
-| Web Security Academy | [Web Security Academy.md](Labs/Web%20Security%20Academy.md) |
-| Root Me | [Root Me.md](Labs/Root%20Me.md) |
-| Altoro Mutual | [Altoro Mutual.md](Labs/Altoro%20Mutual.md) |
+| Hack The Box | [HackTheBox.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/HackTheBox.md) |
+| TryHackMe | [TryHackMe.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/TryHackMe.md) |
+| pwn.college | [pwn.college.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/pwn.college.md) |
+| VulHub | [VulHub.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/VulHub.md) |
+| Web Security Academy | [Web Security Academy.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Web%20Security%20Academy.md) |
+| Root Me | [Root Me.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Root%20Me.md) |
+| Altoro Mutual | [Altoro Mutual.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Altoro%20Mutual.md) |
 
 ## Contributing
 
@@ -118,7 +118,7 @@ Contributions are welcome. This repo is the source of truth for roadmap content.
 **Guidelines**
 
 - Keep guides concise and actionable - labs, tools, and further reading where possible
-- Match the tone of existing topics (see [Linux.md](Operating%20System/Linux.md) or [SQL Injection.md](Vulnerabilities/SQL%20Injection.md))
+- Match the tone of existing topics (see [Linux.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Linux.md) or [SQL Injection.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/SQL%20Injection.md))
 - Fix typos and broken links anytime - small PRs are fine
 - New topics: pick the closest folder from [Content index](#content-index) above
 

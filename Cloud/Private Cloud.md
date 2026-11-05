@@ -50,7 +50,7 @@ A private cloud (often **OpenStack**, **VMware vSphere/vCloud**, or a self-hoste
 - **Network segmentation** — can a tenant VM reach the management VLAN or other tenants?
 - **VM escape** — outdated hypervisor CVEs (VMware, KVM/QEMU).
 - **Storage & backups** — exposed NFS/iSCSI, unencrypted snapshots.
-- **Underlying OS/services** — standard internal pentest: [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md), [Active Directory](../Active%20Directory/Active%20Directory%20Basics.md) if joined.
+- **Underlying OS/services** — standard internal pentest: [Privilege Escalation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Privilege%20Escalation.md), [Active Directory](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md) if joined.
 
 ### Commands
 
@@ -69,5 +69,5 @@ nmap --script vuln <esxi-host>
 
 ## Related
 
-- [Kubernetes Security](../Containers/Kubernetes%20Security.md)
-- [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [Kubernetes Security](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Containers/Kubernetes%20Security.md)
+- [Privilege Escalation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Privilege%20Escalation.md) · [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)

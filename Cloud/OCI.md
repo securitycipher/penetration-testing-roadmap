@@ -89,5 +89,5 @@ scout suite oci      # alpha OCI support
 
 ## Related
 
-- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
-- [AWS](AWS.md) · [GCP](GCP.md)
+- [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)
+- [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md) · [GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md)

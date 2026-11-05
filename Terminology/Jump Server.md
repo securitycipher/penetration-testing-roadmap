@@ -55,5 +55,5 @@ A jump server *concentrates* risk: great for the defender's monitoring, but cata
 
 ## Related
 
-- [DMZ](DMZ.md) · [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md)
-- [MFA vs 2FA](MFA%20vs%202FA.md) · [Lateral Movement](../Active%20Directory/Active%20Directory%20Basics.md)
+- [DMZ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/DMZ.md) · [Session Hijacking](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Session%20Hijacking.md)
+- [MFA vs 2FA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/MFA%20vs%202FA.md) · [Lateral Movement](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)

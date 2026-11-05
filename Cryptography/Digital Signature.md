@@ -49,9 +49,9 @@ python3 jwt_tool.py <token> -X a         # alg:none exploit
 
 ### Other signature-verification failures
 
-- **Golden SAML** — steal the ADFS token-signing key → forge SAML assertions for any user (see [Hybrid Cloud](../Cloud/Hybrid%20Cloud.md)).
+- **Golden SAML** — steal the ADFS token-signing key → forge SAML assertions for any user (see [Hybrid Cloud](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Hybrid%20Cloud.md)).
 - **Webhook signature not verified** — spoof payloads (payment/CI callbacks).
-- **Software update signatures skipped** — supply malicious updates (see [Software and Data Integrity Failures](../OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md)).
+- **Software update signatures skipped** — supply malicious updates (see [Software and Data Integrity Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md)).
 - **Missing non-repudiation** — actions can't be attributed, hindering IR.
 
 ### Key takeaway
@@ -60,5 +60,5 @@ A signature is only as strong as the code that verifies it. Always test: *does t
 
 ## Related
 
-- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
-- [PKI](Public%20Key%20Infrastructure%20%28PKI%29.md) · [Hashing](Hashing.md)
+- [Identification and Authentication Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [PKI](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Public%20Key%20Infrastructure%20%28PKI%29.md) · [Hashing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Hashing.md)

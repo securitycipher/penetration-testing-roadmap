@@ -41,9 +41,9 @@ Under the **shared responsibility model**, IaaS gives you the *most* to test: th
 
 - **Exposed instances** — public IPs, open admin ports (SSH 22, RDP 3389), weak SSH keys.
 - **Security groups / NSGs** — `0.0.0.0/0` on sensitive ports.
-- **Instance metadata SSRF** — steal the attached role/SA credentials (see [AWS](AWS.md), [GCP](GCP.md)).
+- **Instance metadata SSRF** — steal the attached role/SA credentials (see [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md), [GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md)).
 - **Storage volumes / snapshots** — public EBS snapshots, unencrypted disks.
-- **OS-level** — unpatched software, weak creds, misconfigured services → [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md).
+- **OS-level** — unpatched software, weak creds, misconfigured services → [Privilege Escalation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Privilege%20Escalation.md).
 
 ### Commands
 
@@ -62,5 +62,5 @@ prowler aws
 
 ## Related
 
-- [AWS](AWS.md) · [Azure](Azure.md) · [GCP](GCP.md)
-- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md) · [Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md) · [GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md)
+- [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)

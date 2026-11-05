@@ -71,9 +71,9 @@ Get-AADIntSyncCredentials
 
 ### Focus
 
-Treat hybrid as **two pentests plus the bridge**: assess public ([AWS](AWS.md)/[Azure](Azure.md)/[GCP](GCP.md)), assess private ([Private Cloud](Private%20Cloud.md)), then prove lateral movement across the link.
+Treat hybrid as **two pentests plus the bridge**: assess public ([AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md)/[Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md)/[GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md)), assess private ([Private Cloud](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Private%20Cloud.md)), then prove lateral movement across the link.
 
 ## Related
 
-- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
-- [Azure](Azure.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [Active Directory Basics](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)
+- [Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md) · [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)

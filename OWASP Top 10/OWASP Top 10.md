@@ -25,23 +25,23 @@ OWASP (Open Worldwide Application Security Project) publishes the **OWASP Top 10
 
 ## Detailed guides in this folder
 
-- [Broken Access Control](Broken%20Access%20Control.md) (A01)
-- [Cryptographic Failures](Cryptographic%20Failures.md) (A02)
-- [Injection](Injection.md) (A03)
-- [Insecure Design](Insecure%20Design.md) (A04)
-- [Security Misconfiguration](Security%20Misconfiguration.md) (A05)
-- [Vulnerable and Outdated Components](Vulnerable%20and%20Outdated%20Components.md) (A06)
-- [Identification and Authentication Failures](Identification%20and%20Authentication%20Failures.md) (A07)
-- [Software and Data Integrity Failures](Software%20and%20Data%20Integrity%20Failures.md) (A08)
-- [Security Logging and Monitoring Failures](Security%20Logging%20and%20Monitoring%20Failures.md) (A09)
-- [SSRF](SSRF.md) (A10)
+- [Broken Access Control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) (A01)
+- [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md) (A02)
+- [Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Injection.md) (A03)
+- [Insecure Design](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Insecure%20Design.md) (A04)
+- [Security Misconfiguration](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Security%20Misconfiguration.md) (A05)
+- [Vulnerable and Outdated Components](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md) (A06)
+- [Identification and Authentication Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md) (A07)
+- [Software and Data Integrity Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md) (A08)
+- [Security Logging and Monitoring Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md) (A09)
+- [SSRF](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/SSRF.md) (A10)
 
 ## How to use this as a pentester
 
 1. Map the app (auth flows, roles, inputs, integrations).
 2. Walk each category top-down - A01 access control usually yields the fastest wins.
 3. For each finding, record: request, payload, impact, and remediation.
-4. Cross-reference the [Vulnerabilities](../Vulnerabilities/) folder for concrete payloads.
+4. Cross-reference the [Vulnerabilities](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Vulnerabilities) folder for concrete payloads.
 
 ## Practice
 

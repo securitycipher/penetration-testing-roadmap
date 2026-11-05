@@ -31,7 +31,7 @@ A penetration test is primarily a way to **validate the Protect and Detect funct
 |--------------|--------------------------|
 | **Identify** | You often find unknown/shadow assets during recon |
 | **Protect** | Exploitable vulns = failed safeguards |
-| **Detect** | Did the [SIEM](SIEM.md)/[IDS](../Networking/IDS.md) alert on your activity? |
+| **Detect** | Did the [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md)/[IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md) alert on your activity? |
 | **Respond** | Purple-team: test their IR playbook against your attack |
 | **Recover** | Validate backups/DR (usually out of pentest scope) |
 | **Govern** | Missing policies/ownership surfaced in the report |
@@ -39,13 +39,13 @@ A penetration test is primarily a way to **validate the Protect and Detect funct
 ### Where it fits vs other standards
 
 - **NIST CSF** — voluntary, risk-based framework (the "what/why").
-- **[NIST SP 800-53](../Compliance/)** — detailed control catalog (the "how").
-- **[ISO 27001](../Compliance/)** — internationally certifiable ISMS standard.
-- **[PCI DSS](../Compliance/)** — prescriptive, mandatory for cardholder data (and *requires* pentesting).
+- **[NIST SP 800-53](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Compliance)** — detailed control catalog (the "how").
+- **[ISO 27001](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Compliance)** — internationally certifiable ISMS standard.
+- **[PCI DSS](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Compliance)** — prescriptive, mandatory for cardholder data (and *requires* pentesting).
 
 For a pentester, the CSF is useful in the **report**: map each finding to a function so leadership sees exactly which part of their program needs investment.
 
 ## Related
 
-- [Compliance](../Compliance/)
-- [SIEM](SIEM.md) · [Defense in Depth](Defense%20in%20Depth.md)
+- [Compliance](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Compliance)
+- [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md) · [Defense in Depth](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/Defense%20in%20Depth.md)

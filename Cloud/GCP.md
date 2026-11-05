@@ -118,5 +118,5 @@ scout suite gcp
 
 ## Related
 
-- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
-- [Kubernetes Security](../Containers/Kubernetes%20Security.md) (GKE)
+- [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)
+- [Kubernetes Security](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Containers/Kubernetes%20Security.md) (GKE)

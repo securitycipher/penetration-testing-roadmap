@@ -53,10 +53,10 @@ wireshark   # (Statistics -> follow stream)
 ### Symmetric vs asymmetric — quick recall
 
 - **Symmetric (AES)** — fast, one shared key; used for bulk data.
-- **Asymmetric (RSA/ECC)** — slow, key pair; used for key exchange and [Digital Signatures](Digital%20Signature.md).
-- TLS uses asymmetric to exchange a symmetric session key (see [SSL Handshake](SSL%20Handshake.md)).
+- **Asymmetric (RSA/ECC)** — slow, key pair; used for key exchange and [Digital Signatures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Digital%20Signature.md).
+- TLS uses asymmetric to exchange a symmetric session key (see [SSL Handshake](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/SSL%20Handshake.md)).
 
 ## Related
 
-- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
-- [Hashing](Hashing.md) · [SSL Handshake](SSL%20Handshake.md)
+- [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [Hashing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Hashing.md) · [SSL Handshake](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/SSL%20Handshake.md)

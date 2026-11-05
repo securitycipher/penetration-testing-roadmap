@@ -37,10 +37,10 @@ With PaaS, the provider handles the OS and runtime, so you **can't** test the ho
 
 ### What to test
 
-- **The deployed app itself** — full web/API pentest (see [OWASP Top 10](../OWASP%20Top%2010/OWASP%20Top%2010.md), [REST API Testing](../API%20Security/REST%20API%20Testing.md)).
+- **The deployed app itself** — full web/API pentest (see [OWASP Top 10](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/OWASP%20Top%2010.md), [REST API Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/API%20Security/REST%20API%20Testing.md)).
 - **Secrets in config / env vars** — connection strings, API keys baked into the app settings.
 - **Over-privileged service identity** — the managed identity / IAM role the platform assigns the app.
-- **Build/deploy pipeline** — CI/CD tokens, source repo access → [Software and Data Integrity Failures](../OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md).
+- **Build/deploy pipeline** — CI/CD tokens, source repo access → [Software and Data Integrity Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md).
 - **Metadata SSRF** — App Service / App Engine also expose a metadata endpoint.
 
 ### Commands
@@ -60,5 +60,5 @@ aws elasticbeanstalk describe-configuration-settings --application-name <app> --
 
 ## Related
 
-- [OWASP Top 10](../OWASP%20Top%2010/OWASP%20Top%2010.md)
-- [Serverless](Serverless.md) · [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [OWASP Top 10](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/OWASP%20Top%2010.md)
+- [Serverless](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Serverless.md) · [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)

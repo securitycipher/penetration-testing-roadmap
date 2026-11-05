@@ -24,7 +24,7 @@ BTL1 from Security Blue Team is a **defensive** certification - SIEM, log analys
 ## Resources
 
 - [Security Blue Team BTL1](https://www.securityblue.team/certifications/blue-team-level-1)
-- [SIEM](../Terminology/SIEM.md)
+- [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md)
 
 ## Compare
 

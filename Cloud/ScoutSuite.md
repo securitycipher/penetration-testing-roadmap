@@ -63,5 +63,5 @@ open scoutsuite-report/scoutsuite_report_*.html
 
 ## Related
 
-- [Prowler](Prowler.md)
-- [AWS](AWS.md) · [Azure](Azure.md) · [GCP](GCP.md)
+- [Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md)
+- [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md) · [Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md) · [GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md)

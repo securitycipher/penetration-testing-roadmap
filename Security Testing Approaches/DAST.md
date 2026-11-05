@@ -60,5 +60,5 @@ A pentest *is* dynamic testing — but a human adds business-logic understanding
 
 ## Related
 
-- [SAST](SAST.md) · [IAST](IAST.md) · [SCA](SCA.md)
-- [ZAP Proxy](../Tools/ZAP%20Proxy.md) · [Nuclei](../Tools/Nuclei.md) · [Burp Suite](../Tools/Burp%20Suite.md)
+- [SAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SAST.md) · [IAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/IAST.md) · [SCA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SCA.md)
+- [ZAP Proxy](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/ZAP%20Proxy.md) · [Nuclei](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Nuclei.md) · [Burp Suite](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Burp%20Suite.md)

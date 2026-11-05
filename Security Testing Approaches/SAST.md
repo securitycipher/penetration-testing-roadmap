@@ -54,7 +54,7 @@ codeql database analyze db --format=sarif-latest -o results.sarif
 | Finds bugs early (shift-left) | High false-positive rate |
 | Full code coverage | Can't find runtime/config/auth logic flaws |
 | No running app needed | Language-specific tooling |
-| Pinpoints exact file/line | Misses issues that only appear at runtime (that's [DAST](DAST.md)) |
+| Pinpoints exact file/line | Misses issues that only appear at runtime (that's [DAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/DAST.md)) |
 
 ## Where it fits for a pentester
 
@@ -62,5 +62,5 @@ You'll often review SAST output during a code-assisted (white-box) test — use 
 
 ## Related
 
-- [DAST](DAST.md) · [IAST](IAST.md) · [SCA](SCA.md)
-- [Testing Approaches](Testing%20Approaches.md)
+- [DAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/DAST.md) · [IAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/IAST.md) · [SCA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SCA.md)
+- [Testing Approaches](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/Testing%20Approaches.md)

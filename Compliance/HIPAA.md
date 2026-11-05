@@ -66,7 +66,7 @@ The mission is protecting **ePHI (electronic Protected Health Information)** —
 
 - **Medical devices (IoMT)** — infusion pumps, imaging systems often run legacy, unpatched OSes. High-value, fragile targets — test carefully.
 - **Business Associates** — third parties handling PHI are in scope too; supply-chain matters.
-- **Handle data carefully** — you may encounter real PHI during testing; the [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md) must cover data handling.
+- **Handle data carefully** — you may encounter real PHI during testing; the [Rules of Engagement](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Rules%20of%20Engagement.md) must cover data handling.
 
 ### Reporting
 
@@ -74,5 +74,5 @@ Map each finding to the relevant Security Rule safeguard (Administrative / Physi
 
 ## Related
 
-- [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) · [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
-- [ISO 27001](ISO%2027001.md) · [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)
+- [Broken Access Control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) · [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [ISO 27001](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Compliance/ISO%2027001.md) · [Rules of Engagement](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Rules%20of%20Engagement.md)

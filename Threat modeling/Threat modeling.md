@@ -42,9 +42,9 @@ Threat modeling is a crucial step in building and maintaining secure systems. It
 Every threat model boils down to answering these:
 
 1. **What are we building?** → draw a data-flow diagram (DFD).
-2. **What can go wrong?** → apply [STRIDE](STRIDE.md) / attack trees.
+2. **What can go wrong?** → apply [STRIDE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/STRIDE.md) / attack trees.
 3. **What are we going to do about it?** → mitigations/controls.
-4. **Did we do a good enough job?** → validate (often with a [pentest](../Methodology/Pentest%20Phases.md)).
+4. **Did we do a good enough job?** → validate (often with a [pentest](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Pentest%20Phases.md)).
 
 ## Worked mini-example: a login feature
 
@@ -66,8 +66,8 @@ Every threat model boils down to answering these:
 
 | Framework | Best for |
 |-----------|----------|
-| [STRIDE](STRIDE.md) | Per-component threat enumeration (dev-friendly) |
-| [PASTA](PASTA.md) | Risk-centric, business-aligned, 7 stages |
+| [STRIDE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/STRIDE.md) | Per-component threat enumeration (dev-friendly) |
+| [PASTA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/PASTA.md) | Risk-centric, business-aligned, 7 stages |
 | DREAD | Risk scoring (Damage/Reproducibility/Exploitability/Affected/Discoverability) |
 | Attack Trees | Modeling attacker goals and paths |
 
@@ -84,5 +84,5 @@ Threat modeling is **proactive and design-time** ("what *could* go wrong"); a pe
 
 ## Related
 
-- [STRIDE](STRIDE.md) · [PASTA](PASTA.md)
-- [Pentest Phases](../Methodology/Pentest%20Phases.md)
+- [STRIDE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/STRIDE.md) · [PASTA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Threat%20modeling/PASTA.md)
+- [Pentest Phases](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Pentest%20Phases.md)

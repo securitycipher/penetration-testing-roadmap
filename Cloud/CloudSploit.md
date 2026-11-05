@@ -1,6 +1,6 @@
 # CloudSploit
 
-> **Note (2026):** CloudSploit was acquired by Aqua Security. For active cloud auditing, use **[Prowler](Prowler.md)** or **[Trivy](Trivy.md)**. This page is kept for reference.
+> **Note (2026):** CloudSploit was acquired by Aqua Security. For active cloud auditing, use **[Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md)** or **[Trivy](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Trivy.md)**. This page is kept for reference.
 
 CloudSploit is a security and compliance monitoring tool designed specifically for cloud environments. It focuses on helping users identify and address potential security risks and compliance issues within their cloud infrastructure.
 

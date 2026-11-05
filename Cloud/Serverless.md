@@ -44,9 +44,9 @@ aws lambda invoke --function-name target-fn --payload '{}' out.json; cat out.jso
 
 ## Tools
 
-- [Prowler](Prowler.md) - flags over-privileged roles and public functions
+- [Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md) - flags over-privileged roles and public functions
 - [cloudsplaining](https://github.com/salesforce/cloudsplaining) - IAM policy risk analysis
-- [Trivy](Trivy.md) - scan function dependencies for known CVEs
+- [Trivy](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Trivy.md) - scan function dependencies for known CVEs
 
 ## Mitigation
 
@@ -62,5 +62,5 @@ aws lambda invoke --function-name target-fn --payload '{}' out.json; cat out.jso
 
 ## Related
 
-- [AWS](AWS.md)
-- [Prowler](Prowler.md)
+- [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md)
+- [Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md)

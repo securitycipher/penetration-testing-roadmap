@@ -66,5 +66,5 @@ lynis audit system                    # Linux/macOS
 
 ## Related
 
-- [CIS Benchmark](../Cloud/CIS%20Benchmark.md)
-- [Linux](Linux.md) · [Windows](Windows.md)
+- [CIS Benchmark](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/CIS%20Benchmark.md)
+- [Linux](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Linux.md) · [Windows](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Windows.md)

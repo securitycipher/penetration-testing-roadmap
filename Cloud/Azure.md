@@ -134,5 +134,5 @@ scout suite azure
 
 ## Related
 
-- [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)
-- [Top Cloud Security Risks](Top%20Cloud%20Security%20Risks.md)
+- [Active Directory Basics](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Active%20Directory/Active%20Directory%20Basics.md)
+- [Top Cloud Security Risks](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Top%20Cloud%20Security%20Risks.md)

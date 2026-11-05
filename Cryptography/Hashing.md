@@ -64,7 +64,7 @@ john --show ntlm.txt
 ### Why algorithm choice matters
 
 - **MD5 / SHA-1** are fast → billions of guesses/sec on a GPU → cracked quickly. **Broken; flag them.**
-- **Unsalted** hashes fall to precomputed **rainbow tables** (see [Salting](Salting.md)).
+- **Unsalted** hashes fall to precomputed **rainbow tables** (see [Salting](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Salting.md)).
 - **bcrypt / scrypt / Argon2 / PBKDF2** are *deliberately slow* → orders of magnitude harder to crack. These are the correct choice for passwords.
 
 ### Pass-the-Hash
@@ -77,5 +77,5 @@ crackmapexec smb target -u admin -H <NTLM-hash>
 
 ## Related
 
-- [Salting](Salting.md)
-- [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [Salting](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cryptography/Salting.md)
+- [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md)

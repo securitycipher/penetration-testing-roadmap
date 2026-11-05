@@ -80,5 +80,5 @@ Treat obfuscation as a **speed bump**, never a control. Client-side secrets (API
 
 ## Related
 
-- [JavaScript Analysis](../Recon/JavaScript%20Analysis.md)
-- [Android Security Testing](../Mobile/Android%20Security%20Testing.md)
+- [JavaScript Analysis](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Recon/JavaScript%20Analysis.md)
+- [Android Security Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Mobile/Android%20Security%20Testing.md)

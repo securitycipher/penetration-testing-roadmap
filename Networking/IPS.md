@@ -26,7 +26,7 @@ An IPS is your digital superhero, actively preventing cyber threats from infiltr
 
 ## IPS from a pentester's view
 
-Unlike an [IDS](IDS.md), an IPS sits **inline** and actively **drops/blocks** malicious traffic — so on a test you'll notice connections being reset, IPs getting blocked, or payloads silently stripped.
+Unlike an [IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md), an IPS sits **inline** and actively **drops/blocks** malicious traffic — so on a test you'll notice connections being reset, IPs getting blocked, or payloads silently stripped.
 
 ### Signs you've hit an IPS
 
@@ -55,8 +55,8 @@ Because an IPS **blocks**, aggressive testing can lock you out or even disrupt t
 
 ### WAF is an app-layer IPS
 
-A Web Application Firewall is essentially an IPS for HTTP. See WAF-bypass techniques in [SQL Injection](../Vulnerabilities/SQL%20Injection.md) and [XSS](../Vulnerabilities/XSS.md).
+A Web Application Firewall is essentially an IPS for HTTP. See WAF-bypass techniques in [SQL Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/SQL%20Injection.md) and [XSS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/XSS.md).
 
 ## Related
 
-- [IDS](IDS.md) · [Nmap](../Tools/Nmap.md)
+- [IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md) · [Nmap](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Tools/Nmap.md)

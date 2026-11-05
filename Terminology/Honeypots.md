@@ -58,4 +58,4 @@ nmap --script http-honeypot,ftp-honeypot target   # (community scripts)
 
 ## Related
 
-- [SIEM](SIEM.md) · [IDS](../Networking/IDS.md)
+- [SIEM](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SIEM.md) · [IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md)

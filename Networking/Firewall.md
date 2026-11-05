@@ -29,5 +29,5 @@ Map the result back to the rulebase if the client gives you read access (config 
 
 ## Related
 
-- [IDS](IDS.md) · [IPS](IPS.md)
-- [DMZ](../Terminology/DMZ.md) · [VPN](VPN.md)
+- [IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md) · [IPS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IPS.md)
+- [DMZ](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/DMZ.md) · [VPN](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/VPN.md)

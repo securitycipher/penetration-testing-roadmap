@@ -50,7 +50,7 @@ syft dir:. -o cyclonedx-json > sbom.json
 
 ## Why it matters (maps to OWASP)
 
-SCA directly addresses **[A06:2021 – Vulnerable and Outdated Components](../OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md)**. Most breaches that start with a "known CVE" (Log4Shell, Struts) were preventable with SCA.
+SCA directly addresses **[A06:2021 – Vulnerable and Outdated Components](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md)**. Most breaches that start with a "known CVE" (Log4Shell, Struts) were preventable with SCA.
 
 ## For a pentester
 
@@ -66,5 +66,5 @@ nuclei -u https://target.com -t cves/
 
 ## Related
 
-- [Vulnerable and Outdated Components](../OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md)
-- [Trivy](../Cloud/Trivy.md) · [SAST](SAST.md) · [DAST](DAST.md)
+- [Vulnerable and Outdated Components](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md)
+- [Trivy](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Trivy.md) · [SAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SAST.md) · [DAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/DAST.md)

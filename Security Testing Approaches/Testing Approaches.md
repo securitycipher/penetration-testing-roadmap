@@ -54,12 +54,12 @@ Code -> Commit -> Build -> Test -> Deploy -> Monitor
 
 ## How this relates to a penetration test
 
-- **[SAST](SAST.md) / [SCA](SCA.md)** map to a **white-box** engagement (you have source).
-- **[DAST](DAST.md)** maps to **black/grey-box** testing (you attack the running app).
-- **[IAST](IAST.md)** is a DevSecOps control layered into CI/CD.
+- **[SAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SAST.md) / [SCA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SCA.md)** map to a **white-box** engagement (you have source).
+- **[DAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/DAST.md)** maps to **black/grey-box** testing (you attack the running app).
+- **[IAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/IAST.md)** is a DevSecOps control layered into CI/CD.
 - A real pentest goes beyond all of them by adding **human creativity, business-logic testing, and exploit chaining** that no scanner replicates.
 
 ## Related
 
-- [SAST](SAST.md) · [DAST](DAST.md) · [IAST](IAST.md) · [SCA](SCA.md)
-- [Pentest Phases](../Methodology/Pentest%20Phases.md)
+- [SAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SAST.md) · [DAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/DAST.md) · [IAST](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/IAST.md) · [SCA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Security%20Testing%20Approaches/SCA.md)
+- [Pentest Phases](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Pentest%20Phases.md)

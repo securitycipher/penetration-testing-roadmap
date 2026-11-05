@@ -46,4 +46,4 @@ frida -U -f com.target.app -l ssl-bypass.js
 
 ## Related
 
-- [iOS Security Testing](iOS%20Security%20Testing.md)
+- [iOS Security Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Mobile/iOS%20Security%20Testing.md)

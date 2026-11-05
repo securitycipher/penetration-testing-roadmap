@@ -50,7 +50,7 @@ Understanding these risks is a crucial first step toward implementing effective 
 |------|---------------|----------------|
 | Public storage | Open S3/Blob/GCS buckets | `aws s3 ls s3://b --no-sign-request`, GCPBucketBrute |
 | Weak IAM | Over-permissive policies, wildcard actions, privesc paths | `enumerate-iam`, `pacu`, `cloudsplaining` |
-| Metadata SSRF | App-layer SSRF → steal instance role creds | `curl 169.254.169.254/...` (see [AWS](AWS.md)) |
+| Metadata SSRF | App-layer SSRF → steal instance role creds | `curl 169.254.169.254/...` (see [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md)) |
 | Exposed services | Public admin ports, unauth APIs (K8s, etcd, dashboards) | `nmap`, `shodan`, `kube-hunter` |
 | Secrets in configs | Env vars, Lambda config, repos, IaC | `trufflehog`, `trivy`, `aws lambda get-function-configuration` |
 | Logging gaps | CloudTrail/GuardDuty disabled, no alerting | `prowler`, `scoutsuite` |
@@ -76,5 +76,5 @@ Fix identity and exposure and you eliminate the majority of real-world cloud att
 
 ## Related
 
-- [AWS](AWS.md) · [Azure](Azure.md) · [GCP](GCP.md)
-- [Prowler](Prowler.md) · [ScoutSuite](ScoutSuite.md) · [Trivy](Trivy.md)
+- [AWS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/AWS.md) · [Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md) · [GCP](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/GCP.md)
+- [Prowler](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Prowler.md) · [ScoutSuite](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/ScoutSuite.md) · [Trivy](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Trivy.md)

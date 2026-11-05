@@ -73,4 +73,4 @@ query { posts { author { posts { author { posts { id } } } } } }
 
 ## Related
 
-- [REST API Testing](REST%20API%20Testing.md)
+- [REST API Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/API%20Security/REST%20API%20Testing.md)

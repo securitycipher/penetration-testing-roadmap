@@ -27,7 +27,7 @@ It's important to note that while CVSS provides a valuable framework for assessi
 
 ## Scoring findings as a pentester
 
-You'll assign a CVSS score to every finding in your [report](../Methodology/Report%20Writing.md). Use the official calculator and reason through each vector.
+You'll assign a CVSS score to every finding in your [report](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Report%20Writing.md). Use the official calculator and reason through each vector.
 
 ```
 Calculator: https://www.first.org/cvss/calculator/3.1
@@ -64,7 +64,7 @@ A "Medium" IDOR that exposes every customer's financial records may matter more 
 
 ## Related
 
-- [CVE](CVE.md) · [Report Writing](../Methodology/Report%20Writing.md)
+- [CVE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/CVE.md) · [Report Writing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Report%20Writing.md)
 
 
 

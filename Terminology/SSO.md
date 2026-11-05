@@ -37,9 +37,9 @@ SSO is a **high-value target**: compromise the Identity Provider (IdP) or its tr
 
 ### Attack surface
 
-- **The IdP itself** — phishing/password spraying the central login (no MFA = mass ATO). See [Azure](../Cloud/Azure.md) for Entra ID spraying.
-- **The federation protocol** — [SAML](SAML.md) (signature wrapping, Golden SAML) and [OAuth 2.0](OAuth%202.0.md)/OIDC (`redirect_uri`, `state`, token confusion).
-- **Session handling** — a stolen IdP session cookie can pivot to all SPs (see [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md)).
+- **The IdP itself** — phishing/password spraying the central login (no MFA = mass ATO). See [Azure](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Cloud/Azure.md) for Entra ID spraying.
+- **The federation protocol** — [SAML](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SAML.md) (signature wrapping, Golden SAML) and [OAuth 2.0](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/OAuth%202.0.md)/OIDC (`redirect_uri`, `state`, token confusion).
+- **Session handling** — a stolen IdP session cookie can pivot to all SPs (see [Session Hijacking](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Session%20Hijacking.md)).
 - **Account linking** — force-link an attacker identity to a victim account (CSRF on the link flow).
 - **SP trust misconfig** — an SP that accepts assertions/tokens without validating issuer, audience, or signature.
 
@@ -58,5 +58,5 @@ Because SSO centralizes trust, a single flaw is often **critical** — it can eq
 
 ## Related
 
-- [SAML](SAML.md) · [OAuth 2.0](OAuth%202.0.md) · [MFA vs 2FA](MFA%20vs%202FA.md)
-- [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
+- [SAML](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/SAML.md) · [OAuth 2.0](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/OAuth%202.0.md) · [MFA vs 2FA](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/MFA%20vs%202FA.md)
+- [Identification and Authentication Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)

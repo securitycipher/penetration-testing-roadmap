@@ -67,9 +67,9 @@ Trigger representative attacks and confirm the SIEM alerts on them:
 - Mimikatz / LSASS access
 - Outbound C2-like beaconing
 
-If these **don't** generate alerts, that gap is a key finding — see [Security Logging and Monitoring Failures](../OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md).
+If these **don't** generate alerts, that gap is a key finding — see [Security Logging and Monitoring Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md).
 
 ## Related
 
-- [Security Logging and Monitoring Failures](../OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md)
-- [IDS](../Networking/IDS.md) · [Defense in Depth](Defense%20in%20Depth.md)
+- [Security Logging and Monitoring Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md)
+- [IDS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Networking/IDS.md) · [Defense in Depth](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Terminology/Defense%20in%20Depth.md)

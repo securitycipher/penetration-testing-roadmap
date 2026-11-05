@@ -68,13 +68,13 @@ The goal is protecting **personal data (PII)** — find every way it could be ex
 ### Breach angle (why findings carry weight)
 
 - GDPR's **72-hour breach notification** and fines up to **€20M or 4% of global turnover** make any PII-exposure finding *business-critical*, not just technical.
-- Demonstrating that you could exfiltrate personal data turns a "Medium" technical bug into a board-level risk — frame it that way in the [report](../Methodology/Report%20Writing.md).
+- Demonstrating that you could exfiltrate personal data turns a "Medium" technical bug into a board-level risk — frame it that way in the [report](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Report%20Writing.md).
 
 ### Handle data ethically
 
-You may access real personal data during testing. The [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md) must define how you handle, store, and destroy it — mishandling it could itself be a GDPR violation.
+You may access real personal data during testing. The [Rules of Engagement](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Rules%20of%20Engagement.md) must define how you handle, store, and destroy it — mishandling it could itself be a GDPR violation.
 
 ## Related
 
-- [Broken Access Control](../OWASP%20Top%2010/Broken%20Access%20Control.md) · [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
-- [ISO 27001](ISO%2027001.md) · [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)
+- [Broken Access Control](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Broken%20Access%20Control.md) · [Cryptographic Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Cryptographic%20Failures.md)
+- [ISO 27001](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Compliance/ISO%2027001.md) · [Rules of Engagement](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Methodology/Rules%20of%20Engagement.md)

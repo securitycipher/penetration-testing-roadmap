@@ -8,7 +8,7 @@ Formerly "Broken Authentication", this category covers weaknesses in how an app 
 - **Username enumeration** - login/reset/register reveals which usernames exist
 - **Credential stuffing / brute force** - reused breach passwords, no lockout/MFA
 - **Broken password reset** - guessable tokens, host-header poisoning, no expiry
-- **Weak session management** - no rotation on login, no logout invalidation (see [Session Hijacking](../Vulnerabilities/Session%20Hijacking.md))
+- **Weak session management** - no rotation on login, no logout invalidation (see [Session Hijacking](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Session%20Hijacking.md))
 - **MFA flaws** - can be skipped, brute-forced, or bypassed via a different endpoint
 - **JWT flaws** - `alg:none`, weak secret, no signature check
 
@@ -53,7 +53,7 @@ jwt_tool <token> -X k -pk public.pem
 ## Step 4 - Password reset abuse
 
 - Reset token predictable/short -> guess it.
-- `Host`/`X-Forwarded-Host` poisoning -> reset link points to your server (see [Host Header Injection](../Vulnerabilities/Host%20Header%20Injection.md)).
+- `Host`/`X-Forwarded-Host` poisoning -> reset link points to your server (see [Host Header Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/Host%20Header%20Injection.md)).
 - Token doesn't expire / is reusable / not tied to the user.
 
 ## Tools

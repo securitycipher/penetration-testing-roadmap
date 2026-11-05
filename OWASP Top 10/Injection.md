@@ -11,10 +11,10 @@ query = "SELECT * FROM users WHERE name = '" + name + "'"
 
 ## The injection family (each has a dedicated guide)
 
-- **SQL Injection** -> a database - see [SQL Injection](../Vulnerabilities/SQL%20Injection.md)
-- **Cross-Site Scripting (XSS)** -> the browser - see [XSS](../Vulnerabilities/XSS.md)
-- **OS Command Injection** -> a shell - see [RCE](../Vulnerabilities/RCE.md)
-- **LDAP Injection** -> a directory - see [LDAP Injection](../Vulnerabilities/LDAP%20Injection.md)
+- **SQL Injection** -> a database - see [SQL Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/SQL%20Injection.md)
+- **Cross-Site Scripting (XSS)** -> the browser - see [XSS](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/XSS.md)
+- **OS Command Injection** -> a shell - see [RCE](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/RCE.md)
+- **LDAP Injection** -> a directory - see [LDAP Injection](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/LDAP%20Injection.md)
 - **NoSQL Injection** -> MongoDB/others (below)
 - **SSTI, XPath, XXE, Header/CRLF injection** - same root cause, different interpreter
 

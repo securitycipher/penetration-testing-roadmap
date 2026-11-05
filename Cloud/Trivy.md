@@ -29,7 +29,7 @@ trivy config ./terraform/
 
 - Supply chain attacks often start with a vulnerable dependency
 - Container escapes pair with outdated runc/kernel CVEs
-- Complements [Docker Security](../Containers/Docker%20Security.md) testing
+- Complements [Docker Security](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Containers/Docker%20Security.md) testing
 
 ## Resources
 

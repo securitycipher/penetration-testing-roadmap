@@ -12,7 +12,7 @@ Broken Access Control is the **#1** risk in the 2021 OWASP Top 10. It happens wh
 
 ## Common flaws to test
 
-- **IDOR** - change an ID/reference to access others' objects (see [IDOR](../Vulnerabilities/IDOR.md))
+- **IDOR** - change an ID/reference to access others' objects (see [IDOR](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Vulnerabilities/IDOR.md))
 - **Missing function-level authz** - admin endpoints only "hidden", not protected
 - **Forced browsing** - guess/enumerate unlinked paths (`/admin`, `/api/v1/users`)
 - **Parameter/role tampering** - `role=user` -> `role=admin`, `?admin=true`

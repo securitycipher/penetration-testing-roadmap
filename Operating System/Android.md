@@ -64,9 +64,9 @@ adb logcat | grep -i target
 - **Weak crypto / hardcoded keys** — found by decompiling the APK.
 - **Cleartext / no cert pinning** — traffic interceptable via Burp.
 
-See the full workflow in [Android Security Testing](../Mobile/Android%20Security%20Testing.md).
+See the full workflow in [Android Security Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Mobile/Android%20Security%20Testing.md).
 
 ## Related
 
-- [Android Security Testing](../Mobile/Android%20Security%20Testing.md)
-- [Operating System Hardening](Operating%20System%20Hardening.md)
+- [Android Security Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Mobile/Android%20Security%20Testing.md)
+- [Operating System Hardening](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Operating%20System%20Hardening.md)

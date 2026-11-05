@@ -88,5 +88,5 @@ ls -la ~/.ssh ~/.aws ~/.config/gcloud
 
 ## Related
 
-- [iOS Security Testing](../Mobile/iOS%20Security%20Testing.md)
-- [Operating System Hardening](Operating%20System%20Hardening.md)
+- [iOS Security Testing](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Mobile/iOS%20Security%20Testing.md)
+- [Operating System Hardening](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Operating%20System/Operating%20System%20Hardening.md)
