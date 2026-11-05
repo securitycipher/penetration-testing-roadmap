@@ -22,6 +22,8 @@
     {"section": "🔰 Basics", "subsection": "Networking", "button": "✔️ Common Protocols", "file": "Networking/Common Protocols.md"},
     {"section": "🔰 Basics", "subsection": "Networking", "button": "✔️ IDS", "file": "Networking/IDS.md"},
     {"section": "🔰 Basics", "subsection": "Networking", "button": "✔️ IPS", "file": "Networking/IPS.md"},
+    {"section": "🔰 Basics", "subsection": "Networking", "button": "✔️ Firewall", "file": "Networking/Firewall.md"},
+    {"section": "🔰 Basics", "subsection": "Networking", "button": "✔️ Subnetting", "file": "Networking/Subnetting.md"},
     {"section": "🔰 Basics", "subsection": "Networking", "button": "✔️ VPN", "file": "Networking/VPN.md"},
     {"section": "🔰 Basics", "subsection": "Cryptography", "button": "✔️ Encryption and Decryption", "file": "Cryptography/Encryption and Decryption.md"},
     {"section": "🔰 Basics", "subsection": "Cryptography", "button": "✔️ Hashing", "file": "Cryptography/Hashing.md"},

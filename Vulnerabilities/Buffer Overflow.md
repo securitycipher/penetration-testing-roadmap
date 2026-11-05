@@ -78,7 +78,7 @@ p.interactive()
 - [GDB](https://www.gnu.org/software/gdb/) + [pwndbg](https://github.com/pwndbg/pwndbg) / [GEF](https://github.com/hugsy/gef)
 - [pwntools](https://github.com/Gallopsled/pwntools) - exploit dev framework
 - [ropper](https://github.com/sashs/Ropper) / [ROPgadget](https://github.com/JonathanSalwan/ROPgadget) - find gadgets
-- [Immunity Debugger + mona.py](https://www.immunityinc.com/products/debugger/) - Windows
+- [mona.py](https://github.com/corelan/mona) with [x64dbg](https://x64dbg.com/) - Windows
 - [checksec](https://github.com/slimm609/checksec.sh) - inspect binary protections
 
 ## Mitigation - the fix

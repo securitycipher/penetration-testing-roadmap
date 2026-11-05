@@ -24,7 +24,7 @@ PNPT is TCM Security's intermediate certification focused on **external and inte
 
 ## Resources
 
-- [TCM Security PNPT](https://certification.tcm-sec.com/pnpt/)
+- [TCM Security PNPT](https://certifications.tcm-sec.com/pnpt/)
 - [TryHackMe - TCM paths](https://tryhackme.com)
 
 ## Compare

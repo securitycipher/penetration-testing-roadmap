@@ -37,14 +37,14 @@ In summary, PKI is a system that uses keys, certificates, and trusted authoritie
 
 ## PKI from a pentester's view
 
-PKI ties together the other crypto topics: [CAs](Certificate%20Authority%20(CA).md), [certificates](SSL%20Handshake.md), and [signatures](Digital%20Signature.md). Attacks target the *weak links* in the trust chain, not the math.
+PKI ties together the other crypto topics: [CAs](Certificate%20Authority%20%28CA%29.md), [certificates](SSL%20Handshake.md), and [signatures](Digital%20Signature.md). Attacks target the *weak links* in the trust chain, not the math.
 
 ### Where PKI breaks in the real world
 
 - **Leaked private keys** — a private key in a repo, backup, or config lets an attacker impersonate the entity. Game over for that identity.
 - **Weak validation (broken chain-of-trust)** — apps that don't validate the full cert chain, hostname, or revocation accept forged certs → MITM.
 - **Improper revocation** — compromised certs still trusted because OCSP/CRL isn't checked.
-- **Rogue/internal CA abuse** — a trusted internal CA (ADCS) can mint certs for any identity (see [Certificate Authority](Certificate%20Authority%20(CA).md), ESC1–ESC8).
+- **Rogue/internal CA abuse** — a trusted internal CA (ADCS) can mint certs for any identity (see [Certificate Authority](Certificate%20Authority%20%28CA%29.md), ESC1–ESC8).
 - **Certificate pinning bypass** — needed to intercept hardened mobile apps.
 
 ### Commands
@@ -68,5 +68,5 @@ Some APIs require a **client certificate** (mutual TLS). If you can obtain or fo
 
 ## Related
 
-- [Certificate Authority (CA)](Certificate%20Authority%20(CA).md) · [Digital Signature](Digital%20Signature.md) · [SSL Handshake](SSL%20Handshake.md)
+- [Certificate Authority (CA)](Certificate%20Authority%20%28CA%29.md) · [Digital Signature](Digital%20Signature.md) · [SSL Handshake](SSL%20Handshake.md)
 - [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)

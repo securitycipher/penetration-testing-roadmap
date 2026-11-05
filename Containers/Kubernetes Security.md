@@ -81,4 +81,4 @@ kube-hunter --remote target.com
 ## Cloud overlap
 
 - [AWS EKS checklist](https://securitycipher.com/aws-cloud-security-checklist/)
-- [Prowler](Cloud/Prowler.md) - cloud + K8s misconfig scans
+- [Prowler](../Cloud/Prowler.md) - cloud + K8s misconfig scans

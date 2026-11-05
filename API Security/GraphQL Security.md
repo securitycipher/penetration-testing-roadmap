@@ -64,7 +64,7 @@ query { posts { author { posts { author { posts { id } } } } } }
 | [InQL](https://github.com/doyensec/inql) | Burp extension for GraphQL |
 | [GraphQLmap](https://github.com/swisskyrepo/GraphQLmap) | Automated interaction |
 | [BatchQL](https://github.com/assetnote/batchql) | Batching and alias attacks |
-| [graphql-cop](https://github.com/nicholasaleks/graphql-cop) | Security audit |
+| [graphql-cop](https://github.com/dolevf/graphql-cop) | Security audit |
 
 ## Practice
 

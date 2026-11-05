@@ -63,4 +63,4 @@ npx source-map-explorer app.js app.js.map     # or unwebpack-sourcemap to rebuil
 
 ## Related
 
-- [API Security Testing](API%20Security/REST%20API%20Testing.md)
+- [API Security Testing](../API%20Security/REST%20API%20Testing.md)

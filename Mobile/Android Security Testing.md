@@ -41,7 +41,7 @@ frida -U -f com.target.app -l ssl-bypass.js
 
 ## Certs
 
-- [eMAPT](https://elearnsecurity.com/product/emapt-certification/) - mobile-specific
+- [eMAPT](https://ine.com/security/certifications/emapt-certification) - mobile-specific
 - [GMOB](https://www.infosecinstitute.com/skills/learning-paths/certified-mobile-security-professional-gmob/) - mobile security professional
 
 ## Related

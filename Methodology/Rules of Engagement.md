@@ -28,4 +28,4 @@ Rules of engagement (RoE) define what testers can and cannot do. Breaking RoE ca
 ## Resources
 
 - [OWASP Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)
-- [PTES - Penetration Testing Execution Standard](http://www.pentest-standard.org/)
+- [PTES - Penetration Testing Execution Standard](https://pentest-standard.readthedocs.io/en/latest/)

@@ -72,4 +72,4 @@ Because the client and server negotiate protocol + cipher in the Hello messages,
 ## Related
 
 - [Cryptographic Failures](../OWASP%20Top%2010/Cryptographic%20Failures.md)
-- [Certificate Authority (CA)](Certificate%20Authority%20(CA).md) · [PKI](Public%20Key%20Infrastructure%20(PKI).md)
+- [Certificate Authority (CA)](Certificate%20Authority%20%28CA%29.md) · [PKI](Public%20Key%20Infrastructure%20%28PKI%29.md)

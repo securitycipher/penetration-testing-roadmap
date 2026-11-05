@@ -61,4 +61,4 @@ A signature is only as strong as the code that verifies it. Always test: *does t
 ## Related
 
 - [Identification and Authentication Failures](../OWASP%20Top%2010/Identification%20and%20Authentication%20Failures.md)
-- [PKI](Public%20Key%20Infrastructure%20(PKI).md) · [Hashing](Hashing.md)
+- [PKI](Public%20Key%20Infrastructure%20%28PKI%29.md) · [Hashing](Hashing.md)

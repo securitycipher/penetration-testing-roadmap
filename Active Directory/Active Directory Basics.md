@@ -88,4 +88,4 @@ find path to DA -> DCSync -> Golden Ticket / NTDS.dit = domain owned
 
 ## Certs
 
-- [CRTP](Certifications/CRTP.md) - recommended after OSCP for AD focus
+- [CRTP](../Certifications/CRTP.md) - recommended after OSCP for AD focus

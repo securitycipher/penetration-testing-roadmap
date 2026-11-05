@@ -108,7 +108,7 @@ jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</stYle/</
 - [XSS Hunter Express](https://github.com/mandatoryprogrammer/xsshunter-express) / [interactsh](https://github.com/projectdiscovery/interactsh) - blind XSS callbacks
 - [dalfox](https://github.com/hahwul/dalfox) - fast parameter XSS scanner
 - [BeEF](https://beefproject.com/) - browser exploitation once you have XSS
-- [KNOXSS](https://knoxss.me/) - hosted XSS scanner
+- [XSStrike](https://github.com/s0md3v/XSStrike) - XSS scanner
 
 ## Commands
 
