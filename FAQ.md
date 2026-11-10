@@ -26,3 +26,40 @@ Linux command line, networking (TCP/IP, DNS, HTTP), and one scripting language (
 ## Are these tools legal to use?
 
 Only on systems you own or have **written authorization** to test. Unauthorized scanning or exploitation is illegal. Always get scope and rules of engagement before testing.
+
+## How do I get started with AI & LLM application security testing?
+
+Large Language Model (LLM) security is one of the fastest-growing attack surfaces in enterprise pentesting:
+- **Core Vulnerabilities:** Focus on Prompt Injection (direct/indirect), Insecure Output Handling (XSS/RCE via model responses), Training Data Poisoning, and Sensitive Information Disclosure via RAG (Retrieval-Augmented Generation).
+- **Standards:** Study the **OWASP Top 10 for LLM Applications and Generative AI**—it is the definitive framework for assessing AI implementations.
+- **Hands-on Practice:**
+  - [Lakera Gandalf](https://gandalf.lakera.ai/) - A gamified platform to practice prompt injection and guardrail evasion across progressive difficulty levels.
+  - [PortSwigger Web Security Academy LLM Attacks](https://portswigger.net/web-security/llm-attacks) - Hands-on labs simulating real web applications backed by vulnerable LLM integrations.
+
+## Why is Active Directory essential for real-world pentests, and how can I practice at home?
+
+Over 90% of enterprises run Windows Active Directory (or hybrid Entra ID) for identity and access management. Real internal network penetration tests rarely look like standalone Linux root challenges—they center on lateral movement, domain reconnaissance, and privilege escalation:
+- **Key Concepts:** Kerberoasting, AS-REP roasting, DCSync, Pass-the-Hash, credential dumping (Mimikatz), and attack path visualization with [BloodHound](https://github.com/SpecterOps/BloodHound).
+- **Free Home Practice:**
+  - [Game of Active Directory (GOAD)](https://github.com/Orange-Cyberdefense/GOAD) - A free, automated vulnerable Active Directory lab you can deploy locally on VirtualBox or Proxmox.
+  - TryHackMe / HackTheBox dedicated AD tracks (e.g., *Wreath*, *Dante*, and *Zephyr*).
+
+## Does being good at CTFs make me ready for enterprise penetration testing?
+
+CTFs are fantastic for building tool fluency (Burp Suite, Wireshark, nmap, Ghidra) and problem-solving reflexes, but **CTF is not equal to commercial pentesting**:
+- **CTFs** are designed puzzles with guaranteed intentional flags and single-path vulnerabilities.
+- **Commercial Pentests** assess enterprise architectures with hardened configurations, defense-in-depth, and EDR controls. The deliverable is not a flag, but an actionable, risk-rated **executive and technical remediation report**.
+- **Bridging the Gap:** Transition from puzzle CTFs to multi-machine network labs (HTB Pro Labs, Proving Grounds), and practice writing thorough, professional pentest reports explaining root causes and defensive remediations.
+
+## How do I build a standout portfolio to get hired without prior cybersecurity experience?
+
+Hiring managers want tangible proof that you can think methodically and communicate findings clearly:
+1. **High-Quality Technical Write-ups:** Document your lab walkthroughs and vulnerability research on a personal blog or GitHub repository. Focus on *why* the vulnerability existed, how you identified it, and *how to fix it*, rather than just pasting exploit scripts.
+2. **Open-Source Tooling:** Build or contribute to security automation tools, recon scripts, or custom Burp extensions on GitHub. Clean, documented code immediately sets you apart from applicants who only possess credentials.
+3. **Public Profiles:** Keep your TryHackMe, HackTheBox, or bug bounty profile links in your resume to demonstrate ongoing hands-on commitment.
+
+## Offensive (Red) vs. Defensive (Blue/SOC): Which is better to break into?
+
+While media glorifies offensive "Red Teaming", the hiring landscape strongly favors defensive roles:
+- **Job Volume:** Entry-level SOC (Security Operations Center) Analyst, Threat Detection, and Incident Response openings outnumber junior pentester openings by roughly 10:1.
+- **Foundation:** The best penetration testers deeply understand defensive logging, SIEMs, and EDR telemetry. Starting in a SOC gives you frontline exposure to real-world attack techniques and enterprise network realities, making a future transition to Red or Purple teaming far smoother.
