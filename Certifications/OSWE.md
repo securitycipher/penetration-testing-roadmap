@@ -1,21 +1,39 @@
-# What is OSWE?
-OSWE stands for Offensive Security Web Expert. It's a certification offered by Offensive Security, a leading provider of cybersecurity training and certifications. The OSWE certification is designed to validate the skills and knowledge of cybersecurity professionals in the field of web application security.
+# OSWE (Offensive Security Web Expert)
 
-## What does OSWE cover?
-The OSWE certification focuses on teaching professionals how to identify and exploit security vulnerabilities in web applications. Some of the key topics covered include:
+OSWE is OffSec's advanced **white-box web application** cert. Unlike OSCP, you get source code and must find and chain vulnerabilities by reading the application, then write your own exploit scripts. It is the benchmark for serious web app and secure-code-review work.
 
-- Web Application Architecture: Understanding how web applications are structured and how they communicate with users and servers.
-- Web Application Technologies: Learning about common web technologies such as HTML, CSS, JavaScript, PHP, ASP.NET, and more.
-- Web Application Security: Exploring common security vulnerabilities found in web applications, such as Cross-Site Scripting (XSS), SQL Injection, Cross-Site Request Forgery (CSRF), and others.
-- Exploitation Techniques: Learning how to identify and exploit security vulnerabilities using various techniques and tools.
-- Secure Development Practices: Understanding best practices for developing secure web applications to prevent common vulnerabilities.
-## How does OSWE certification work?
-To obtain the OSWE certification, candidates must complete a hands-on exam that tests their ability to identify and exploit security vulnerabilities in a simulated web application environment. The exam is designed to be challenging and realistic, requiring candidates to demonstrate their practical skills and knowledge.
+## Course and exam
 
-## Why pursue OSWE certification?
-- Validation of Skills: Obtaining the OSWE certification demonstrates to employers and peers that you have the skills and knowledge required to identify and exploit security vulnerabilities in web applications.
-- Career Advancement: The OSWE certification can open up new career opportunities in the field of cybersecurity, particularly in roles focused on web application security testing and penetration testing.
-- Personal Development: The hands-on nature of the OSWE certification exam provides valuable practical experience that can help you improve your skills and become a more effective cybersecurity professional.
-- Recognition: Offensive Security certifications, including OSWE, are highly respected in the cybersecurity industry and are recognized by organizations worldwide.
+- Course: **WEB-300** (Advanced Web Attacks and Exploitation)
+- Exam: **47 hours 45 minutes** hands-on, then 24 hours to submit the report
+- Goal: achieve authentication bypass and remote code execution on the targets, with working exploit code
 
-The OSWE certification is an advanced certification designed for cybersecurity professionals who specialize in web application security. By obtaining the OSWE certification, professionals can validate their skills, advance their careers, and gain recognition in the cybersecurity industry.
+## What it covers
+
+- Source-code review to spot logic and injection flaws
+- Chaining bugs into auth bypass and RCE
+- Blind/second-order SQL injection and deserialization
+- Writing clean, reusable exploit scripts (usually Python)
+- Working across languages (PHP, Java, C#, Node.js, etc.)
+
+## Prerequisites
+
+- Comfortable reading code and debugging
+- Solid grasp of the [OWASP Top 10](../OWASP%20Top%2010/OWASP%20Top%2010.md)
+- Scripting ability in Python (see [Scripting for Pentesters](../Scripting/Python%20for%20Pentesters.md))
+
+## How to prepare
+
+- WEB-300 labs end to end
+- PortSwigger [Web Security Academy](../Labs/Web%20Security%20Academy.md) advanced labs
+- Read real code: vulnerable-by-design apps and public CVE write-ups
+
+## Resources
+
+- [OffSec WEB-300 / OSWE](https://www.offsec.com/courses/web-300/)
+
+## Compare
+
+- **BSCP** - cheaper, black-box web practitioner cert
+- **OSWE** - white-box, exploit-dev-flavored web expert
+- **OSCP+** - broad network/AD, less web depth

@@ -1,8 +1,8 @@
 # Penetration Testing Roadmap
 
-**Last updated:** July 2026 | **Web UI:** [securitycipher.com/penetration-testing-roadmap](https://securitycipher.com/penetration-testing-roadmap/) | **Contribute:** [GitHub repo](https://github.com/securitycipher/penetration-testing-roadmap)
+**Last updated:** November 2026 | **Web UI:** [securitycipher.com/penetration-testing-roadmap](https://securitycipher.com/penetration-testing-roadmap/) | **Contribute:** [GitHub repo](https://github.com/securitycipher/penetration-testing-roadmap)
 
-## TL;DR
+## Quick take
 
 This roadmap is a structured path from zero to junior pentester. Work through it in phases: foundations, web security, infrastructure, specialization, then labs and certs. Each topic opens into a short guide with labs, tools, and links to deeper Security Cipher resources.
 
@@ -20,7 +20,7 @@ This roadmap is a structured path from zero to junior pentester. Work through it
 | 2. Web security | HTTP, OWASP Top 10, Burp Suite, PortSwigger Academy | 6-8 weeks |
 | 3. Infrastructure | AD basics, cloud, wireless, recon | 6-8 weeks |
 | 4. Specialize | Pick web, cloud, mobile, API, or LLM track | Ongoing |
-| 5. Prove it | HTB, TryHackMe, certs (eJPT, Security+, OSCP) | 3-6 months |
+| 5. Prove it | HTB, TryHackMe, certs (eJPT, Security+, then OSCP+/CPTS) | 3-6 months |
 
 ## Related Security Cipher resources
 

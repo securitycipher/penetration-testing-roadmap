@@ -39,7 +39,16 @@ The LLM OWASP Top 10 categorizes vulnerabilities into distinct areas, providing 
 
 ## Note on versions (2023 vs 2025)
 
-This list is the **2023** edition. The **2025** update reworks several items - notably splitting out **System Prompt Leakage**, **Vector/Embedding Weaknesses** (RAG), **Misinformation**, and renaming Model DoS to **Unbounded Consumption**. Prompt Injection remains #1. Expect RAG/agent-specific risks to grow in importance.
+The quick-reference above is the **2023** edition. The **2025** update reworks several items. Prompt Injection remains #1, but three new risks were added and some 2023 entries were merged or dropped. New guides in this folder:
+
+| 2025 ID | Risk | Guide | Change from 2023 |
+|---------|------|-------|------------------|
+| LLM07 | System Prompt Leakage | [System Prompt Leakage](System%20Prompt%20Leakage.md) | New |
+| LLM08 | Vector and Embedding Weaknesses | [Vector and Embedding Weaknesses](Vector%20and%20Embedding%20Weaknesses.md) | New (RAG) |
+| LLM09 | Misinformation | [Misinformation](Misinformation.md) | New (replaces Overreliance framing) |
+| LLM10 | Unbounded Consumption | [Unbounded Consumption](Unbounded%20Consumption.md) | Renamed from Model DoS, adds cost/wallet attacks |
+
+Also in 2025: **Insecure Output Handling** became "Improper Output Handling," **Excessive Agency** was broadened for agentic/tool-using apps, and **Insecure Plugin Design**, **Overreliance**, and **Model Theft** as standalone items were folded into the entries above. Beyond this list, review the **OWASP Top 10 for Agentic AI** and **MITRE ATLAS** for agent- and ML-specific attacks.
 
 ## Tools for LLM testing
 

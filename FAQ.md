@@ -12,8 +12,9 @@ No. Employers care more about **labs, certs, and writeups** than degrees. Strong
 
 - **Security+** - broad entry-level cert, good for HR filters and fundamentals.
 - **CEH** - theory-heavy, widely recognized but less respected by hands-on teams.
-- **OSCP** - gold standard for offensive roles; expect 200+ lab hours before attempting.
+- **OSCP / OSCP+** - gold standard for offensive roles; expect 200+ lab hours before attempting. Since late 2024 the exam awards OSCP+, which expires after 3 years.
 - **eJPT / PNPT** - gentler on-ramps before OSCP.
+- **CPTS / BSCP / CRTP** - strong, cheaper alternatives (full pentest, web, and Active Directory). See the [Certifications overview and comparison matrix](Certifications/README.md) for a cert-by-goal breakdown.
 
 ## Is bug bounty the same as penetration testing?
 
@@ -31,14 +32,14 @@ Only on systems you own or have **written authorization** to test. Unauthorized 
 
 Large Language Model (LLM) security is one of the fastest-growing attack surfaces in enterprise pentesting:
 - **Core Vulnerabilities:** Focus on Prompt Injection (direct/indirect), Insecure Output Handling (XSS/RCE via model responses), Training Data Poisoning, and Sensitive Information Disclosure via RAG (Retrieval-Augmented Generation).
-- **Standards:** Study the **OWASP Top 10 for LLM Applications and Generative AI**—it is the definitive framework for assessing AI implementations.
+- **Standards:** Study the **OWASP Top 10 for LLM Applications and Generative AI** - it is the definitive framework for assessing AI implementations.
 - **Hands-on Practice:**
   - [Lakera Gandalf](https://gandalf.lakera.ai/) - A gamified platform to practice prompt injection and guardrail evasion across progressive difficulty levels.
   - [PortSwigger Web Security Academy LLM Attacks](https://portswigger.net/web-security/llm-attacks) - Hands-on labs simulating real web applications backed by vulnerable LLM integrations.
 
 ## Why is Active Directory essential for real-world pentests, and how can I practice at home?
 
-Over 90% of enterprises run Windows Active Directory (or hybrid Entra ID) for identity and access management. Real internal network penetration tests rarely look like standalone Linux root challenges—they center on lateral movement, domain reconnaissance, and privilege escalation:
+Over 90% of enterprises run Windows Active Directory (or hybrid Entra ID) for identity and access management. Real internal network penetration tests rarely look like standalone Linux root challenges - they center on lateral movement, domain reconnaissance, and privilege escalation:
 - **Key Concepts:** Kerberoasting, AS-REP roasting, DCSync, Pass-the-Hash, credential dumping (Mimikatz), and attack path visualization with [BloodHound](https://github.com/SpecterOps/BloodHound).
 - **Free Home Practice:**
   - [Game of Active Directory (GOAD)](https://github.com/Orange-Cyberdefense/GOAD) - A free, automated vulnerable Active Directory lab you can deploy locally on VirtualBox or Proxmox.
