@@ -19,8 +19,8 @@ This roadmap is a structured path from zero to junior pentester. Work through it
 | 1. Foundations | Linux, networking, scripting, crypto basics | 4-6 weeks |
 | 2. Web security | HTTP, OWASP Top 10, Burp Suite, PortSwigger Academy | 6-8 weeks |
 | 3. Infrastructure | AD basics, cloud, wireless, recon | 6-8 weeks |
-| 4. Specialize | Pick web, cloud, mobile, API, or LLM track | Ongoing |
-| 5. Prove it | HTB, TryHackMe, certs (eJPT, Security+, then OSCP+/CPTS) | 3-6 months |
+| 4. Specialize | Web, API, cloud, mobile, red team, LLM/AI (MCP, agents), or supply chain | Ongoing |
+| 5. Prove it | HTB, TryHackMe, GOAD, crAPI; certs (eJPT, Security+, OSCP+/CPTS, OSAI for AI red team) | 3-6 months |
 
 ## Related Security Cipher resources
 
