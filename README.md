@@ -51,16 +51,23 @@ Full write-up: [Intro.md](https://github.com/securitycipher/penetration-testing-
 ### Web and application testing
 
 - [OWASP Top 10](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/OWASP%20Top%2010)
-- [API Security](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/API%20Security)
+- [API Security](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/API%20Security) - OWASP API Top 10, REST, GraphQL
 - [Methodology](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Methodology) - pentest phases, rules of engagement, reporting
 - [Recon](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Recon) - OSINT, subdomains, JavaScript analysis
 
 ### Infrastructure and cloud
 
-- [Active Directory](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Active%20Directory)
+- [Active Directory](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Active%20Directory) - including AD CS, DCSync, NTLM relay, Entra ID
 - [Cloud](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Cloud)
 - [Containers](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Containers) - Docker and Kubernetes
 - [Mobile](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Mobile) - Android and iOS testing
+- [CI/CD & Supply Chain](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/CI-CD%20and%20Supply%20Chain) - pipelines, dependency confusion, GitHub Actions
+
+### Offensive specialties
+
+- [Red Teaming](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Red%20Teaming) - methodology, C2, AV/EDR evasion, MITRE ATT&CK
+- [Social Engineering](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Social%20Engineering) - phishing and pretexting
+- [Reverse Engineering](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/Reverse%20Engineering) - RE basics and binary exploitation
 
 ### Emerging areas
 
@@ -125,6 +132,16 @@ See the [Certifications overview and comparison matrix](https://github.com/secur
 | Altoro Mutual | [Altoro Mutual.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Altoro%20Mutual.md) |
 | OWASP Juice Shop | [OWASP Juice Shop.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/OWASP%20Juice%20Shop.md) |
 | GOAD (Active Directory) | [GOAD.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/GOAD.md) |
+| crAPI (API) | [crAPI.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/crAPI.md) |
+| CloudGoat (AWS) | [CloudGoat.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/CloudGoat.md) |
+| Kubernetes Goat | [Kubernetes Goat.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Kubernetes%20Goat.md) |
+| PentesterLab | [PentesterLab.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/PentesterLab.md) |
+| Proving Grounds | [Proving Grounds.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Proving%20Grounds.md) |
+
+## Career
+
+- [Building a Portfolio](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Career/Building%20a%20Portfolio.md) - what to show and how to show it
+- [Landing Your First Pentest Job](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Career/Landing%20Your%20First%20Pentest%20Job.md) - roles, applications, interviews
 
 ## Contributing
 
