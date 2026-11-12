@@ -14,7 +14,7 @@ Certs do not make you a pentester, but they open doors, clear HR filters, and gi
 - **Mobile:** [eMAPT](eMAPT.md)
 - **Exploit development:** [OSED](OSED.md)
 - **Blue / purple team:** [BTL1](BTL1.md) or [CDSA](CDSA.md)
-- **AI / LLM security:** [AI / ML Pentester](AI-ML%20Pentester.md)
+- **AI / LLM security:** [OSAI](OSAI.md) or the other [AI / ML Pentester](AI-ML%20Pentester.md) options
 
 ## Comparison matrix
 
@@ -38,6 +38,7 @@ Certs do not make you a pentester, but they open doors, clear HR filters, and gi
 | [OSED](OSED.md) | OffSec | Exploit dev | Practical | Yes | Advanced | ~$1,600+ |
 | [CARTP](CARTP.md) | Altered Security | Azure red team | Practical | Yes | Mid-Adv | ~$250 |
 | [eMAPT](eMAPT.md) | INE | Mobile | Practical | Project | Mid | ~$250 |
+| [OSAI](OSAI.md) | OffSec | AI red team | Practical | Yes | Mid-Adv | ~$1,600+ |
 | [OSWP](OSWP.md) | OffSec | Wireless | Practical | Yes | Mid | ~$450 |
 | [BTL1](BTL1.md) | Security Blue Team | Blue team | Practical | Yes | Entry-Mid | ~$450 |
 | [CDSA](CDSA.md) | Hack The Box | SOC / blue team | Practical | Yes | Mid | ~$200 (+subscription) |

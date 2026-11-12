@@ -50,6 +50,16 @@ The quick-reference above is the **2023** edition. The **2025** update reworks s
 
 Also in 2025: **Insecure Output Handling** became "Improper Output Handling," **Excessive Agency** was broadened for agentic/tool-using apps, and **Insecure Plugin Design**, **Overreliance**, and **Model Theft** as standalone items were folded into the entries above. Beyond this list, review the **OWASP Top 10 for Agentic AI** and **MITRE ATLAS** for agent- and ML-specific attacks.
 
+## Beyond the LLM Top 10: AI red teaming, agents, and MCP
+
+The LLM Top 10 covers single-model apps. Modern AI systems add agents, tools, and protocols with their own attack surface. These guides in this folder go deeper:
+
+- [AI Red Teaming](AI%20Red%20Teaming.md) - methodology and tooling (garak, PyRIT, promptfoo, MITRE ATLAS) for attacking AI systems end to end
+- [MCP Security](MCP%20Security.md) - Model Context Protocol attacks: tool poisoning, rug pulls, IDE auto-execution
+- [Agentic AI Security](Agentic%20AI%20Security.md) - OWASP Agentic Top 10 and MAESTRO threat modeling for tool-using, multi-agent systems
+
+To certify these skills, see [OSAI (OffSec AI Red Teamer)](../Certifications/OSAI.md) and the other [AI / ML security certs](../Certifications/AI-ML%20Pentester.md).
+
 ## Tools for LLM testing
 
 - [garak](https://github.com/leondz/garak) - LLM vulnerability scanner

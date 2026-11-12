@@ -64,7 +64,7 @@ Full write-up: [Intro.md](https://github.com/securitycipher/penetration-testing-
 
 ### Emerging areas
 
-- [OWASP Top 10 LLM](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/OWASP%20Top%2010%20LLM)
+- [OWASP Top 10 LLM](https://github.com/securitycipher/penetration-testing-roadmap/tree/main/OWASP%20Top%2010%20LLM) - plus AI red teaming, MCP security, and agentic AI security guides
 
 ### Practice and credentials
 
@@ -106,6 +106,7 @@ See the [Certifications overview and comparison matrix](https://github.com/secur
 | CRTO | Red team | [CRTO.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CRTO.md) |
 | CARTP | Azure / cloud | [CARTP.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CARTP.md) |
 | eMAPT | Mobile | [eMAPT.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/eMAPT.md) |
+| OSAI / OSAI+ | AI red team | [OSAI.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/OSAI.md) |
 | AI / ML Pentester | AI / LLM | [AI-ML Pentester.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/AI-ML%20Pentester.md) |
 | BTL1 | Blue team | [BTL1.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/BTL1.md) |
 | CDSA | Blue team | [CDSA.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Certifications/CDSA.md) |

@@ -202,6 +202,10 @@
     {"section": "🔰 Miscellaneous", "subsection": "Certifications", "button": "✔️ CARTP", "file": "Certifications/CARTP.md"},
     {"section": "🔰 Miscellaneous", "subsection": "Certifications", "button": "✔️ eMAPT", "file": "Certifications/eMAPT.md"},
     {"section": "🔰 Miscellaneous", "subsection": "Certifications", "button": "✔️ AI / ML Pentester", "file": "Certifications/AI-ML Pentester.md"},
-    {"section": "🔰 Miscellaneous", "subsection": "Certifications", "button": "✔️ CDSA", "file": "Certifications/CDSA.md"}
+    {"section": "🔰 Miscellaneous", "subsection": "Certifications", "button": "✔️ CDSA", "file": "Certifications/CDSA.md"},
+    {"section": "🔰 Miscellaneous", "subsection": "Certifications", "button": "✔️ OSAI", "file": "Certifications/OSAI.md"},
+    {"section": "🔰 LLM Security", "subsection": "AI & Agent Security", "button": "✔️ AI Red Teaming", "file": "OWASP Top 10 LLM/AI Red Teaming.md", "insert_after_subsection": "LLM OWASP Top 10"},
+    {"section": "🔰 LLM Security", "subsection": "AI & Agent Security", "button": "✔️ MCP Security", "file": "OWASP Top 10 LLM/MCP Security.md"},
+    {"section": "🔰 LLM Security", "subsection": "AI & Agent Security", "button": "✔️ Agentic AI Security", "file": "OWASP Top 10 LLM/Agentic AI Security.md"}
   ]
 }
