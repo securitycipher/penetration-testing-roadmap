@@ -36,6 +36,18 @@ OWASP (Open Worldwide Application Security Project) publishes the **OWASP Top 10
 - [Security Logging and Monitoring Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Security%20Logging%20and%20Monitoring%20Failures.md) (A09)
 - [SSRF](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/SSRF.md) (A10)
 
+## What is changing in the 2025 edition
+
+OWASP published the **2025** Top 10 as a release candidate. The guides above still describe the 2021 list (which most tools and exams reference today), but you should know where things are heading:
+
+- **New: A03 Software Supply Chain Failures** - a broader category that absorbs and expands the old "Vulnerable and Outdated Components" to cover the whole build/dependency/CI-CD chain.
+- **New: Mishandling of Exceptional Conditions** - bugs from poor error, exception, and edge-case handling (fail-open logic, leaked stack traces, inconsistent states).
+- **Broken Access Control stays #1.** Security Misconfiguration rises as cloud/IaC sprawl grows.
+- **SSRF** is folded back under Broken Access Control rather than standing alone.
+- **Cryptographic Failures** moves up, reflecting ongoing data-exposure incidents.
+
+Action for testers: keep testing to the 2021 categories for now, but start tracking supply-chain and CI/CD attack surface explicitly. See [Software and Data Integrity Failures](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Software%20and%20Data%20Integrity%20Failures.md) and the [Vulnerable and Outdated Components](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/OWASP%20Top%2010/Vulnerable%20and%20Outdated%20Components.md) guide.
+
 ## How to use this as a pentester
 
 1. Map the app (auth flows, roles, inputs, integrations).
