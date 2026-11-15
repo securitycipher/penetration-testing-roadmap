@@ -137,6 +137,7 @@ See the [Certifications overview and comparison matrix](https://github.com/secur
 | Kubernetes Goat | [Kubernetes Goat.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Kubernetes%20Goat.md) |
 | PentesterLab | [PentesterLab.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/PentesterLab.md) |
 | Proving Grounds | [Proving Grounds.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/Proving%20Grounds.md) |
+| WebVerse Labs | [WebVerse Labs.md](https://github.com/securitycipher/penetration-testing-roadmap/blob/main/Labs/WebVerse%20Labs.md) |
 
 ## Career
 
