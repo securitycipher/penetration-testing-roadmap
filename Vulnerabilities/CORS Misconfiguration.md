@@ -48,7 +48,7 @@ fetch('https://target.tld/api/account', {credentials:'include'})
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) - change `Origin` in Repeater and watch ACAO
+- [Burp Suite](../Tools/Burp%20Suite.md) - change `Origin` in Repeater and watch ACAO
 - `CORScanner` for automated checks
 
 ## Mitigation

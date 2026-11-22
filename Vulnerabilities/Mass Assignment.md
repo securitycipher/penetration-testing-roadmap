@@ -43,9 +43,9 @@ Content-Type: application/json
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) Repeater to add fields and replay
+- [Burp Suite](../Tools/Burp%20Suite.md) Repeater to add fields and replay
 - Diff `GET` vs editable UI to discover hidden writable fields
-- Practice on [crAPI](../../Labs/crAPI.md)
+- Practice on [crAPI](../Labs/crAPI.md)
 
 ## Mitigation
 

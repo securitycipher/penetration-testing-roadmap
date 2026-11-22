@@ -42,7 +42,7 @@ Confirm in a browser console:
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) + the **DOM Invader** tool (auto-detects client-side prototype pollution and gadgets)
+- [Burp Suite](../Tools/Burp%20Suite.md) + the **DOM Invader** tool (auto-detects client-side prototype pollution and gadgets)
 - Node.js gadget research / `ppfuzz` for server-side
 
 ## Mitigation

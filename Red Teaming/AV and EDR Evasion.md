@@ -40,5 +40,5 @@ Evasion is a moving target - no bypass lasts forever. Focus on *why* a detection
 
 ## Related
 
-- [Command and Control (C2)](Command%20and%20Control%20(C2).md), [PowerShell for Pentesters](../Scripting/PowerShell%20for%20Pentesters.md)
+- [Command%20and%20Control%20%28C2%29.md](Command%20and%20Control%20%28C2%29.md), [PowerShell for Pentesters](../Scripting/PowerShell%20for%20Pentesters.md)
 - [MITRE ATT&CK](MITRE%20ATT%26CK.md) - Defense Evasion is tactic TA0005

@@ -35,7 +35,7 @@ Subdomain takeover happens when a DNS record (usually a CNAME) points to an exte
 
 - `subfinder` / `amass` for subdomain discovery
 - **subjack**, **nuclei** (takeover templates), **can-i-take-over-xyz** (fingerprint reference)
-- [Nuclei](../../Tools/Nuclei.md): `nuclei -t http/takeovers/ -l subs.txt`
+- [Nuclei](../Tools/Nuclei.md): `nuclei -t http/takeovers/ -l subs.txt`
 
 ## Mitigation
 

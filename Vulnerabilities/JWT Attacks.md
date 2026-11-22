@@ -49,9 +49,9 @@ jwt_tool <token> -C -d rockyou.txt
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) + the **JWT Editor** extension
+- [Burp Suite](../Tools/Burp%20Suite.md) + the **JWT Editor** extension
 - `jwt_tool` - all-in-one tampering, cracking, attack checks
-- [Hashcat](../../Tools/Hashcat.md) mode 16500 for HS256 secrets
+- [Hashcat](../Tools/Hashcat.md) mode 16500 for HS256 secrets
 
 ## Mitigation
 

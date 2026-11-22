@@ -50,7 +50,7 @@ No direct output? Use `$regex` to leak the password one character at a time - tr
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) Repeater/Intruder (switch content-type to JSON)
+- [Burp Suite](../Tools/Burp%20Suite.md) Repeater/Intruder (switch content-type to JSON)
 - `NoSQLMap` for automation
 - `nosqli` CLI scanner
 

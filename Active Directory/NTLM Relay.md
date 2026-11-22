@@ -8,7 +8,7 @@ NTLM relay is a man-in-the-middle attack against Windows authentication. You do 
 2. Your relay tool forwards that NTLM auth to a target service that does not enforce signing.
 3. The target accepts it; you now act as the victim on that service.
 
-The classic chain is: coerce a Domain Controller or server into authenticating to you, then relay it to something useful (LDAP, SMB, or AD CS web enrollment for [ESC8](AD%20CS%20Attacks%20(ESC).md)).
+The classic chain is: coerce a Domain Controller or server into authenticating to you, then relay it to something useful (LDAP, SMB, or AD CS web enrollment for [ESC8](AD%20CS%20Attacks%20%28ESC%29.md)).
 
 ## Getting the victim to authenticate (coercion)
 
@@ -43,5 +43,5 @@ Relaying a **machine account** to AD CS (ESC8) and then using the cert to [DCSyn
 
 ## Related
 
-- [AD CS Attacks (ESC)](AD%20CS%20Attacks%20(ESC).md) (ESC8/ESC11 rely on relay)
+- [AD%20CS%20Attacks%20%28ESC%29.md](AD%20CS%20Attacks%20%28ESC%29.md) (ESC8/ESC11 rely on relay)
 - [Pass-the-Hash](Pass-the-Hash.md), [DCSync](DCSync.md)

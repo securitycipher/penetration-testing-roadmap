@@ -41,8 +41,8 @@ RFI requires `allow_url_include=On` (rare today), so LFI-to-RCE is the more comm
 
 ## Test and tools
 
-- Fuzz path parameters with [ffuf](../../Tools/ffuf.md) and LFI wordlists
-- [Burp Suite](../../Tools/Burp%20Suite.md) Repeater for manual traversal
+- Fuzz path parameters with [ffuf](../Tools/ffuf.md) and LFI wordlists
+- [Burp Suite](../Tools/Burp%20Suite.md) Repeater for manual traversal
 - `LFISuite` / PayloadsAllTheThings for wrapper payloads
 
 ## Mitigation

@@ -37,7 +37,7 @@ If the victim visits this page and messages come back, the handshake is not Orig
 
 ## How to test
 
-1. Intercept the WebSocket in [Burp Suite](../../Tools/Burp%20Suite.md) (it has a dedicated WebSockets history and lets you edit/replay messages).
+1. Intercept the WebSocket in [Burp Suite](../Tools/Burp%20Suite.md) (it has a dedicated WebSockets history and lets you edit/replay messages).
 2. Fuzz every message field with your usual injection payloads.
 3. Test CSWSH: replay the handshake with a different/absent `Origin`.
 4. Try acting on other users' data over the socket (authorization).
