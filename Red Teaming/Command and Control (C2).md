@@ -1,6 +1,6 @@
-# Command and Control (C2)
+# Command%20and%20Control%20%28C2%29.md
 
-Command and Control (C2) is how an attacker keeps talking to a compromised host after initial access - sending commands and receiving output. A C2 framework manages implants (the agents running on victims), listeners (where they call back), and the operator console. Setting up reliable, quiet C2 is a core red-team skill ([CRTO](../Certifications/CRTO.md) is built around it).
+Command%20and%20Control%20%28C2%29.md is how an attacker keeps talking to a compromised host after initial access - sending commands and receiving output. A C2 framework manages implants (the agents running on victims), listeners (where they call back), and the operator console. Setting up reliable, quiet C2 is a core red-team skill ([CRTO](../Certifications/CRTO.md) is built around it).
 
 ## How it works
 

@@ -10,7 +10,7 @@ Phishing is sending a lure (usually email) to trick someone into clicking a link
 - **Credential harvesting** - fake login page that captures username/password
 - **MFA phishing** - a reverse proxy (Evilginx-style) that relays the login and steals the **session cookie**, defeating app-based MFA
 - **MFA fatigue** - spamming push approvals until the user accepts
-- **Payload delivery** - attachment or link that drops a [C2](../Red%20Teaming/Command%20and%20Control%20(C2).md) implant
+- **Payload delivery** - attachment or link that drops a [C2](../Red%20Teaming/Command%20and%20Control%20%28C2%29.md) implant
 
 ## Building a credible campaign
 
@@ -41,4 +41,4 @@ Report the real signal, not just clicks: open rate, click rate, credential-submi
 ## Related
 
 - [Social Engineering Basics](Social%20Engineering%20Basics.md), [OSINT Basics](../Recon/OSINT%20Basics.md)
-- [Command and Control (C2)](../Red%20Teaming/Command%20and%20Control%20(C2).md)
+- [Command%20and%20Control%20%28C2%29.md](../Red%20Teaming/Command%20and%20Control%20%28C2%29.md)

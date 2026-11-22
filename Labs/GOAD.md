@@ -5,7 +5,7 @@ GOAD is a free, intentionally vulnerable **Active Directory** lab you deploy you
 ## What you get
 
 - Multiple Windows Server DCs across linked domains and a forest trust
-- Deliberate misconfigurations: Kerberoasting, AS-REP roasting, delegation abuse, ACL paths, [AD CS (ESC)](../Active%20Directory/AD%20CS%20Attacks%20(ESC).md), [NTLM relay](../Active%20Directory/NTLM%20Relay.md) targets
+- Deliberate misconfigurations: Kerberoasting, AS-REP roasting, delegation abuse, ACL paths, [AD CS (ESC)](../Active%20Directory/AD%20CS%20Attacks%20%28ESC%29.md), [NTLM relay](../Active%20Directory/NTLM%20Relay.md) targets
 - A documented set of attack paths to work through
 
 ## Flavors
@@ -31,7 +31,7 @@ Budget 16 GB+ RAM for the full build; use GOAD-Light otherwise.
 
 1. Enumerate with [BloodHound](../Active%20Directory/BloodHound.md) and PowerView.
 2. Work the attack paths: [Kerberoasting](../Active%20Directory/Kerberoasting.md) -> [Pass-the-Hash](../Active%20Directory/Pass-the-Hash.md) -> [DCSync](../Active%20Directory/DCSync.md).
-3. Try cross-trust and [AD CS](../Active%20Directory/AD%20CS%20Attacks%20(ESC).md) escalations.
+3. Try cross-trust and [AD CS](../Active%20Directory/AD%20CS%20Attacks%20%28ESC%29.md) escalations.
 4. Drive it all with [NetExec](../Tools/NetExec.md) and [Impacket](../Tools/Impacket.md).
 
 ## Resources

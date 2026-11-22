@@ -33,11 +33,11 @@ There is no payload that always triggers them. You find them by understanding th
 2. For each step ask: what if I skip it, repeat it, reorder it, or tamper with a value?
 3. Try negative numbers, zero, huge numbers, and type changes.
 4. Use two accounts to test who-can-do-what.
-5. Replay the final "success" request directly with [Burp Suite](../../Tools/Burp%20Suite.md).
+5. Replay the final "success" request directly with [Burp Suite](../Tools/Burp%20Suite.md).
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) Repeater (reorder/replay) and Turbo Intruder (races)
+- [Burp Suite](../Tools/Burp%20Suite.md) Repeater (reorder/replay) and Turbo Intruder (races)
 - Your brain - this is the least automatable vuln class
 
 ## Mitigation

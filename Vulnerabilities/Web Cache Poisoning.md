@@ -32,7 +32,7 @@ Watch `X-Cache` headers: `miss` then `hit` on a second request with a clean URL 
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) + the **Param Miner** extension (finds unkeyed inputs)
+- [Burp Suite](../Tools/Burp%20Suite.md) + the **Param Miner** extension (finds unkeyed inputs)
 - Watch `Age`, `X-Cache`, `Cache-Control`, `Vary` headers
 
 ## Mitigation

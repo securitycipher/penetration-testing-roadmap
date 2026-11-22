@@ -12,7 +12,7 @@ Red teaming is adversary simulation: instead of finding every bug (a pentest), y
 1. **Objectives and rules of engagement** - crown jewels, scope, deconfliction, legal (see [Rules of Engagement](../Methodology/Rules%20of%20Engagement.md)).
 2. **Recon / OSINT** - map people, tech, and exposure (see [OSINT Basics](../Recon/OSINT%20Basics.md)).
 3. **Initial access** - [phishing](../Social%20Engineering/Phishing.md), exposed services, or a valid credential.
-4. **Establish C2** - a reliable, OPSEC-safe callback (see [Command and Control](Command%20and%20Control%20(C2).md)).
+4. **Establish C2** - a reliable, OPSEC-safe callback (see [Command and Control](Command%20and%20Control%20%28C2%29.md)).
 5. **Situational awareness** - enumerate host, users, and domain quietly.
 6. **Privilege escalation** - local then domain (see [Privilege Escalation](../Vulnerabilities/Privilege%20Escalation.md)).
 7. **Lateral movement** - pivot toward the objective (see [Pass-the-Hash](../Active%20Directory/Pass-the-Hash.md)).
@@ -39,5 +39,5 @@ Most of the engagement is a repeating cycle: **enumerate -> escalate -> move -> 
 
 ## Related
 
-- [Command and Control (C2)](Command%20and%20Control%20(C2).md), [AV and EDR Evasion](AV%20and%20EDR%20Evasion.md), [MITRE ATT&CK](MITRE%20ATT%26CK.md)
+- [Command%20and%20Control%20%28C2%29.md](Command%20and%20Control%20%28C2%29.md), [AV and EDR Evasion](AV%20and%20EDR%20Evasion.md), [MITRE ATT&CK](MITRE%20ATT%26CK.md)
 - [Active Directory Basics](../Active%20Directory/Active%20Directory%20Basics.md)

@@ -53,7 +53,7 @@ No output on the page? Confirm execution indirectly:
 
 ## Tools
 
-- [Burp Suite](../../Tools/Burp%20Suite.md) Repeater and Intruder
+- [Burp Suite](../Tools/Burp%20Suite.md) Repeater and Intruder
 - `commix` - automated command injection exploitation
 - interactsh / Burp Collaborator for OOB detection
 
